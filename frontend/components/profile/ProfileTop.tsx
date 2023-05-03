@@ -1,7 +1,13 @@
 import Image from 'next/image'
 import React from 'react'
 
- export function ProfileTop() {
+import{UserType,UserPrefferencesType} from "../../../types/userType"
+type dataProps= {user:UserType,prefferences:UserPrefferencesType}
+
+ export function ProfileTop({data}:{data:dataProps}) {
+  if(!data?.prefferences?.posts){
+    return <div>Loading</div>
+  }
   return (
     <div className=" flex mx-auto space-x-20 pb-8 pt-8 pl-20">
     <Image
@@ -17,11 +23,13 @@ import React from 'react'
         <button className=" bg-gray-400 p-2 rounded-lg"> Edit pofile</button>
       </div>
       <div className="  flex space-x-5">
-        <p> 0 posts</p>
-        <p> 7 folowers</p>
-        <p> 1 following</p>
+        <p> {data?.prefferences.posts.length} posts</p>
+        <p> {data?.prefferences.followers.length} folowers</p>
+        <p> {data?.prefferences.followings.length} following</p>
       </div>
-      <h3 className=" font-bold"> User Name</h3>
+      <span className=" font-bold"> {data?.user.name}</span>
+      <span className=" font-bold"> {data?.user.surname}</span>
+
     </div>
   </div>
   )

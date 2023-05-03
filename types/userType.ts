@@ -8,13 +8,15 @@ export type UserType = {
 export type userActions = {
   _id: string;
   userId: UserType["_id"];
-  posts: [];
-  saved: [];
-  tagged: [];
+  
 };
 
-export type UserFolowers = {
+export type UserPrefferencesType = {
   _id: string;
   userId: UserType["_id"];
-  followers: UserType[];
+  followers: string[];
+  followings:string[]
+  posts: string[];
+  saved: string[];
+  tagged: string[];
 };
