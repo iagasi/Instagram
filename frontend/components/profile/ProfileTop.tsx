@@ -2,6 +2,8 @@ import Image from 'next/image'
 import React from 'react'
 
 import{UserType,UserPrefferencesType} from "../../../types/userType"
+import OpenSettings from './OpenSettings'
+import EditProfile from './EditProfile'
 type dataProps= {user:UserType,prefferences:UserPrefferencesType}
 
  export function ProfileTop({data}:{data:dataProps}) {
@@ -20,7 +22,8 @@ type dataProps= {user:UserType,prefferences:UserPrefferencesType}
     <div className=" space-y-5">
       <div className=" justify-between flex content-center">
         <p className=" self-center">User Id </p>
-        <button className=" bg-gray-400 p-2 rounded-lg"> Edit pofile</button>
+        <EditProfile/>
+        <OpenSettings/>
       </div>
       <div className="  flex space-x-5">
         <p> {data?.prefferences.posts.length} posts</p>

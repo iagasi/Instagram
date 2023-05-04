@@ -7,6 +7,7 @@ import { ProfileTop } from "./ProfileTop";
 import { ProfileActions } from "./ProfileAction";
 import { UserType, UserPrefferencesType } from "../../../types/userType";
 import { useEffect, useState } from "react";
+import {WithModal } from "../../Hoc/WithModal";
 
 const query = gql`
   query ($Id: String) {
@@ -24,8 +25,11 @@ const query = gql`
     }
   }
 `;
-
-export function Profile() {
+type propsType={
+  modal: boolean;
+  setModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
+ function Profile({modal,setModal}:propsType) {
   const router = useRouter();
   const [shSkip, setShSkip] = useState(true);
   const UserId = router.query.id;
@@ -50,12 +54,14 @@ export function Profile() {
   if (loading) {
     return <p>Loading</p>;
   }
-  console.log(data);
-  Profile;
+ 
   return (
     <>
       <ProfileTop data={foundData} />
       <ProfileActions />
+      
     </>
   );
 }
+
+export default Profile

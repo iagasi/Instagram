@@ -4,24 +4,13 @@ import React from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { AiOutlineHeart } from "react-icons/ai";
 import { TbMessageCircle2 } from "react-icons/tb";
+import UserPreview from "./UserPreview";
 
 export function Card() {
   return (
     <div className=" border-b-2  pb-4 w-fit">
       <div className=" flex justify-between">
-        <div className=" flex space-x-5 pb-5">
-          <Image
-            className=" rounded-full w-12 h-12"
-            src={"/test.jpg"}
-            alt="user Image"
-            width={50}
-            height={50}
-          />
-          <div>
-            <h3 className=" text-xl"> Name of user</h3>
-            <p>abu-dhabi-united-arab-emirates</p>
-          </div>
-        </div>
+      <UserPreview/>
         <BsThreeDots className=" text-3xl cursor-pointer" />
       </div>
       <Image
