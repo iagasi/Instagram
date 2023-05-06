@@ -1,6 +1,5 @@
 import { Modal } from "@/components/Modal";
 import { withModalType } from "@/types/modalTypes";
-import { log } from "console";
 import React, { useState } from "react";
 
 type propsType = {

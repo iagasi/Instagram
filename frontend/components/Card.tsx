@@ -5,12 +5,13 @@ import { BsThreeDots } from "react-icons/bs";
 import { AiOutlineHeart } from "react-icons/ai";
 import { TbMessageCircle2 } from "react-icons/tb";
 import UserPreview from "./UserPreview";
+import { UserType } from "@/../types/userType";
 
-export function Card() {
+export function Card({user}:{user:UserType}) {
   return (
     <div className=" border-b-2  pb-4 w-fit">
       <div className=" flex justify-between">
-      <UserPreview/>
+      <UserPreview user={user}/>
         <BsThreeDots className=" text-3xl cursor-pointer" />
       </div>
       <Image

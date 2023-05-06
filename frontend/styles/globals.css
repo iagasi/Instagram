@@ -22,3 +22,46 @@
 body {
  
 }
+
+
+@layer components {
+  .sidebar-elem{
+    display:flex;
+    gap: 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    transition: background 0.3s ease-in-out;
+
+  }
+  .sidebar-elem:hover {
+  
+  background-color: gainsboro;
+  /* transition-delay:0.2s; */
+
+  }
+
+  .search-panel{
+    z-index: 0;
+   animation:searchMove 1s ;
+   animation-fill-mode: forwards;
+
+  }
+
+  @keyframes searchMove {
+    from {left: 0px;}
+    to {left: 250px;}
+  }
+
+
+  .loading{
+animation: loading 1s linear infinite;
+width: fit-content;
+height: fit-content;
+  }
+  @keyframes loading {
+    0% {transform:rotate(0deg) }
+    100% {transform:rotate(360deg) }
+  }
+}

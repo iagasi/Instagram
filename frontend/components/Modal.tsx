@@ -24,7 +24,7 @@ export function Modal({ modal, setModal, Data }: propsModalType) {
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className=" p-5 w-[500px] h-[500px] bg-white"
+        className=" p-5 w-[500px] h-[500px] bg-white rounded-lg"
       >
         <button
           className=" absolute  w-8 h-8 right-9 top-9 p-1 rounded-sm text-black text-3xl  flex items-center justify-center "

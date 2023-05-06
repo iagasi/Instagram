@@ -20,3 +20,4 @@ export type UserPrefferencesType = {
   saved: string[];
   tagged: string[];
 };
+export type UserAndPrefferncesType= {user:UserType,prefferences:UserPrefferencesType}

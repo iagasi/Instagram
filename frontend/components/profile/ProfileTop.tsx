@@ -1,12 +1,11 @@
 import Image from 'next/image'
 import React from 'react'
 
-import{UserType,UserPrefferencesType} from "../../../types/userType"
+import{UserType,UserPrefferencesType, UserAndPrefferncesType} from "../../../types/userType"
 import OpenSettings from './OpenSettings'
 import EditProfile from './EditProfile'
-type dataProps= {user:UserType,prefferences:UserPrefferencesType}
 
- export function ProfileTop({data}:{data:dataProps}) {
+ export function ProfileTop({data}:{data:UserAndPrefferncesType}) {
   if(!data?.prefferences?.posts){
     return <div>Loading</div>
   }

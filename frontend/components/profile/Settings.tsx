@@ -5,11 +5,12 @@ type propsType={
   }
 export function Settings({setModal}:propsType) {
   return (
-    <div  className=" bg-slate-500" onClick={(e)=>e.stopPropagation() }>
-      <div className="  border-t-2 p-4 text-center"> Sites</div>
-      <div className="  border-t-2 p-4 text-center"> wccs</div>
-      <div className=" border-t-2  p-4 text-center"> Notifications</div>
-      <div className=" border-b-2  p-4 text-center" onClick={()=>setModal()}> Cancel</div>
+    <div  className=" " onClick={(e)=>e.stopPropagation() }>
+
+      <div className=" border-t-2  hover:text-red-700 border-b-2  p-4 text-center cursor-pointer" onClick={()=>setModal()}> Cancel</div>
+      <div className=" border-b-2  hover:bg-red-300   p-4 text-center cursor-pointer" onClick={()=>setModal()}> Log Out</div>
+
+  
     </div>
   );
 }

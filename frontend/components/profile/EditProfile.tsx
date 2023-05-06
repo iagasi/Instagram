@@ -2,6 +2,8 @@ import { WithModal } from "@/Hoc/WithModal";
 import { withModalType } from "@/types/modalTypes";
 import React from "react";
 import UserPreview from "../UserPreview";
+import { useReactiveVar } from "@apollo/client";
+import { userVar } from "@/reactive/user";
 
 function EditProfileBtn(props: withModalType) {
   return (
@@ -16,10 +18,16 @@ function EditProfileBtn(props: withModalType) {
     </>
   );
 }
-function EditProfile(props:Pick<withModalType,"setModal"> ) {
+function EditProfile(props:Pick<withModalType,"setModal">)
+ 
+ 
+ {
+
+    const iAmUser=useReactiveVar(userVar)
+
   return (
     <>
-      <UserPreview />
+      <UserPreview user={iAmUser?.user} />
       <div className=" flex flex-col justify-between items-center h-3/4 font-medium">
         <div className=" flex flex-col justify-between ">
           <button className=" text-blue-800">Change User Photo</button>

@@ -1,13 +1,14 @@
 "use client";
 
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, useReactiveVar } from "@apollo/client";
 import { useRouter } from "next/router";
 import { log } from "console";
 import { ProfileTop } from "./ProfileTop";
 import { ProfileActions } from "./ProfileAction";
-import { UserType, UserPrefferencesType } from "../../../types/userType";
+import { UserType, UserPrefferencesType, UserAndPrefferncesType } from "../../../types/userType";
 import { useEffect, useState } from "react";
 import {WithModal } from "../../Hoc/WithModal";
+import { userVar } from "@/reactive/user";
 
 const query = gql`
   query ($Id: String) {
@@ -30,37 +31,41 @@ type propsType={
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
  function Profile({modal,setModal}:propsType) {
+
   const router = useRouter();
-  const [shSkip, setShSkip] = useState(true);
-  const UserId = router.query.id;
+  const RouterId = router.query.id;
 
-  useEffect(() => {
-    if (!router.isReady) return;
+  
+const user=useReactiveVar(userVar) 
+console.log(user);
+const userId=user?.user._id
 
-    if (UserId) {
-      if (UserId) setShSkip(false);
-    }
-  }, [UserId, router.isReady]);
-
-  const { loading, data } = useQuery(query, {
-    variables: { Id: UserId },
-    skip: shSkip,
+  const { loading, data,refetch } = useQuery(query, {
+    variables: { Id: RouterId},
+    skip:!(router.isReady),
   });
-  const foundData = data?.getUserData as {
-    user: UserType;
-    prefferences: UserPrefferencesType;
-  };
+
+useEffect(() => {
+    if (userId!==RouterId) {
+   refetch();
+    }
+  }, [RouterId, refetch, router.isReady, userId]);
+ 
+  const foundData = data?.getUserData as UserAndPrefferncesType
 
   if (loading) {
-    return <p>Loading</p>;
+    return <p className=" text-4xl">Loading</p>;
   }
  
   return (
-    <>
+    <div className=" pl-10">
+
       <ProfileTop data={foundData} />
-      <ProfileActions />
+      <ProfileActions data={foundData}  />
       
-    </>
+    </div>
+   
+   
   );
 }
 
