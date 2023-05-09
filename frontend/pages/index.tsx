@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Header from "@/components/Header";
+import Header, { Sidebar } from "@/components/Sidebar";
 import { Card } from "@/components/Card";
 import { gql, useQuery } from "@apollo/client";
 import { log } from "console";
@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <ClientOnly>
       <div className=" flex  ">
-        <Header />
+        <Sidebar/>
         <Main />
       </div>
     </ClientOnly>

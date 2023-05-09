@@ -15,7 +15,7 @@ export function Modal({ modal, setModal, Data }: propsModalType) {
   }
   return (
     <div
-      className=" absolute w-screen h-screen top-0 left-0 bg-neutral-600 bg-opacity-70	 flex items-center justify-center "
+      className=" absolute z-50 w-screen h-screen top-0 left-0 bg-neutral-600 bg-opacity-70	 flex items-center justify-center "
       onClick={(e) => {
         setModal(false);
       }}

@@ -2,9 +2,10 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { userResolvers, userTypeDefs } from "./resolvers/userResolver";
 import{ mergeResolvers,mergeTypeDefs }  from '@graphql-tools/merge'
+import { postResolvers, postTypeDefs } from "./resolvers/postResolver";
 
-const resolvers=mergeResolvers({...userResolvers}) 
-const typeDefs= mergeTypeDefs([userTypeDefs])
+const resolvers=mergeResolvers([userResolvers,postResolvers]) 
+const typeDefs= mergeTypeDefs([userTypeDefs,postTypeDefs])
 const server = new ApolloServer({
  typeDefs,
 resolvers,

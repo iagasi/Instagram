@@ -30,7 +30,7 @@ type propsType={
   modal: boolean;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
- function Profile({modal,setModal}:propsType) {
+ function Profile() {
 
   const router = useRouter();
   const RouterId = router.query.id;

@@ -1,14 +1,26 @@
 import { WithModal } from "@/Hoc/WithModal";
-import React from "react";
+import { log } from "console";
+import React, { useEffect, useRef } from "react";
 type propsType={
-   setModal: ()=>void;
+  
+   children:React.ReactNode
   }
-export function Settings({setModal}:propsType) {
+export function Settings({children}:propsType) {
+  const r=useRef<HTMLDivElement>(null)
+  useEffect(()=>{
+ if(r.current){
+  const elem=r.current as HTMLElement
+    Array.from(elem.children).forEach(e=>{e.classList.add("setting__item")})
+    
+  }
+  },[])
+ 
   return (
-    <div  className=" " onClick={(e)=>e.stopPropagation() }>
-
-      <div className=" border-t-2  hover:text-red-700 border-b-2  p-4 text-center cursor-pointer" onClick={()=>setModal()}> Cancel</div>
-      <div className=" border-b-2  hover:bg-red-300   p-4 text-center cursor-pointer" onClick={()=>setModal()}> Log Out</div>
+    <div  ref={r} className=" " onClick={(e)=>e.stopPropagation() }>
+{
+  children
+}
+    
 
   
     </div>

@@ -8,7 +8,6 @@ import Loading from "./Loading";
 import { UserType } from "@/../types/userType";
 import UserPreview from "./UserPreview";
 import { useRouter } from "next/router";
-import { searchBarVar } from "@/reactive/search";
 
 const wrapperId = "searchWrapper";
 const query = gql`
@@ -25,7 +24,7 @@ type propsType={
     close:()=>void
 }
 export function Search({close}:propsType) {
-    
+  
 
   const [searchText, setSearchText] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -65,13 +64,13 @@ close()    }
       ></div>
       <div className=" search-panel  border-1 border-[1px] rounded-md  border-gray-300 p-5 absolute  top-0 w-72 bg-white h-screen   ">
         <div className="  space-y-7 pb-5 border-b-2 border-gray-400">
-          <h1 className="  text-center"> Search</h1>
+          <h1 className="  text-center"> Search People</h1>
           <div className=" flex  bg-slate-100 pl-2 pr-2">
             <input
               ref={inputRef}
               className=" w-full outline-none bg-inherit"
               type="text"
-              placeholder="search"
+              placeholder="Search"
               onChange={(e) => setSearchText(e.target.value)}
               value={searchText}
             />

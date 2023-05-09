@@ -44,7 +44,7 @@ body {
 
   .search-panel{
     z-index: 0;
-   animation:searchMove 1s ;
+   animation:searchMove 0.5s ;
    animation-fill-mode: forwards;
 
   }
@@ -63,5 +63,44 @@ height: fit-content;
   @keyframes loading {
     0% {transform:rotate(0deg) }
     100% {transform:rotate(360deg) }
+  }
+
+  .primaryBtn{
+ background: rgb(199, 196, 196) ;
+ padding: 5px;
+ padding-left: 10px;
+ padding-right: 10px;
+ cursor: pointer;
+ color: white;
+ border-radius: 4px;
+  }
+
+  .primaryBtn:hover{
+    background: rgb(128, 128, 128) ;
+  }
+
+  .add-to-friends-btn{
+    background: rgb(70, 70, 241);
+  }
+  .add-to-friends-btn:hover{
+    background: rgb(5, 5, 220);
+  }
+  .setting__item{
+    border-bottom: 2px solid rgb(187, 185, 185);
+    text-align: center;
+    font-size: large;
+    padding: 10px;
+    cursor: pointer;
+  }
+  .setting__item:hover{
+background-color: rgb(205, 201, 201);
+  }
+
+  .sidebar__active{
+    position: absolute;
+    background-color: rgb(202, 202, 255);
+    height: 2px;
+    width: 50%;
+    bottom: -10px;
   }
 }
