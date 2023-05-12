@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React from "react";
 
 type propsType = {
-  user: UserType |undefined;
+  user: UserType|undefined|null ;
 };
 function UserPreview({ user }: propsType) {
   const router=useRouter()

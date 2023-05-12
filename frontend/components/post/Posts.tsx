@@ -3,7 +3,7 @@ import { useQuery,gql, useReactiveVar } from '@apollo/client'
 import { postType } from "@/../types/postType";
 
 import React from 'react'
-import { Card } from '../Card';
+import { Post } from './Post';
 const query = gql`
 query ($id:String){
  
@@ -26,7 +26,7 @@ const posts:postType[]=data?.getFriendsPosts
 
 {
     posts?.map((post)=>{
-      return  <Card  key={post._id}cardData={post}/>
+      return  <Post  key={post._id}cardData={post}/>
     })
 }
     </div>

@@ -1,7 +1,7 @@
 import { userVar } from "@/reactive/user";
 import { gql, useQuery } from "@apollo/client";
 import React, { Suspense } from "react";
-import { Card } from "./Card";
+import { Card } from "./post/Post";
 import { log } from "console";
 import Posts from "./post/Posts";
 import Loading from "./Loading";

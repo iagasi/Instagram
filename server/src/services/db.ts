@@ -109,4 +109,12 @@ import {postType } from "../../../types/postType";
   comments:["1","56","566","1","3"],
   likes:["1","2","45","4"]
 },
+
+{
+  _id:"2",
+  image:"",
+  userId:"3",
+  comments:["1","56","566","1","3"],
+  likes:["1","2","45","4"]
+},
   ]

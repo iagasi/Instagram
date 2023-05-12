@@ -1,8 +1,8 @@
 export type UserType = {
-  _id: string;
-  name: string;
-  surname: string;
-  image: string;
+    _id: string ;
+    name: string ;
+    surname: string;
+    image: string ;
 };
 
 export type userActions = {

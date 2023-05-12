@@ -10,8 +10,7 @@ interface QueryUserArgs {
 export const userResolvers = {
   Query: {
     findUser: (parrent: UserType, args: QueryUserArgs) => {
-      console.log(UserService.getSingleUser(args.id));
-      console.log("ooooooooo");
+
       
       
       return UserService.getSingleUser(args.id)
