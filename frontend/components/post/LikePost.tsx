@@ -38,7 +38,7 @@ export function LikePost({ postData ,currUser}:props) {
         variables: { postId: postData?._id, personId: currUser?.user._id },
       });
     } catch (e) {
-      console.log(e);
+     
     }
   }
   return (

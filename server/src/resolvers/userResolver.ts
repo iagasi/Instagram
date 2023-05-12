@@ -6,28 +6,20 @@ interface QueryUserArgs {
   id: string;
 }
 
-
 export const userResolvers = {
   Query: {
     findUser: (parrent: UserType, args: QueryUserArgs) => {
-
-      
-      
-      return UserService.getSingleUser(args.id)
+      return UserService.getSingleUser(args.id);
     },
-    findByNameSurname: (parrent: UserType, args: {name:string}) => {
-      return UserService. findPersonsByNameAndSurname(args.name)
+    findByNameSurname: (parrent: UserType, args: { name: string }) => {
+      return UserService.findPersonsByNameAndSurname(args.name);
     },
     getUserPrefferences: (parrent: UserType, args: QueryUserArgs) => {
       return UserService.userPrefferences(args.id);
     },
-    getUserData(parrent: UserPrefferencesType, args: QueryUserArgs){
-      console.log(UserService.getUserData(args.id));
-      console.log(Math.random()*10);
-      
-      
-      return UserService.getUserData(args.id)
-    }
+    getUserData(parrent: UserPrefferencesType, args: QueryUserArgs) {
+      return UserService.getUserData(args.id);
+    },
   },
 };
 

@@ -14,7 +14,6 @@ import { userVar } from "@/reactive/user";
 export function Sidebar() {
   const router = useRouter();
   const [searchBar, setSearchbar] = useState(false);
-  console.log(router.pathname.split("/").includes("profile"));
 
   const currLoggedUser = useReactiveVar(userVar);
   return (

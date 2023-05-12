@@ -37,7 +37,7 @@ type propsType={
 
   
 const user=useReactiveVar(userVar) 
-console.log(user);
+
 const userId=user?.user._id
 
   const { loading, data,refetch } = useQuery(query, {

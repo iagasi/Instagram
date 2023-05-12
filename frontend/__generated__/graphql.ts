@@ -16,7 +16,13 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  commentPost?: Maybe<Scalars['String']>;
   likePost?: Maybe<PostType>;
+};
+
+
+export type MutationCommentPostArgs = {
+  input?: InputMaybe<CommentPostInput>;
 };
 
 
@@ -83,6 +89,21 @@ export type UserPrefferencesType = {
   userId?: Maybe<Scalars['String']>;
 };
 
+export type CommentPostInput = {
+  _id?: InputMaybe<Scalars['String']>;
+  message?: InputMaybe<Scalars['String']>;
+  personId?: InputMaybe<Scalars['String']>;
+  postId?: InputMaybe<Scalars['String']>;
+};
+
+export type CommentType = {
+  __typename?: 'commentType';
+  _id?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  time?: Maybe<Scalars['Int']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
 export type LikePostInput = {
   personId?: InputMaybe<Scalars['String']>;
   postId?: InputMaybe<Scalars['String']>;
@@ -97,12 +118,14 @@ export type PostType = {
   userId?: Maybe<Scalars['String']>;
 };
 
-export type FindUserQueryVariables = Exact<{
-  id?: InputMaybe<Scalars['String']>;
+export type CommentPostMutationVariables = Exact<{
+  postId?: InputMaybe<Scalars['String']>;
+  personId?: InputMaybe<Scalars['String']>;
+  message?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type FindUserQuery = { __typename?: 'Query', findUser?: { __typename?: 'User', _id?: string | null, name?: string | null, surname?: string | null, image?: string | null } | null };
+export type CommentPostMutation = { __typename?: 'Mutation', commentPost?: string | null };
 
 export type LikePostMutationVariables = Exact<{
   postId?: InputMaybe<Scalars['String']>;
@@ -112,6 +135,14 @@ export type LikePostMutationVariables = Exact<{
 
 export type LikePostMutation = { __typename?: 'Mutation', likePost?: { __typename?: 'postType', likes?: Array<string | null> | null, userId?: string | null } | null };
 
+export type FindUserQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['String']>;
+}>;
 
-export const FindUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"findUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"surname"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}}]}}]} as unknown as DocumentNode<FindUserQuery, FindUserQueryVariables>;
+
+export type FindUserQuery = { __typename?: 'Query', findUser?: { __typename?: 'User', _id?: string | null, name?: string | null, surname?: string | null, image?: string | null } | null };
+
+
+export const CommentPostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"commentPost"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"postId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"personId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"message"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commentPost"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"postId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"personId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"personId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"message"},"value":{"kind":"Variable","name":{"kind":"Name","value":"message"}}}]}}]}]}}]} as unknown as DocumentNode<CommentPostMutation, CommentPostMutationVariables>;
 export const LikePostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LikePost"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"postId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"personId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"likePost"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"postId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"postId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"personId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"personId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"likes"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}}]}}]}}]} as unknown as DocumentNode<LikePostMutation, LikePostMutationVariables>;
+export const FindUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"findUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"surname"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}}]}}]} as unknown as DocumentNode<FindUserQuery, FindUserQueryVariables>;

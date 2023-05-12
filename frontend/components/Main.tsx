@@ -1,7 +1,6 @@
 import { userVar } from "@/reactive/user";
 import { gql, useQuery } from "@apollo/client";
 import React, { Suspense } from "react";
-import { Card } from "./post/Post";
 import { log } from "console";
 import Posts from "./post/Posts";
 import Loading from "./Loading";
@@ -32,7 +31,7 @@ export function Main() {
             <Loading />
           </div>}>
 
-          <Posts />  
+        {data?.getUserData&&<Posts />  }  
           </Suspense>
       
     </main>

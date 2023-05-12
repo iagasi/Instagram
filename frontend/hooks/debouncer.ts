@@ -9,7 +9,6 @@ export function useDebounder(value: string, delay: number) {
   useEffect(() => {
    const tId= setTimeout(() => {
         setV(value);
-        console.log("Settitng");
       }, delay)
     return () => {
       clearTimeout(tId);
