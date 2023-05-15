@@ -8,6 +8,7 @@ import { AiOutlineSend } from "react-icons/ai";
 import OpenPost from "./OpenedPost";
 import Loading from "../Loading";
 import { postVar } from "@/reactive/post";
+import { Modal } from "../Modal";
 
 type props = {
   postData: postType | undefined;
@@ -29,7 +30,7 @@ function CommentPost({
 }: props) {
   const modaIsOpen = document.querySelector("#modal");
   const POSTSVAR = useReactiveVar(postVar);
-
+const [modal,setModal]=useState(false)
   const currPost = POSTSVAR.find((post) => post._id === postData?._id);
 
   const [messageText, setMessageText] = useState("");
@@ -67,24 +68,15 @@ function CommentPost({
   }
   return (
     <div className=" pr-5">
-      <section id="OpensPost">
-        {!modaIsOpen ? (
-          <OpenPost
-            postData={postData}
-            postPublisher={postPublisher}
-            currUser={currUser}
-            Content={() => (
-              <div className=" cursor-pointer  hover:text-gray-300">
-                See all {currPost?.comments?.length} comments
-              </div>
-            )}
-          />
-        ) : (
-          <div className=" cursor-pointer  hover:text-gray-300">
-            {currPost?.comments?.length} comments
-          </div>
-        )}
-      </section>
+  {
+
+    modal&&
+    <Modal modal={modal}  setModal={setModal}>
+      <OpenPost postData={postData} currUser={currUser} postPublisher={postPublisher}/>
+    </Modal>
+  }
+
+  <div className="cursor-pointer" onClick={()=>setModal(!modal)}>  Se all {currPost?.comments.length} comments</div>
       <input
         className=" focus:outline-0 w-full text-lg font-bold"
         placeholder="Add Comment"

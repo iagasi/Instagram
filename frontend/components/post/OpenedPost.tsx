@@ -31,10 +31,9 @@ type props = {
   postData: postType | undefined;
   currUser: UserAndPrefferncesType | null;
   postPublisher: UserType;
-  setOuterPostComments:(value:Array<string>)=>void
 
 };
-function OpenPost(props: props) {
+ function OpenPost(props: props) {
   const { data,refetch } = useQuery(GetCommentPost, {
     variables: { postId: props.postData?._id },
     skip: !props.postData?._id,
@@ -101,4 +100,4 @@ function OpenModal(props: openType) {
   );
 }
 
-export default WithModal(OpenModal, OpenPost);
+export default OpenPost;
