@@ -1,8 +1,22 @@
 import { log } from "console";
-import { postType } from "../../../types/postType";
+import {
+  combinedUserAndCommentType,
+  commentType,
+  postType,
+} from "../../../types/postType";
 import { PostError } from "../errors";
-import { comments, posts, userPrefferences, users } from "./db";
+import {
+  comments,
+  dbComments,
+  dbCommentsById,
+  getUserById,
+  posts,
+  userPrefferences,
+  users,
+} from "./db";
 import { CommentDto } from "../../../dto/commentDto";
+import { UserType } from "../../../types/userType";
+import { UserService } from "./userService";
 
 export class postService {
   static getFriendsPosts(userId: string) {
@@ -56,11 +70,48 @@ export class postService {
       personId,
       message,
       postId,
-      time: Date.now(),
+      time: Date.now().toString(),
     });
 
     targetPost.comments.push(comments[createComment - 1]._id);
+    console.log(targetPost);
 
     return comments[createComment - 1]._id;
+  }
+
+  static async getPostCommentsAndAuthors(postId: string) {
+    const post = this.getPostById(postId);
+    const commentsArray: combinedUserAndCommentType[] = [];
+
+    for await (const commetId of post.comments) {
+      const comment = await dbCommentsById(commetId);
+      if (!comment) {
+        throw new Error("comment not found");
+      }
+      const user = await getUserById(comment.personId);
+      if (!user) {
+        throw new Error("user not found");
+      }
+
+      const commentAndItMaker: combinedUserAndCommentType = {
+        commentMaker: user,
+        comment: comment,
+      };
+      commentsArray.push(commentAndItMaker);
+    }
+    return commentsArray;
+  }
+
+  static async getPostLikedPersons(postId: string):Promise<UserType[]>{
+    const post = this.getPostById(postId);
+    
+    const users: UserType[] = [];
+    for await (const userId of post.likes) {
+      const user = await UserService.getSingleUser(userId);
+      if (user) {
+        users.push(user);
+      }
+    }
+    return users;
   }
 }

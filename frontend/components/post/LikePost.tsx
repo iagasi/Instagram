@@ -6,6 +6,7 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { TbMessageCircle2 } from "react-icons/tb";
 import { gql } from "../../__generated__/gql";
 import { UserAndPrefferncesType } from "@/../types/userType";
+import OpenLikes from "./OpenLikes";
 
 const like = gql(`
 mutation LikePost ($postId:String,$personId:String) {
@@ -50,12 +51,11 @@ export function LikePost({ postData ,currUser}:props) {
         />
         <TbMessageCircle2 className=" cursor-pointer  hover:text-gray-300" />
       </div>
-
-      <div className="cursor-pointer  hover:text-gray-300  text-2xl">
-        {likes?.length} likes
-      </div>
+<OpenLikes likes={likes} postData={postData}/>
+      
     </div>
   );
 }
+
 
 

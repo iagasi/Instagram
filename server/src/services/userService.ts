@@ -1,3 +1,4 @@
+import { log } from "console";
 import { userPrefferences, users } from "./db";
 
 
@@ -18,6 +19,7 @@ import { userPrefferences, users } from "./db";
 
     }
     static async getUserData(userId:string){
+      
       const user= await this.getSingleUser(userId) as any
       if(user){
             const prefferences=this.userPrefferences(user?._id)

@@ -1,4 +1,5 @@
-import { commentType } from "../../../types/postType";
+import { log } from "console";
+import { commentType, postType } from "../../../types/postType";
 import { UserType } from "../../../types/userType";
 import { postService } from "../services/postsService";
 
@@ -20,6 +21,25 @@ export const postResolvers = {
     getFriendsPosts: (parrent: UserType, args: QueryUserArgs) => {
       return postService.getFriendsPosts(args.id);
     },
+    getPostCommentsAndAuthors: async (
+      parrent: UserType,
+      args: { postId: string }
+    ) => {
+      return await postService.getPostCommentsAndAuthors(args.postId);
+    },
+    getPostById: async (
+      parrent: UserType,
+      args: { postId: string }
+    ): Promise<postType> => {
+      return await postService.getPostById(args.postId);
+    },
+
+    getPostLikedPersons: async (
+      parrent: UserType,
+      args: { postId: string }
+    ): Promise<UserType[]> => {
+      return await postService.getPostLikedPersons(args.postId);
+    },
   },
   Mutation: {
     likePost: (paretn: any, args: ILikePostInput) => {
@@ -37,11 +57,19 @@ export const postResolvers = {
 };
 
 export const postTypeDefs = `
+
+type UserType{
+  _id:String
+   name: String
+   surname: String
+   image:String
+ }
   type commentType{
-    _id:String
-    userId:String
-    message:String
-    time:Int
+    _id: String,
+    postId: String,
+    personId: String,
+    message: String,
+    time: String,
   }
   type postType{
     _id:String
@@ -51,9 +79,16 @@ export const postTypeDefs = `
     comments:[String]
 }
 
+type UserCommetType{
+  commentMaker:UserType,
+  comment:commentType
+}
+
 type Query{
   getFriendsPosts(id:String):[postType]
-
+  getPostCommentsAndAuthors(postId:String):[UserCommetType]
+  getPostById(postId:String):postType
+  getPostLikedPersons(postId:String):[UserType]
 }
   
 input likePostInput{

@@ -1,3 +1,5 @@
+import { UserType } from "./userType"
+
 export type postType={
     _id:string
     userId:string
@@ -12,5 +14,10 @@ export type commentType={
    personId:string
    postId:string
     message:string
-    time:number
+    time:string
+  }
+
+  export type combinedUserAndCommentType={
+    commentMaker:UserType,
+    comment:commentType
   }

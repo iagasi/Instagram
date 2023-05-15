@@ -1,6 +1,10 @@
 import { UserPrefferencesType, UserType } from "../../../types/userType";
 import { commentType, postType } from "../../../types/postType";
-
+export function getUserById(userId:string):Promise<UserType|undefined>{
+return new Promise((res,rej)=>{
+  res(users.find(user=>user._id===userId))
+})
+}
 export const users: UserType[] = [
   {
     _id: "1",
@@ -58,23 +62,23 @@ export const posts: postType[] = [
     _id: "457",
     image: "",
     userId: "2",
-    comments: ["1"],
-    likes: ["1"],
+    comments: ["5","6","7"],
+    likes: ["5"],
   },
 
   {
     _id: "455",
     image: "",
     userId: "2",
-    comments: ["1", "1", "2"],
+    comments: ["1", "2"],
     likes: ["1", "3"],
   },
   {
     _id: "557",
     image: "",
     userId: "2",
-    comments: ["1", "8"],
-    likes: ["1", "56"],
+    comments: ["5", "8"],
+    likes: ["", "56"],
   },
   {
     _id: "545",
@@ -117,8 +121,65 @@ export const posts: postType[] = [
 ];
 
 export const comments: commentType[] = [
-  { _id: "1", postId:"457",personId: "2", message: "Helslo", time: 1000 },
-  { _id: "1",postId:"457", personId: "3", message: "Fdfsd", time: 1000 },
-
-
+  {
+    _id: "1",
+    postId: "457",
+    personId: "1",
+    message: " Beautifl photo Alex",
+    time: "1000",
+  },
+  {
+    _id: "2",
+    postId: "458",
+    personId: "2",
+    message: " Thanks georgh",
+    time: "100450",
+  },
+  {
+    _id: "3",
+    postId: "459",
+    personId: "1",
+    message: "geo post hffghfghfg",
+    time: "100450",
+  },
+  {
+    _id: "4",
+    postId: "455",
+    personId: "3",
+    message: "andre pot",
+    time: "100450",
+  },
+  {
+    _id: "5",
+    postId: "457",
+    personId: "3",
+    message: " I like in Alex from andre",
+    time: "1000",
+  },
+  {
+    _id: "6",
+    postId: "457",
+    personId: "2",
+    message: "tnalks andre  from alex",
+    time: "1000",
+  },
+  {
+    _id: "7",
+    postId: "457",
+    personId: "3",
+    message: " havenicce day from andre",
+    time: "1000",
+  },
 ];
+
+export const dbComments = (): Promise<commentType[]> => {
+  return new Promise((res, rej) => {
+    res(comments);
+  });
+};
+
+export const dbCommentsById = (id: string): Promise<commentType|undefined> => {
+  return new Promise((res, rej) => {
+    res(comments.find((c) => c._id == id));
+  });
+};
