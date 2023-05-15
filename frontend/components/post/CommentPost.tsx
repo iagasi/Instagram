@@ -70,13 +70,13 @@ const [modal,setModal]=useState(false)
     <div className=" pr-5">
   {
 
-    modal&&
+    (modal&&!modaIsOpen)&&
     <Modal modal={modal}  setModal={setModal}>
       <OpenPost postData={postData} currUser={currUser} postPublisher={postPublisher}/>
     </Modal>
   }
 
-  <div className="cursor-pointer" onClick={()=>setModal(!modal)}>  Se all {currPost?.comments.length} comments</div>
+  <div className="cursor-pointer" onClick={()=>setModal(!modal)}> {!modal? "See all":""} {currPost?.comments.length} comments</div>
       <input
         className=" focus:outline-0 w-full text-lg font-bold"
         placeholder="Add Comment"
