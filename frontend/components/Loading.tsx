@@ -1,10 +1,13 @@
 import { log } from 'console'
 import React from 'react'
 import {AiOutlineLoading3Quarters} from "react-icons/ai"
-function Loading() {
-  
+function Loading({size ="10"}:{size:string|undefined}) {
+
+  const sizeFont=`text-[${size}px]`
   return (
-    <div className='loading '><AiOutlineLoading3Quarters/></div>
+    <div className='loading  '>
+      <AiOutlineLoading3Quarters  className={sizeFont} />
+      </div>
   )
 }
 

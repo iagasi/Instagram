@@ -26,13 +26,13 @@ export function Main() {
   userVar(data?.getUserData);
 
   return (
-    <main className=" flex w-full justify-center z-10">
-       <Suspense fallback={  <div className=" flex justify-center items-center h-2/5">
+    <main className=" flex w-full justify-center ">
+       {/* <Suspense fallback={  <div className=" flex justify-center items-center h-2/5">
             <Loading />
-          </div>}>
+          </div>}> */}
 
         {data?.getUserData&&<Posts />  }  
-          </Suspense>
+          {/* </Suspense> */}
       
     </main>
   );

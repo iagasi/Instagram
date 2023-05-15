@@ -10,12 +10,14 @@ import { Search } from "./Search";
 import { log } from "console";
 import { useReactiveVar } from "@apollo/client";
 import { userVar } from "@/reactive/user";
+import Loading from "./Loading";
 
 export function Sidebar() {
   const router = useRouter();
   const [searchBar, setSearchbar] = useState(false);
 
   const currLoggedUser = useReactiveVar(userVar);
+  if(!currLoggedUser){return<div><Loading size="40"/> </div>}
   return (
     <div>
       {searchBar && (

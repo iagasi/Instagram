@@ -14,7 +14,9 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  mutation commentPost($postId:String,$personId:String,$message:String){\n    commentPost(input:{_id:$postId,personId:$personId,message:$message})\n  }\n  ": types.CommentPostDocument,
+    "\n  query GetPostData ($id:String){\n \n    getPostById(postId:$id) {\n      _id\n      likes\n  comments\n      userId\n    }\n  }": types.GetPostDataDocument,
     "\nmutation LikePost ($postId:String,$personId:String) {\n\n  likePost(input:{postId:$postId,personId:$personId}) {\n  likes\n  userId\n  }\n  }\n  ": types.LikePostDocument,
+    "\nquery GetCommentPost($postId:String){\n  getPostCommentsAndAuthors(postId:$postId) {\ncommentMaker {\n  name\n  image\n}\n comment {\n   message\n   time\n   \n }\n    \n  }\n}": types.GetCommentPostDocument,
     "\nquery findUser($id:String){\n  findUser(id:$id) {\n       _id\n    name\n    surname\n    image\n \n    \n  }\n}\n": types.FindUserDocument,
 };
 
@@ -39,7 +41,15 @@ export function gql(source: "\n  mutation commentPost($postId:String,$personId:S
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function gql(source: "\n  query GetPostData ($id:String){\n \n    getPostById(postId:$id) {\n      _id\n      likes\n  comments\n      userId\n    }\n  }"): (typeof documents)["\n  query GetPostData ($id:String){\n \n    getPostById(postId:$id) {\n      _id\n      likes\n  comments\n      userId\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function gql(source: "\nmutation LikePost ($postId:String,$personId:String) {\n\n  likePost(input:{postId:$postId,personId:$personId}) {\n  likes\n  userId\n  }\n  }\n  "): (typeof documents)["\nmutation LikePost ($postId:String,$personId:String) {\n\n  likePost(input:{postId:$postId,personId:$personId}) {\n  likes\n  userId\n  }\n  }\n  "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\nquery GetCommentPost($postId:String){\n  getPostCommentsAndAuthors(postId:$postId) {\ncommentMaker {\n  name\n  image\n}\n comment {\n   message\n   time\n   \n }\n    \n  }\n}"): (typeof documents)["\nquery GetCommentPost($postId:String){\n  getPostCommentsAndAuthors(postId:$postId) {\ncommentMaker {\n  name\n  image\n}\n comment {\n   message\n   time\n   \n }\n    \n  }\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

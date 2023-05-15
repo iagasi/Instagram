@@ -20,7 +20,22 @@
   box-sizing: border-box;
 }
 body {
- 
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(93, 90, 90);
+  border-radius: 10px;
+}
 }
 
 
@@ -103,4 +118,9 @@ background-color: rgb(205, 201, 201);
     width: 50%;
     bottom: -10px;
   }
+
+  .vw90{
+width: 90vw;
+  }
+  
 }

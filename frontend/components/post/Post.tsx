@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { BsThreeDots } from "react-icons/bs";
 
@@ -18,6 +18,7 @@ import { userVar } from "@/reactive/user";
 import { log } from "console";
 import { LikePost } from "./LikePost";
 import CommentPost from "./CommentPost";
+import { WithModal } from "@/Hoc/WithModal";
 const query = gql(`
 query findUser($id:String){
   findUser(id:$id) {
@@ -32,15 +33,18 @@ query findUser($id:String){
 `);
 
 export function Post({ cardData }: { cardData: postType | undefined }) {
+
   const currUser = useReactiveVar(userVar);
-  const { data } = useQuery(query, {
+  const { data, refetch } = useQuery(query, {
     variables: { id: cardData?.userId.toString() },
   });
 
+const postPublisher=data?.findUser as UserType
   return (
-    <div className=" border-b-2  pb-4 w-fit ">
-      <div className=" flex justify-between">
-        <UserPreview user={data?.findUser} />
+    <div className=" border-b-2  pb-4 w-fit   ">
+      <h1>{cardData?._id}</h1>
+      <div className=" flex justify-between ">
+        <UserPreview user={postPublisher} />
         <BsThreeDots className=" text-3xl cursor-pointer" />
       </div>
       <Image
@@ -51,8 +55,8 @@ export function Post({ cardData }: { cardData: postType | undefined }) {
         height={526}
       />
       <LikePost postData={cardData} currUser={currUser} />
-      <div className=" space-y-">
-        <CommentPost postData={cardData} currUser={currUser} />
+      <div className=" space-y-1">
+        <CommentPost postData={cardData} currUser={currUser} postPublisher={postPublisher} />
       </div>
     </div>
   );

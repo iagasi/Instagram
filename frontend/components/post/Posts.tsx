@@ -4,6 +4,7 @@ import { postType } from "@/../types/postType";
 
 import React from 'react'
 import { Post } from './Post';
+import { postVar } from '@/reactive/post';
 const query = gql`
 query ($id:String){
  
@@ -18,8 +19,11 @@ query ($id:String){
 function Posts() {
     const user=useReactiveVar(userVar)
     const {data}=useQuery(query,{variables: { id: user?.user._id }})
-
+    postVar()
+ 
 const posts:postType[]=data?.getFriendsPosts
+postVar(posts)
+  
   return (
     <div>
 

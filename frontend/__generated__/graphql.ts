@@ -41,6 +41,8 @@ export type Query = {
   findByNameSurname?: Maybe<Array<Maybe<User>>>;
   findUser?: Maybe<User>;
   getFriendsPosts?: Maybe<Array<Maybe<PostType>>>;
+  getPostById?: Maybe<PostType>;
+  getPostCommentsAndAuthors?: Maybe<Array<Maybe<UserCommetType>>>;
   getUserData?: Maybe<PrefferencesType>;
   getUserPrefferences?: Maybe<Array<Maybe<UserPrefferencesType>>>;
 };
@@ -61,6 +63,16 @@ export type QueryGetFriendsPostsArgs = {
 };
 
 
+export type QueryGetPostByIdArgs = {
+  postId?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryGetPostCommentsAndAuthorsArgs = {
+  postId?: InputMaybe<Scalars['String']>;
+};
+
+
 export type QueryGetUserDataArgs = {
   id?: InputMaybe<Scalars['String']>;
 };
@@ -78,6 +90,12 @@ export type User = {
   surname?: Maybe<Scalars['String']>;
 };
 
+export type UserCommetType = {
+  __typename?: 'UserCommetType';
+  comment?: Maybe<CommentType>;
+  commentMaker?: Maybe<UserType>;
+};
+
 export type UserPrefferencesType = {
   __typename?: 'UserPrefferencesType';
   _id?: Maybe<Scalars['String']>;
@@ -87,6 +105,14 @@ export type UserPrefferencesType = {
   saved?: Maybe<Array<Maybe<Scalars['String']>>>;
   tagged?: Maybe<Array<Maybe<Scalars['String']>>>;
   userId?: Maybe<Scalars['String']>;
+};
+
+export type UserType = {
+  __typename?: 'UserType';
+  _id?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  surname?: Maybe<Scalars['String']>;
 };
 
 export type CommentPostInput = {
@@ -100,8 +126,9 @@ export type CommentType = {
   __typename?: 'commentType';
   _id?: Maybe<Scalars['String']>;
   message?: Maybe<Scalars['String']>;
-  time?: Maybe<Scalars['Int']>;
-  userId?: Maybe<Scalars['String']>;
+  personId?: Maybe<Scalars['String']>;
+  postId?: Maybe<Scalars['String']>;
+  time?: Maybe<Scalars['String']>;
 };
 
 export type LikePostInput = {
@@ -127,6 +154,13 @@ export type CommentPostMutationVariables = Exact<{
 
 export type CommentPostMutation = { __typename?: 'Mutation', commentPost?: string | null };
 
+export type GetPostDataQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetPostDataQuery = { __typename?: 'Query', getPostById?: { __typename?: 'postType', _id?: string | null, likes?: Array<string | null> | null, comments?: Array<string | null> | null, userId?: string | null } | null };
+
 export type LikePostMutationVariables = Exact<{
   postId?: InputMaybe<Scalars['String']>;
   personId?: InputMaybe<Scalars['String']>;
@@ -134,6 +168,13 @@ export type LikePostMutationVariables = Exact<{
 
 
 export type LikePostMutation = { __typename?: 'Mutation', likePost?: { __typename?: 'postType', likes?: Array<string | null> | null, userId?: string | null } | null };
+
+export type GetCommentPostQueryVariables = Exact<{
+  postId?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetCommentPostQuery = { __typename?: 'Query', getPostCommentsAndAuthors?: Array<{ __typename?: 'UserCommetType', commentMaker?: { __typename?: 'UserType', name?: string | null, image?: string | null } | null, comment?: { __typename?: 'commentType', message?: string | null, time?: string | null } | null } | null> | null };
 
 export type FindUserQueryVariables = Exact<{
   id?: InputMaybe<Scalars['String']>;
@@ -144,5 +185,7 @@ export type FindUserQuery = { __typename?: 'Query', findUser?: { __typename?: 'U
 
 
 export const CommentPostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"commentPost"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"postId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"personId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"message"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commentPost"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"postId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"personId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"personId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"message"},"value":{"kind":"Variable","name":{"kind":"Name","value":"message"}}}]}}]}]}}]} as unknown as DocumentNode<CommentPostMutation, CommentPostMutationVariables>;
+export const GetPostDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPostData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getPostById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"postId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"likes"}},{"kind":"Field","name":{"kind":"Name","value":"comments"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}}]}}]}}]} as unknown as DocumentNode<GetPostDataQuery, GetPostDataQueryVariables>;
 export const LikePostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LikePost"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"postId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"personId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"likePost"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"postId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"postId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"personId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"personId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"likes"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}}]}}]}}]} as unknown as DocumentNode<LikePostMutation, LikePostMutationVariables>;
+export const GetCommentPostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCommentPost"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"postId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getPostCommentsAndAuthors"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"postId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"postId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commentMaker"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"comment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"time"}}]}}]}}]}}]} as unknown as DocumentNode<GetCommentPostQuery, GetCommentPostQueryVariables>;
 export const FindUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"findUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"surname"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}}]}}]} as unknown as DocumentNode<FindUserQuery, FindUserQueryVariables>;
