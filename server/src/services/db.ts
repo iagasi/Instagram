@@ -10,19 +10,19 @@ export const users: UserType[] = [
     _id: "1",
     name: "Georg",
     surname: "Herimand",
-    image: "",
+    image: "user-images/1.jpg",
   },
   {
     _id: "2",
     name: "Alex",
     surname: "Jerix",
-    image: "",
+    image: "user-images/2.jpg",
   },
   {
     _id: "3",
     name: "Ande",
     surname: "Avallon",
-    image: "",
+    image: "user-images/3.jpg",
   },
 ];
 
@@ -60,7 +60,7 @@ export const userPrefferences: UserPrefferencesType[] = [
 export const posts: postType[] = [
   {
     _id: "457",
-    image: "",
+    image: "images/1.jpg",
     userId: "2",
     comments: ["5","6","7"],
     likes: ["5"],
@@ -68,21 +68,21 @@ export const posts: postType[] = [
 
   {
     _id: "455",
-    image: "",
+    image: "images/2.jpg",
     userId: "2",
     comments: ["1", "2"],
     likes: ["1", "3"],
   },
   {
     _id: "557",
-    image: "",
+    image: "images/3.jpg",
     userId: "2",
     comments: ["5", "8"],
     likes: ["", "56"],
   },
   {
     _id: "545",
-    image: "",
+    image: "images/4.jpg",
     userId: "1",
     comments: [],
     likes: ["3", "2"],
