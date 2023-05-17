@@ -13,6 +13,7 @@ query ($id:String){
       likes
       comments
       userId
+      image
     }
   }
 `;

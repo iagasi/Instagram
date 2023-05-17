@@ -19,7 +19,8 @@ query getPostLikedPersons($id:String){
     getPostLikedPersons(postId:$id) {
         _id,
       name,
-      surname
+      surname,
+      image
     }
   }
 `);

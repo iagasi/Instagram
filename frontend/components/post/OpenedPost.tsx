@@ -8,9 +8,8 @@ import { combinedUserAndCommentType, postType } from "@/../types/postType";
 import { UserAndPrefferncesType, UserType } from "@/../types/userType";
 
 import { gql } from "../../__generated__/gql";
-import { WithModal } from "@/Hoc/WithModal";
 import { withModalType } from "@/types/modalTypes";
-import { ReactNode, useEffect } from "react";
+import { postImage } from "@/helpers/image";
 
 const GetCommentPost = gql(`
 query GetCommentPost($postId:String){
@@ -37,7 +36,7 @@ type props = {
   const { data,refetch } = useQuery(GetCommentPost, {
     variables: { postId: props.postData?._id },
     skip: !props.postData?._id,
-    pollInterval:500
+    pollInterval:4000
   });
 
   const commetsAndUsers =  data?.getPostCommentsAndAuthors as combinedUserAndCommentType[];
@@ -55,10 +54,10 @@ type props = {
       <div className=" w-3/5 h-full relative bg-slate-200  flex justify-start ">
         <div className="  ">
           <Image
-            src={"/test.jpg"}
+            src={postImage(props?.postData?.image)}
             alt="user Image"
             layout="fill"
-            objectFit="contain"
+            objectFit="cover"
           />
         </div>
       </div>

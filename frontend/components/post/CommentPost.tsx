@@ -1,14 +1,15 @@
 import { combinedUserAndCommentType, postType } from "@/../types/postType";
 import { UserAndPrefferncesType, UserType } from "@/../types/userType";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { gql } from "../../__generated__/gql";
-import { useMutation, useQuery, useReactiveVar } from "@apollo/client";
+import { useMutation,} from "@apollo/client";
 import { AiOutlineSend } from "react-icons/ai";
 
 import OpenPost from "./OpenedPost";
 import Loading from "../Loading";
 import { postVar } from "@/reactive/post";
 import { Modal } from "../Modal";
+import PostComments from "./PostComments";
 
 type props = {
   postData: postType | undefined;
@@ -29,26 +30,20 @@ function CommentPost({
   refetchPosts,
 }: props) {
   const modaIsOpen = document.querySelector("#modal");
-  const POSTSVAR = useReactiveVar(postVar);
-const [modal,setModal]=useState(false)
-  const currPost = POSTSVAR.find((post) => post._id === postData?._id);
+
+  const [modal, setModal] = useState(false);
 
   const [messageText, setMessageText] = useState("");
-
+  const [loadComments, setLoadComments] = useState(false);
   const [commetPost, { data: response }] = useMutation(addComment);
 
   useEffect(() => {
     if (response?.commentPost) {
       setMessageText("");
-      if (POSTSVAR.length) {
-        const newPosts: postType[] = JSON.parse(JSON.stringify(POSTSVAR));
-        const modcurrPost= newPosts.find((post) => post._id === postData?._id);
-        modcurrPost?.comments.push(response?.commentPost);
-        postVar(newPosts)
-      }
 
+      setLoadComments(!loadComments);
       if (modaIsOpen && refetchPosts) {
-        refetchPosts();
+        const y = refetchPosts();
       }
     }
   }, [response]);
@@ -68,15 +63,19 @@ const [modal,setModal]=useState(false)
   }
   return (
     <div className=" pr-5">
-  {
+      {modal && !modaIsOpen && (
+        <Modal modal={modal} setModal={setModal}>
+          <OpenPost
+            postData={postData}
+            currUser={currUser}
+            postPublisher={postPublisher}
+          />
+        </Modal>
+      )}
 
-    (modal&&!modaIsOpen)&&
-    <Modal modal={modal}  setModal={setModal}>
-      <OpenPost postData={postData} currUser={currUser} postPublisher={postPublisher}/>
-    </Modal>
-  }
-
-  <div className="cursor-pointer" onClick={()=>setModal(!modal)}> {!modal? "See all":""} {currPost?.comments.length} comments</div>
+      <div className="cursor-pointer" onClick={() => setModal(!modal)}>
+        <PostComments postData={postData} loadCommets={loadComments} />
+      </div>
       <input
         className=" focus:outline-0 w-full text-lg font-bold"
         placeholder="Add Comment"

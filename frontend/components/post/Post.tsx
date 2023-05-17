@@ -19,6 +19,7 @@ import { log } from "console";
 import { LikePost } from "./LikePost";
 import CommentPost from "./CommentPost";
 import { WithModal } from "@/Hoc/WithModal";
+import { postImage } from "@/helpers/image";
 const query = gql(`
 query findUser($id:String){
   findUser(id:$id) {
@@ -49,10 +50,11 @@ const postPublisher=data?.findUser as UserType
       </div>
       <Image
         className=" w-[468px] h-[526px]"
-        src={"/test.jpg"}
+        src={postImage(cardData?.image)}
         alt="Card Image"
         width={468}
         height={526}
+        objectFit="cover"
       />
       <LikePost postData={cardData} currUser={currUser} />
       <div className=" space-y-1">

@@ -1,4 +1,5 @@
 import { UserType } from "@/../types/userType";
+import { profileImage } from "@/helpers/image";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
@@ -14,12 +15,12 @@ function UserPreview({ user }: propsType) {
     >
       <Image
         className=" rounded-full self-center"
-        src={user?.image || "/test.jpg"}
+        src={profileImage(user?.image)}
         alt="user Image"
         width={38}
         height={38}
-        // objectFit="contain"
-       layout="fixed"
+        objectFit="cover"
+      //  layout="fixed"
       />
       <div>
         <div className=" flex space-x-2 cursor-pointer font-bold">
