@@ -42,8 +42,7 @@ export function Post({ cardData }: { cardData: postType | undefined }) {
 
 const postPublisher=data?.findUser as UserType
   return (
-    <div className=" border-b-2  pb-4 w-fit   ">
-      <h1>{cardData?._id}</h1>
+    <div className="  pb-4 w-fit  mt-10 border-t-2 ">
       <div className=" flex justify-between ">
         <UserPreview user={postPublisher} />
         <BsThreeDots className=" text-3xl cursor-pointer" />

@@ -1,6 +1,5 @@
 import { postType } from "@/../types/postType";
-import { postVar } from "@/reactive/post";
-import { useQuery, useReactiveVar } from "@apollo/client";
+import { useQuery, } from "@apollo/client";
 import React, { useEffect } from "react";
 
 import { gql } from "../../__generated__/gql";

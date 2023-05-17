@@ -55,10 +55,10 @@ function OpenLikes(props: openLikeType) {
 function PostLikeMakers(props: withModalType & Basetype) {
   return (
     <div
-      className="cursor-pointer  hover:text-gray-300  text-2xl"
+      className="cursor-pointer  hover:text-gray-300  text-xl"
       onClick={() => props.setModal()}
     >
-      {props.likes?.length} likes
+      <strong>{props.likes?.length}</strong> Likes
     </div>
   );
 }

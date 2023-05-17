@@ -77,7 +77,7 @@ function CommentPost({
         <PostComments postData={postData} loadCommets={loadComments} />
       </div>
       <input
-        className=" focus:outline-0 w-full text-lg font-bold"
+        className=" mt-5  pb-5 focus:outline-0 w-full  focus:border-b-[1px]  border-blue-500 text-lg font-bold"
         placeholder="Add Comment"
         value={messageText}
         onChange={(e) => setMessageText(e.target.value)}
