@@ -1,72 +1,57 @@
 "use client";
 
-import { gql, useQuery, useReactiveVar } from "@apollo/client";
+import { useQuery, useReactiveVar } from "@apollo/client";
 import { useRouter } from "next/router";
-import { log } from "console";
 import { ProfileTop } from "./ProfileTop";
 import { ProfileActions } from "./ProfileAction";
-import { UserType, UserPrefferencesType, UserAndPrefferncesType } from "../../../types/userType";
-import { useEffect, useState } from "react";
-import {WithModal } from "../../Hoc/WithModal";
-import { userVar } from "@/reactive/user";
+import { UserAndPrefferncesType } from "../../../types/userType";
+import { userVar, visitedPersonVar } from "@/reactive/user";
+import { Sidebar } from "../Sidebar";
+import { getUserAndPrefferencesGql } from "@/gql/user";
+import { LStorage } from "@/helpers/user";
+import { Query } from "@/__generated__/graphql";
 
-const query = gql`
-  query ($Id: String) {
-    getUserData(id: $Id) {
-      user {
-        _id
-        name
-        surname
-      }
-      prefferences {
-        followers
-        followings
-        posts
-      }
-    }
-  }
-`;
-type propsType={
-  modal: boolean;
-  setModal: React.Dispatch<React.SetStateAction<boolean>>;
-}
- function Profile() {
-
+function Profile() {
   const router = useRouter();
-  const RouterId = router.query.id;
+  const RouterId = router.query.id as string;
+
+  const { loading, data } = useQuery(getUserAndPrefferencesGql, {
+    variables: { Id: RouterId },
+    skip: !router.isReady,
+  });
+  const visitedUserData = data?.getUserData as UserAndPrefferncesType;
 
   
-const user=useReactiveVar(userVar) 
 
-const userId=user?.user._id
-
-  const { loading, data,refetch } = useQuery(query, {
-    variables: { Id: RouterId},
-    skip:!(router.isReady),
+  const { data: loggedUserData } = useQuery<Query>(getUserAndPrefferencesGql, {
+    variables: { Id: LStorage.getUser()?.user?._id },
+    skip: !LStorage.getUser()?.user?._id,
   });
+  const loggedData = loggedUserData?.getUserData as UserAndPrefferncesType;
 
-useEffect(() => {
-    if (userId!==RouterId) {
-   refetch();
-    }
-  }, [RouterId, refetch, router.isReady, userId]);
- 
-  const foundData = data?.getUserData as UserAndPrefferncesType
+
+
+
+
+    userVar(loggedData);
+    visitedPersonVar(visitedUserData);
+
 
   if (loading) {
     return <p className=" text-4xl">Loading</p>;
   }
- 
-  return (
-    <div className=" pl-10">
 
-      <ProfileTop data={foundData} />
-      <ProfileActions data={foundData}  />
-      
+  return (
+    <div className="">
+      <div className=" flex ">
+        <Sidebar />
+        <div className=" flex-1">
+          <ProfileTop visitedUser={visitedUserData} />
+          <ProfileActions data={visitedUserData} />
+        </div>
+      </div>
     </div>
-   
-   
   );
 }
 
-export default Profile
+export default Profile;

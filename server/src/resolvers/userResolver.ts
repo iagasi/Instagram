@@ -1,10 +1,21 @@
 import { log } from "console";
-import { UserType, UserPrefferencesType } from "../../../types/userType";
+import {
+  UserType,
+  UserPrefferencesType,
+  UserAndPrefferncesType,
+} from "../../../types/userType";
 import { UserService } from "../services/userService";
 
 interface QueryUserArgs {
   id: string;
 }
+type FriendsHandlerType = {
+  input: {
+    myId: string;
+    candidateId: string;
+ 
+  };
+};
 
 export const userResolvers = {
   Query: {
@@ -19,6 +30,33 @@ export const userResolvers = {
     },
     getUserData(parrent: UserPrefferencesType, args: QueryUserArgs) {
       return UserService.getUserData(args.id);
+    },
+    getUserFriends(parrent: any, args: QueryUserArgs) {
+      return UserService.getUserFriends(args.id);
+    },
+  },
+
+  Mutation: {
+    async subscribeTo(
+      parrent: any,
+      args: FriendsHandlerType
+    ): Promise<UserAndPrefferncesType | null> {
+      return await UserService.subscribe(
+        args.input.myId,
+        args.input.candidateId
+      );
+    },
+    async deleteFollower(
+      parrent: any,
+      args: FriendsHandlerType
+    ): Promise<UserAndPrefferncesType | null> {
+      return await UserService.deleteFollower(args.input.myId, args.input.candidateId);
+    },
+    async deleteFollowing(
+      parrent: any,
+      args: FriendsHandlerType
+    ): Promise<UserAndPrefferncesType | null> {
+      return await UserService.deleteFollowing(args.input.myId, args.input.candidateId);
     },
   },
 };
@@ -45,10 +83,28 @@ type PrefferencesType{
   user:User!
   prefferences:UserPrefferencesType
 }
+type UserFriendsType{
+  followers:[User]
+  followings:[User]
+}
 type Query{
   findUser(id:String):User
+  getUserFriends(id:String):UserFriendsType
   getUserPrefferences(id:String):[UserPrefferencesType]
   getUserData(id:String):PrefferencesType
   findByNameSurname(name:String):[User]
+}
+
+
+input FriendsHandlerType{
+myId:String
+candidateId:String
+
+}
+type Mutation{
+  subscribeTo(input:FriendsHandlerType):PrefferencesType
+  deleteFollower(input:FriendsHandlerType):PrefferencesType
+  deleteFollowing(input:FriendsHandlerType):PrefferencesType
+
 }
 `;

@@ -3,3 +3,4 @@ import { makeVar, useReactiveVar } from "@apollo/client";
 
 
 export const userVar = makeVar<UserAndPrefferncesType|null>(null);
+export const visitedPersonVar = makeVar<UserAndPrefferncesType|null>(null);

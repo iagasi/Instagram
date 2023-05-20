@@ -1,39 +1,24 @@
 import { userVar } from "@/reactive/user";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery, useReactiveVar } from "@apollo/client";
 import React, { Suspense } from "react";
 import { log } from "console";
 import Posts from "./post/Posts";
 import Loading from "./Loading";
-const query = gql`
-  query ($Id: String) {
-    getUserData(id: $Id) {
-      user {
-        _id
-        name
-        surname
-      }
-      prefferences {
-        followers
-        followings
-        posts
-      }
-    }
-  }
-`;
+import { getUserAndPrefferencesGql } from "@/gql/user";
+import { UserAndPrefferncesType, UserType } from "@/../types/userType";
+import { LStorage } from "@/helpers/user";
+
 export function Main() {
   const userId = "1";
-  const { data } = useQuery(query, { variables: { Id: userId } });
-  userVar(data?.getUserData);
-
+  const { data } = useQuery(getUserAndPrefferencesGql, {
+    variables: { Id: userId },
+  });
+  const userData = data?.getUserData as UserAndPrefferncesType;
+  userVar(userData);
+  LStorage.setUser(userData);
   return (
     <main className=" flex w-full justify-center ">
-       {/* <Suspense fallback={  <div className=" flex justify-center items-center h-2/5">
-            <Loading />
-          </div>}> */}
-
-        {data?.getUserData&&<Posts />  }  
-          {/* </Suspense> */}
-      
+      {data?.getUserData && <Posts />}
     </main>
   );
 }

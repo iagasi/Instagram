@@ -35,7 +35,18 @@
   border-radius: 10px;
 }
 
+
+input:focus{
+
+  outline:0;
+}
+
 @layer components {
+  .delete-btn{
+ color: red;
+ font-weight: 600;
+ cursor: pointer;
+  }
   .sidebar-elem{
     display:flex;
     gap: 15px;
@@ -75,9 +86,20 @@ height: fit-content;
     0% {transform:rotate(0deg) }
     100% {transform:rotate(360deg) }
   }
-
+.submit-btn{
+  background: rgb(88, 88, 254);
+  padding: 5px 15px;
+  border-radius: 3px;
+  color: white;
+  font-weight: 600;
+  font-size: large;
+}
+.submit-btn:hover{
+  background: rgb(49, 49, 248);
+ 
+}
   .primaryBtn{
- background: rgb(199, 196, 196) ;
+ background: rgb(228, 227, 227) ;
  padding: 5px;
  padding-left: 10px;
  padding-right: 10px;
@@ -87,7 +109,7 @@ height: fit-content;
   }
 
   .primaryBtn:hover{
-    background: rgb(128, 128, 128) ;
+    background: rgb(182, 182, 182) ;
   }
 
   .add-to-friends-btn{

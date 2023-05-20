@@ -74,7 +74,6 @@ export class postService {
     });
 
     targetPost.comments.push(comments[createComment - 1]._id);
-    console.log(targetPost);
 
     return comments[createComment - 1]._id;
   }
@@ -102,9 +101,9 @@ export class postService {
     return commentsArray;
   }
 
-  static async getPostLikedPersons(postId: string):Promise<UserType[]>{
+  static async getPostLikedPersons(postId: string): Promise<UserType[]> {
     const post = this.getPostById(postId);
-    
+
     const users: UserType[] = [];
     for await (const userId of post.likes) {
       const user = await UserService.getSingleUser(userId);

@@ -1,5 +1,5 @@
 import { postType } from "@/../types/postType";
-import { useQuery, } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
 
 import { gql } from "../../__generated__/gql";
@@ -33,7 +33,12 @@ function PostComments(props: props) {
     pollInterval: 10000,
   });
 
-  return <div  className="hover:text-slate-500">See all Comments  <strong>( {data?.getPostCommentsAndAuthors?.length} )</strong></div>;
+  return (
+    <div className="hover:text-slate-500">
+      See all Comments{" "}
+      <strong>( {data?.getPostCommentsAndAuthors?.length} )</strong>
+    </div>
+  );
 }
 
 export default PostComments;
