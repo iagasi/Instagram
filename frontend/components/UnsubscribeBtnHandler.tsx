@@ -7,12 +7,13 @@ import {
   userFriendsGql,
 } from "@/gql/user";
 import { LStorage } from "@/helpers/user";
-import { userVar } from "@/reactive/user";
+import { userVar, visitedPersonFriendsVar, visitedPersonVar } from "@/reactive/user";
 import { useMutation, useQuery, useReactiveVar } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { Settings } from "./profile/Settings";
 import { Modal } from "./Modal";
 import UserPreview from "./UserPreview";
+import { useLogginedUserdata, usePageFriendsQuery, useVisitedPageUser } from "@/hooks/user";
 
 function UnsubscribeBtnHandler({
   deletingUser,
@@ -27,25 +28,26 @@ function UnsubscribeBtnHandler({
   const loggedUser = useReactiveVar(userVar);
   let DeleteTypeGql =
     buttonName === "Delete" ? DeleteFollowerGql : DeleteFollowingGql;
+  const profileOwner = useReactiveVar(visitedPersonVar);
 
-  const [mutateFunction, { data, loading, error }] =
-    useMutation<Mutation>(DeleteTypeGql);
-
-  const { refetch: refetchFriends } = useQuery<Query>(userFriendsGql, {
-    variables: { id: loggedUser?.user._id },
-    skip: true,
-  });
+  const [mutateFunction, { data}] = useMutation<Mutation>(DeleteTypeGql);
+  const { refetch: refetchFriends,data:pageFriends } = usePageFriendsQuery(profileOwner?.user?._id||"" ,true);
+ console.log(pageFriends);
+ 
 
   useEffect(() => {
-    refetchFriends();
-  }, [data, refetchFriends]);
+    
+   
+ refetchFriends();
+
+  }, [data, refetchFriends,pageFriends ]);
   function friendsHandler() {
     if (!loggedUser) {
-      return;
+    console.log( <>NoLoggedUser</>)
     }
     mutateFunction({
       variables: {
-        myId: loggedUser.user._id,
+        myId: loggedUser?.user._id,
         candidateId: deletingFriendId,
       },
     });
@@ -55,8 +57,8 @@ function UnsubscribeBtnHandler({
       {modal && (
         <Modal modal={modal} setModal={() => setModal(!modal)}>
           <div className=" p-10">
-          <UserPreview user={deletingUser} />
-          <hr />
+            <UserPreview user={deletingUser} />
+            <hr />
           </div>
           <Settings>
             <div className=" text-red-500   " onClick={friendsHandler}>

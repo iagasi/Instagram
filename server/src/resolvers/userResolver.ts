@@ -41,6 +41,8 @@ export const userResolvers = {
       parrent: any,
       args: FriendsHandlerType
     ): Promise<UserAndPrefferncesType | null> {
+   
+      
       return await UserService.subscribe(
         args.input.myId,
         args.input.candidateId

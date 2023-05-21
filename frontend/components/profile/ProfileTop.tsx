@@ -14,46 +14,26 @@ import { DeleteOrAddToFriends } from "../DeleteOrAddToFriends";
 import { useQuery, useReactiveVar } from "@apollo/client";
 import { gql } from "@apollo/client";
 import { Query } from "@/__generated__/graphql";
-import { userVar } from "@/reactive/user";
+import { userVar, visitedPersonFriendsVar, visitedPersonVar } from "@/reactive/user";
+import { userFriendsGql } from "@/gql/user";
+import { usePageFriendsQuery } from "@/hooks/user";
+import { LStorage } from "@/helpers/user";
 
 
-const UserFriends=gql(`
-query GetUserFriends($id:String) {
-  getUserFriends (id:$id){
-    followers {
-      _id
-      name
-      surname
-      image
-    }
-    followings {
-      _id
-      name
-      surname
-      image
-    }
-  }
-}`) 
+
 type PropsType={
   visitedUser: UserAndPrefferncesType
+  profileFriends:any
 }
-export function ProfileTop({ visitedUser }: PropsType) {
-  const router = useRouter();
-const {data:friendsData,refetch}=useQuery<Query>(UserFriends,{
-  variables:{id:visitedUser?.user._id},
-  skip:!visitedUser
-}
-); 
-const friends=friendsData?.getUserFriends
+export function ProfileTop({ visitedUser,profileFriends }: PropsType) {
+const router=useRouter()
 
-const loggedUser=useReactiveVar(userVar)
-
-console.log(loggedUser);
+console.log("top");
 
   if (!visitedUser?.prefferences?.posts) {
-    return <div>Loading</div>;
+    return <div>Loading profileTop</div>;
   }
-  const myProfile = router.query.id == "1";
+  const myProfile = router.query.id ==LStorage.getUser()?.user._id;
 
   return (
     <div className=" flex mx-auto space-x-20 pb-8 pt-8  w-fit">
@@ -67,7 +47,7 @@ console.log(loggedUser);
       <div className=" space-y-5">
         <div className=" justify-between flex   items-center space-x-4">
           <span className=" font-bold h-fit">
-            {visitedUser?.user.name} {visitedUser?.user.surname}
+            {visitedUser.user.name} {visitedUser.user.surname}
           </span>
 
           {myProfile ? (
@@ -77,15 +57,14 @@ console.log(loggedUser);
             </>
           ) : (
             <OtherPersonProfile
-              currLoggedUser={visitedUser}
-              thisUser={visitedUser}
+              profileOwner={visitedUser}
             />
           )}
         </div>
         <div className="  flex space-x-5">
           {/* <PostModal user={user} users={user.prefferences.posts}/> */}
-         <FollowersModal  friends={friends?.followers} buttonName={"Delete"} refetchFriends={()=>refetch()} />
-         <FollowingsModal friends={friends?.followings} buttonName={"Unsubscribe"} refetchFriends={()=>refetch()}/>
+         <FollowersModal  friends={profileFriends?.followers} buttonName={"Delete"}  />
+         <FollowingsModal friends={profileFriends?.followings} buttonName={"Unsubscribe"} />
         </div>
       </div>
     </div>
