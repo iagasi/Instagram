@@ -8,6 +8,7 @@ query getUserAndPrefferences($Id: String) {
       _id
       name
       surname
+      image
     }
     prefferences {
       followers

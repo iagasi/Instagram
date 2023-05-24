@@ -11,6 +11,7 @@ import { log } from "console";
 import { useReactiveVar } from "@apollo/client";
 import { userVar } from "@/reactive/user";
 import Loading from "./Loading";
+import { profileImage } from "@/helpers/image";
 
 export function Sidebar() {
   const router = useRouter();
@@ -84,7 +85,14 @@ export function Sidebar() {
             className="relative  sidebar-elem"
             onClick={() => router.push("/profile/1")}
           >
-            <RxAvatar />
+             <Image
+        className=" rounded-full h-[40px] w-[40px]"
+        src={profileImage(currLoggedUser?.user?.image)}
+        height={35}
+        width={35}
+        objectFit="cover"
+        alt="Profile image"
+      />
 
             <span className="  text-lg">
               <strong>{currLoggedUser?.user?.name}</strong>

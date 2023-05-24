@@ -29,17 +29,10 @@ function SubscribeBthHandler( props:{candidate:UserType}) {
   const { refetch: refetchFriends,data:pageFriends } = usePageFriendsQuery(profileOwner?.user?._id||"" ,true);
   const {data:logginedUser,refetch}=useLogginedUserdata()
 
-console.log(pageFriends);
-
   useEffect(()=>{
-    if(pageFriends){
-  }
  refetch()
 refetchFriends()
-console.log("redd");
-
-    
-  },[data, refetchFriends,pageFriends])
+  },[data, refetchFriends, refetch])
 
   function subscribeHandler(){
 mutateFunction({

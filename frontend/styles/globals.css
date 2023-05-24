@@ -15,15 +15,14 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
- 
-*{
+
+* {
   box-sizing: border-box;
 }
 
 *::-webkit-scrollbar {
   width: 8px;
-} 
-
+}
 
 *::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px grey;
@@ -35,110 +34,109 @@
   border-radius: 10px;
 }
 
-
-input:focus{
-
-  outline:0;
+input:focus {
+  outline: 0;
 }
 
 @layer components {
-  .delete-btn{
- color: red;
- font-weight: 600;
- cursor: pointer;
+  .delete-btn {
+    color: red;
+    font-weight: 600;
+    cursor: pointer;
   }
-  .sidebar-elem{
-    display:flex;
+  .sidebar-elem {
+    display: flex;
     gap: 15px;
     cursor: pointer;
     border-radius: 5px;
     padding-top: 5px;
     padding-bottom: 5px;
     transition: background 0.3s ease-in-out;
-
   }
   .sidebar-elem:hover {
-  
-  background-color: gainsboro;
-  /* transition-delay:0.2s; */
-
+    background-color: gainsboro;
+    /* transition-delay:0.2s; */
   }
 
-  .search-panel{
+  .search-panel {
     z-index: 0;
-   animation:searchMove 0.5s ;
-   animation-fill-mode: forwards;
-
+    animation: searchMove 0.5s;
+    animation-fill-mode: forwards;
   }
 
   @keyframes searchMove {
-    from {left: 0px;}
-    to {left: 250px;}
+    from {
+      left: 0px;
+    }
+    to {
+      left: 250px;
+    }
   }
 
-
-  .loading{
-animation: loading 1s linear infinite;
-width: fit-content;
-height: fit-content;
+  .loading {
+    animation: loading 1s linear infinite;
+    width: fit-content;
+    height: fit-content;
   }
   @keyframes loading {
-    0% {transform:rotate(0deg) }
-    100% {transform:rotate(360deg) }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
-.submit-btn{
-  background: rgb(88, 88, 254);
-  padding: 5px 15px;
-  border-radius: 3px;
-  color: white;
-  font-weight: 600;
-  font-size: large;
-}
-.submit-btn:hover{
-  background: rgb(49, 49, 248);
- 
-}
-  .primaryBtn{
- background: rgb(228, 227, 227) ;
- padding: 5px;
- padding-left: 10px;
- padding-right: 10px;
- cursor: pointer;
- color: white;
- border-radius: 4px;
+  .submit-btn {
+    background: rgb(88, 88, 254);
+    padding: 5px 15px;
+    border-radius: 3px;
+    color: white;
+    font-weight: 600;
+    font-size: large;
+  }
+  .submit-btn:hover {
+    background: rgb(49, 49, 248);
+  }
+  .primaryBtn {
+    background: rgb(228, 227, 227);
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+    color: white;
+    border-radius: 4px;
   }
 
-  .primaryBtn:hover{
-    background: rgb(182, 182, 182) ;
+  .primaryBtn:hover {
+    background: rgb(182, 182, 182);
   }
 
-  .add-to-friends-btn{
+  .add-to-friends-btn {
     background: rgb(70, 70, 241);
   }
-  .add-to-friends-btn:hover{
+  .add-to-friends-btn:hover {
     background: rgb(5, 5, 220);
   }
-  .setting__item{
+  .setting__item {
     border-bottom: 2px solid rgb(187, 185, 185);
     text-align: center;
     font-size: large;
     padding: 10px;
     cursor: pointer;
   }
-  .setting__item:hover{
-background-color: rgb(205, 201, 201);
+  .setting__item:hover {
+    background-color: rgb(205, 201, 201);
   }
 
-  .sidebar__active{
+  .sidebar__active {
     position: absolute;
-    background-color: rgb(202, 202, 255);
+    background-color: rgb(102, 102, 255);
     height: 2px;
     width: 50%;
     bottom: -10px;
   }
 
-  .vw90{
-width: 90vw;
+  .vw90 {
+    width: 90vw;
   }
-  
 }

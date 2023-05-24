@@ -13,10 +13,16 @@ type FriendsHandlerType = {
   input: {
     myId: string;
     candidateId: string;
- 
   };
 };
 
+type changeNameSurnameType = {
+  input: {
+    myId: string;
+    name: string;
+    surname: string;
+  };
+};
 export const userResolvers = {
   Query: {
     findUser: (parrent: UserType, args: QueryUserArgs) => {
@@ -41,8 +47,6 @@ export const userResolvers = {
       parrent: any,
       args: FriendsHandlerType
     ): Promise<UserAndPrefferncesType | null> {
-   
-      
       return await UserService.subscribe(
         args.input.myId,
         args.input.candidateId
@@ -52,13 +56,27 @@ export const userResolvers = {
       parrent: any,
       args: FriendsHandlerType
     ): Promise<UserAndPrefferncesType | null> {
-      return await UserService.deleteFollower(args.input.myId, args.input.candidateId);
+      return await UserService.deleteFollower(
+        args.input.myId,
+        args.input.candidateId
+      );
     },
     async deleteFollowing(
       parrent: any,
       args: FriendsHandlerType
     ): Promise<UserAndPrefferncesType | null> {
-      return await UserService.deleteFollowing(args.input.myId, args.input.candidateId);
+      return await UserService.deleteFollowing(
+        args.input.myId,
+        args.input.candidateId
+      );
+    },
+
+    async changeNameSurname(paretn: any, args: changeNameSurnameType) {
+      return await UserService.changeNameSurname(
+        args.input.myId,
+        args.input.name,
+        args.input.surname
+      );
     },
   },
 };
@@ -103,10 +121,17 @@ myId:String
 candidateId:String
 
 }
+
+input changeNameSurnameType {
+    myId: String
+    name: String
+    surname: String
+}
 type Mutation{
   subscribeTo(input:FriendsHandlerType):PrefferencesType
   deleteFollower(input:FriendsHandlerType):PrefferencesType
   deleteFollowing(input:FriendsHandlerType):PrefferencesType
+  changeNameSurname(input:changeNameSurnameType):User
 
 }
 `;

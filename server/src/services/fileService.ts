@@ -1,0 +1,46 @@
+import { log } from "console";
+import path from "path";
+import fs from "fs";
+import uuid from "uuid-random";
+
+type Destination ="user-images"|"images"
+
+
+
+class FileService {
+  uploadFile(
+    userId: string,
+    destination: Destination,
+    fileBuffer: Express.Multer.File | undefined
+  ) {
+    const buffer = fileBuffer?.buffer;
+    if (!buffer) return;
+
+    const randomName = uuid() + fileBuffer.originalname;
+
+    const PATH = path.join(__dirname, "../../public",destination , randomName);
+    fs.writeFile(PATH, buffer, (err) => {
+      if (err) {
+        throw new Error("File saving error" + err.message);
+      }
+    });
+    return destination+"/"+ randomName;
+  }
+
+  removeFile(filePath: string) {
+    const p = path.join(__dirname, "../../public", filePath);
+    console.log(p);
+
+    if (fs.existsSync(p)) {
+      fs.unlink(p, (err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+    } else {
+      console.log("file not exists");
+    }
+  }
+}
+
+export const fileService = new FileService();

@@ -3,7 +3,6 @@ import { userPrefferences, users } from "./db";
 import { UserAndPrefferncesType, UserType } from "../../../types/userType";
 import { UserAndPrefferencesDto } from "../../../dto/userDto";
 export class UserService {
-  constructor() {}
   static userPrefferences(userId: string) {
     return userPrefferences.find((e) => e.userId === userId);
   }
@@ -123,5 +122,14 @@ export class UserService {
     }
 
     return null;
+  }
+
+  static async changeNameSurname(myId: string, name: string, surname: string) {
+    const user = await this.getSingleUser(myId);
+    if (!user) return;
+
+    if (name) user.name = name;
+    if (surname) user.surname = surname;
+    return user;
   }
 }

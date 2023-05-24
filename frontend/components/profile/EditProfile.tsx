@@ -17,7 +17,7 @@ function EditProfileBtn(props: withModalType) {
   return (
     <>
       <button
-        className=" bg-gray-400 p-2 rounded-lg"
+        className=" bg-gray-300 hover:bg-gray-400 p-2 rounded-lg"
         onClick={() => props.setModal()}
       >
         Edit pofile
@@ -26,12 +26,7 @@ function EditProfileBtn(props: withModalType) {
   );
 }
 
-function validate(data: string) {
-  if (data) {
-    return 'Select date above 1990';
-  }
-  return true;
-}
+
 function EditProfile(props: Pick<withModalType, "setModal">) {
   const iAmUser = useReactiveVar(userVar);
   const { register, handleSubmit,formState:{ errors }  } = useForm<IFormInput>();
@@ -40,7 +35,7 @@ function EditProfile(props: Pick<withModalType, "setModal">) {
     <div className=" w-[500px] h-[500px]  font-medium">
       <div className="relative w-fit">
         <UserPreview user={iAmUser?.user} />
-        <ChangePhoto />
+        <ChangePhoto user={iAmUser?.user} />
       </div>
       <div className=" text-center mt-8 mb-7 text-xl"> Change your data</div>
       <form action="post" className=" flex flex-col space-y-2 m-auto items-center"

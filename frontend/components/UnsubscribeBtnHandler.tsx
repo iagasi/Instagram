@@ -32,15 +32,14 @@ function UnsubscribeBtnHandler({
 
   const [mutateFunction, { data}] = useMutation<Mutation>(DeleteTypeGql);
   const { refetch: refetchFriends,data:pageFriends } = usePageFriendsQuery(profileOwner?.user?._id||"" ,true);
- console.log(pageFriends);
- 
+  const {data:logginedUser,refetch}=useLogginedUserdata()
+
 
   useEffect(() => {
     
-   
+   refetch()
  refetchFriends();
-
-  }, [data, refetchFriends,pageFriends ]);
+  }, [data, refetchFriends,pageFriends,refetch ]);
   function friendsHandler() {
     if (!loggedUser) {
     console.log( <>NoLoggedUser</>)
