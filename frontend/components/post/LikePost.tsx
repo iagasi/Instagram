@@ -7,6 +7,8 @@ import { TbMessageCircle2 } from "react-icons/tb";
 import { gql } from "../../__generated__/gql";
 import { UserAndPrefferncesType } from "@/../types/userType";
 import OpenLikes from "./OpenLikes";
+import { log } from "console";
+import { useGetPostById } from "@/hooks/post";
 
 const like = gql(`
 mutation LikePost ($postId:String,$personId:String) {
@@ -20,17 +22,13 @@ mutation LikePost ($postId:String,$personId:String) {
 type props = {
   postData: postType | undefined;
   currUser: UserAndPrefferncesType | null;
+  refetch: any;
 };
-export function LikePost({ postData, currUser }: props) {
-  const [likes, setLikes] = useState(postData?.likes);
-
+export function LikePost({ postData, currUser, refetch }: props) {
   const [likePost, { data: likedData }] = useMutation(like);
   useEffect(() => {
-    if (likedData && postData) {
-      const modLikes = likedData.likePost?.likes as string[];
-      setLikes(modLikes);
-    }
-  }, [postData, likedData]);
+    refetch();
+  }, [likedData, refetch]);
 
   function likeHandler() {
     try {
@@ -42,7 +40,7 @@ export function LikePost({ postData, currUser }: props) {
   return (
     <div className=" text-3xl  ">
       <div className="flex space-x-4">
-        {currUser?.user._id&&likes?.includes(currUser?.user._id) ? (
+        {currUser?.user._id && postData?.likes?.includes(currUser?.user._id) ? (
           <AiFillHeart
             className=" cursor-pointer text-red-500  hover:text-gray-300  "
             onClick={likeHandler}
@@ -56,7 +54,7 @@ export function LikePost({ postData, currUser }: props) {
 
         <TbMessageCircle2 className=" cursor-pointer  hover:text-gray-300" />
       </div>
-      <OpenLikes likes={likes} postData={postData} />
+      <OpenLikes likes={postData?.likes} postData={postData} />
     </div>
   );
 }

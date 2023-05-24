@@ -10,6 +10,8 @@ import { UserAndPrefferncesType, UserType } from "@/../types/userType";
 import { gql } from "../../__generated__/gql";
 import { withModalType } from "@/types/modalTypes";
 import { postImage } from "@/helpers/image";
+import { LikePost } from "./LikePost";
+import { useGetPostById } from "@/hooks/post";
 
 const GetCommentPost = gql(`
 query GetCommentPost($postId:String){
@@ -38,6 +40,7 @@ type props = {
     skip: !props.postData?._id,
     pollInterval:4000
   });
+  const {data:cardData,refetch:refetchSinglePost}=useGetPostById(props.postData?._id)
 
   const commetsAndUsers =  data?.getPostCommentsAndAuthors as combinedUserAndCommentType[];
   function refetchPosts(){
@@ -80,6 +83,7 @@ type props = {
           </div>
 
           <div className="sticky top-0 w-3/4">
+            <LikePost postData={props.postData} currUser={props.currUser} refetch={refetchSinglePost}/>
             <CommentPost {...props} refetchPosts={refetchPosts} />
             <hr />
           </div>
@@ -89,14 +93,7 @@ type props = {
   );
 }
 
-type openType = withModalType & { Content: () => JSX.Element };
 
-function OpenModal(props: openType) {
-  return (
-    <div onClick={() => props.setModal()}>
-      <props.Content />
-    </div>
-  );
-}
+
 
 export default OpenPost;

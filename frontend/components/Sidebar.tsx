@@ -12,12 +12,13 @@ import { useReactiveVar } from "@apollo/client";
 import { userVar } from "@/reactive/user";
 import Loading from "./Loading";
 import { profileImage } from "@/helpers/image";
+import { useLogginedUserdata } from "@/hooks/user";
 
 export function Sidebar() {
   const router = useRouter();
   const [searchBar, setSearchbar] = useState(false);
+  const {data:currLoggedUser}=useLogginedUserdata()
 
-  const currLoggedUser = useReactiveVar(userVar);
   if(!currLoggedUser){return<div><Loading size="40"/> </div>}
   return (
     <div>

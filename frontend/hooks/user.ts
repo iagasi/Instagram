@@ -1,6 +1,6 @@
 import { UserAndPrefferncesType, UserType } from "@/../types/userType";
 import { Query } from "@/__generated__/graphql";
-import { getUserAndPrefferencesGql, userFriendsGql } from "@/gql/user";
+import {  getUserAndPrefferencesGql, userFriendsGql,getPostCommentsAndAuthors } from "@/gql/user";
 import { LStorage } from "@/helpers/user";
 import { userVar, visitedPersonFriendsVar, visitedPersonVar } from "@/reactive/user";
 import { useQuery, useReactiveVar } from "@apollo/client";
@@ -9,8 +9,8 @@ import { useRouter } from "next/router";
 
 export function useLogginedUserdata(){
     const { data: loggedUserData,refetch,loading } = useQuery<Query>(getUserAndPrefferencesGql , {
-        variables: { Id: LStorage.getUser()?.user?._id },
-        skip: !LStorage.getUser()?.user?._id,
+        variables: { Id: LStorage.getUser()?._id },
+        skip: !LStorage.getUser()?._id,
       });
       const loggedData = loggedUserData?.getUserData as UserAndPrefferncesType;
 
@@ -60,3 +60,17 @@ export function usePageFriendsQuery(visitedUserId:string, skip:boolean){
     }
 }
 
+export function useGetPostCommentsAndAuthors(postId:string){
+    const router=useRouter()
+    const RouterId = router.query.id as string;
+
+    const {data, loading,refetch}=useQuery<Query>(getPostCommentsAndAuthors,{
+        variables:{
+            postId:postId},
+            skip:!postId
+        
+    })
+console.log(data);
+
+    return {data ,loading,refetch}
+}

@@ -26,7 +26,7 @@ const router=useRouter()
   if (!visitedUser?.prefferences?.posts) {
     return <div>Loading profileTop</div>;
   }
-  const myProfile = router.query.id ==LStorage.getUser()?.user._id;
+  const myProfile = router.query.id ==LStorage.getUser()?._id;
 console.log(visitedUser?.user);
 
   return (

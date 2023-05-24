@@ -1,25 +1,16 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-
 import { BsThreeDots } from "react-icons/bs";
-
 import UserPreview from "../UserPreview";
 import { UserType } from "@/../types/userType";
-import { postType } from "@/../types/postType";
-import {
-  useQuery,
-  useReactiveVar,
-  useMutation,
-  DocumentNode,
-} from "@apollo/client";
-
-import { gql } from "../../__generated__/gql";
-import { userVar } from "@/reactive/user";
-import { log } from "console";
+import { gql, useQuery,} from "@apollo/client";
 import { LikePost } from "./LikePost";
 import CommentPost from "./CommentPost";
-import { WithModal } from "@/Hoc/WithModal";
 import { postImage } from "@/helpers/image";
+import { useLogginedUserdata } from "@/hooks/user";
+import { useGetPostById } from "@/hooks/post";
+import { Modal } from "../Modal";
+import OpenPost from "./OpenedPost";
 const query = gql(`
 query findUser($id:String){
   findUser(id:$id) {
@@ -27,20 +18,23 @@ query findUser($id:String){
     name
     surname
     image
- 
-    
   }
 }
 `);
 
-export function Post({ cardData }: { cardData: postType | undefined }) {
-
-  const currUser = useReactiveVar(userVar);
-  const { data, refetch } = useQuery(query, {
-    variables: { id: cardData?.userId.toString() },
+export function Post({postId }: { postId: string | undefined }) {
+const {data:currUser}=useLogginedUserdata()
+const {data:cardData,refetch}=useGetPostById(postId)
+  const { data } = useQuery(query, {
+    variables: { id: cardData?.userId.toString(),
+     },
+     skip:!cardData
   });
+  const [modal, setModal] = useState(false);
 
 const postPublisher=data?.findUser as UserType
+console.log(cardData);
+
   return (
     <div className="  pb-4 w-fit  mt-10 border-t-2 ">
       <div className=" flex justify-between ">
@@ -55,10 +49,19 @@ const postPublisher=data?.findUser as UserType
         height={526}
         objectFit="cover"
       />
-      <LikePost postData={cardData} currUser={currUser} />
-      <div className=" space-y-1">
+      <LikePost postData={cardData} currUser={currUser} refetch={refetch} />
+      <div className=" space-y-1"  onClick={() => setModal(!modal)}>
         <CommentPost postData={cardData} currUser={currUser} postPublisher={postPublisher} />
       </div>
+      {modal  && (
+        <Modal modal={modal} setModal={setModal}>
+          <OpenPost
+            postData={cardData}
+            currUser={currUser}
+            postPublisher={postPublisher}
+          />
+        </Modal>
+      )}
     </div>
   );
 }

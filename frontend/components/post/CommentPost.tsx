@@ -31,7 +31,6 @@ function CommentPost({
 }: props) {
   const modaIsOpen = document.querySelector("#modal");
 
-  const [modal, setModal] = useState(false);
 
   const [messageText, setMessageText] = useState("");
   const [loadComments, setLoadComments] = useState(false);
@@ -63,17 +62,9 @@ function CommentPost({
   }
   return (
     <div className=" pr-5">
-      {modal && !modaIsOpen && (
-        <Modal modal={modal} setModal={setModal}>
-          <OpenPost
-            postData={postData}
-            currUser={currUser}
-            postPublisher={postPublisher}
-          />
-        </Modal>
-      )}
+ 
 
-      <div className="cursor-pointer" onClick={() => setModal(!modal)}>
+      <div className="cursor-pointer">
         <PostComments postData={postData} loadCommets={loadComments} />
       </div>
       <input

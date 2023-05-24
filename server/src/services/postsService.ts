@@ -44,6 +44,9 @@ export class postService {
   }
 
   static async likePost(postId: string, personId: string) {
+    console.log(postId);
+    
+    const foundUserPreffetences = await UserService.userPrefferences(personId);
     const targetPost = this.getPostById(postId);
     if (targetPost.userId === personId) {
       throw new PostError("You cannot like yout own Post");
@@ -54,7 +57,12 @@ export class postService {
     } else {
       targetPost.likes.push(personId);
     }
-
+    if (foundUserPreffetences?.saved.includes(postId)) {
+      const index=foundUserPreffetences.saved.indexOf(postId)
+      foundUserPreffetences.saved.splice(index,1)
+    } else {
+      foundUserPreffetences?.saved.push(postId);
+    }
     return targetPost;
   }
 

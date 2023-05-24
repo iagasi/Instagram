@@ -1,6 +1,20 @@
 // import { gql } from "@/__generated__/gql";
 import { gql } from "@apollo/client";
-
+export const getPostCommentsAndAuthors = gql(`
+query getPostCommentsAndAuthors($postId:String){
+  getPostCommentsAndAuthors(postId:$postId) {
+commentMaker {
+  name
+  image
+}
+ comment {
+   message
+   time
+   
+ }
+    
+  }
+}`);
 export const getUserAndPrefferencesGql = gql(`
 query getUserAndPrefferences($Id: String) {
   getUserData(id: $Id) {
@@ -14,6 +28,8 @@ query getUserAndPrefferences($Id: String) {
       followers
       followings
       posts
+      saved
+      tagged
     }
   }
 }
@@ -73,3 +89,4 @@ query GetUserFriends($id:String) {
     }
   }
 }`) 
+

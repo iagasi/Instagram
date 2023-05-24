@@ -1,41 +1,30 @@
-import { userVar } from '@/reactive/user';
-import { useQuery,gql, useReactiveVar } from '@apollo/client'
+import { useQuery, gql, useReactiveVar } from "@apollo/client";
 import { postType } from "@/../types/postType";
-
-import React from 'react'
-import { Post } from './Post';
-import { postVar } from '@/reactive/post';
+import React, { useEffect } from "react";
+import { Post } from "./Post";
+import { LStorage } from "@/helpers/user";
 const query = gql`
-query ($id:String){
- 
-    getFriendsPosts(id:$id) {
+  query ($id: String) {
+    getFriendsPosts(id: $id) {
       _id
-      likes
-      comments
-      userId
-      image
+    
     }
   }
 `;
 function Posts() {
-    const user=useReactiveVar(userVar)
-    const {data}=useQuery(query,{variables: { id: user?.user._id }})
-    postVar()
- 
-const posts:postType[]=data?.getFriendsPosts
-postVar(posts)
-  
+  const { data,refetch } = useQuery(query, {
+    variables: { id: LStorage.getUser()?._id },
+  });
+useEffect(()=>{refetch()},[refetch])
+  const posts: postType[] = data?.getFriendsPosts;
+
   return (
     <div>
-
-
-{
-    posts?.map((post)=>{
-      return  <Post  key={post._id}cardData={post}/>
-    })
-}
+      {posts?.map((post) => {
+        return <Post key={post._id} postId={post._id} />;
+      })}
     </div>
-  )
+  );
 }
 
-export default Posts
+export default Posts;

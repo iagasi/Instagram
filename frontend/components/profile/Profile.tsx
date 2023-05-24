@@ -11,17 +11,20 @@ import { getUserAndPrefferencesGql } from "@/gql/user";
 import { LStorage } from "@/helpers/user";
 import { Query } from "@/__generated__/graphql";
 import { useLogginedUserdata, usePageFriendsQuery, useVisitedPageUser } from "@/hooks/user";
+import { useEffect } from "react";
 
 function Profile() {
 const {data:logginedUser}=useLogginedUserdata()
 userVar(logginedUser)
-const {loading,data}=useVisitedPageUser()
-visitedPersonVar(data)
- const visitedPerson= useReactiveVar(visitedPersonVar)
-
- const {data:profileFriends}=usePageFriendsQuery(data?.user?._id||"1",false)
+const {loading,data:visitedPageData,refetch:refetchPageData}=useVisitedPageUser()
+// visitedPersonVar(data)
+//  const visitedPerson= useReactiveVar(visitedPersonVar)
+useEffect(()=>{
+  refetchPageData()
+},[refetchPageData])
+ const {data:profileFriends}=usePageFriendsQuery(visitedPageData?.user?._id||"1",false)
 visitedPersonFriendsVar(profileFriends)
- if (loading||!visitedPerson) {
+ if (loading||!visitedPageData) {
     return <p className=" text-4xl">Loading</p>;
   } 
   
@@ -30,8 +33,8 @@ visitedPersonFriendsVar(profileFriends)
       <div className=" flex ">
         <Sidebar />
         <div className=" flex-1">
-          <ProfileTop visitedUser={visitedPerson} profileFriends={profileFriends} />
-          {/* <ProfileActions data={visitedUserData} /> */}
+          <ProfileTop visitedUser={visitedPageData} profileFriends={profileFriends} />
+          <ProfileActions data={visitedPageData} />
         </div>
       </div>
     </div>

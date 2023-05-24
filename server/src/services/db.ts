@@ -32,8 +32,8 @@ export const userPrefferences: UserPrefferencesType[] = [
     userId: "1",
     followers: ["2", "145", "3"],
     followings: ["2", ],
-    posts: ["1", "5", "8", "77"],
-    saved: ["4", "55"],
+    posts: ["545", ],
+    saved: ["457", "455"],
     tagged: ["44", "547", "456", "575745"],
   },
 
@@ -63,7 +63,7 @@ export const posts: postType[] = [
     image: "images/1.jpg",
     userId: "2",
     comments: ["5","6","7"],
-    likes: ["5"],
+    likes: ["1"],
   },
 
   {
