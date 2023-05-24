@@ -13,12 +13,13 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    " mutation SubscribeGql($myId:String $candidateId:String){\n  subscribeTo (input:{myId:$myId candidateId:$candidateId }) {\n   user {\n     _id\n   }\n   prefferences {\n     followings\n     followers\n   }\n  }\n  }": types.SubscribeGqlDocument,
     "\n  mutation commentPost($postId:String,$personId:String,$message:String){\n    commentPost(input:{_id:$postId,personId:$personId,message:$message})\n  }\n  ": types.CommentPostDocument,
     "\nmutation LikePost ($postId:String,$personId:String) {\n\n  likePost(input:{postId:$postId,personId:$personId}) {\n  likes\n  userId\n  }\n  }\n  ": types.LikePostDocument,
     "\nquery getPostLikedPersons($id:String){\n \n    getPostLikedPersons(postId:$id) {\n        _id,\n      name,\n      surname,\n      image\n    }\n  }\n": types.GetPostLikedPersonsDocument,
     "\nquery GetCommentPost($postId:String){\n  getPostCommentsAndAuthors(postId:$postId) {\ncommentMaker {\n  name\n  image\n}\n comment {\n   message\n   time\n   \n }\n    \n  }\n}": types.GetCommentPostDocument,
     "\nquery findUser($id:String){\n  findUser(id:$id) {\n       _id\n    name\n    surname\n    image\n \n    \n  }\n}\n": types.FindUserDocument,
-    "\nquery GetUserFriends($id:String) {\n  getUserFriends (id:$id){\n    followers {\n      _id\n      name\n      surname\n      image\n    }\n    followings {\n      _id\n      name\n      surname\n      image\n    }\n  }\n}": types.GetUserFriendsDocument,
+    "\nmutation changeNameSurnameTypeGhl($myId:String $name:String $surname:String){\n  changeNameSurname (input:{myId:$myId name:$name surname:$surname }) {\n  _id\n  name,\n  surname\n  }\n  }\n": types.ChangeNameSurnameTypeGhlDocument,
 };
 
 /**
@@ -35,6 +36,10 @@ const documents = {
  */
 export function gql(source: string): unknown;
 
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: " mutation SubscribeGql($myId:String $candidateId:String){\n  subscribeTo (input:{myId:$myId candidateId:$candidateId }) {\n   user {\n     _id\n   }\n   prefferences {\n     followings\n     followers\n   }\n  }\n  }"): (typeof documents)[" mutation SubscribeGql($myId:String $candidateId:String){\n  subscribeTo (input:{myId:$myId candidateId:$candidateId }) {\n   user {\n     _id\n   }\n   prefferences {\n     followings\n     followers\n   }\n  }\n  }"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -58,7 +63,7 @@ export function gql(source: "\nquery findUser($id:String){\n  findUser(id:$id) {
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\nquery GetUserFriends($id:String) {\n  getUserFriends (id:$id){\n    followers {\n      _id\n      name\n      surname\n      image\n    }\n    followings {\n      _id\n      name\n      surname\n      image\n    }\n  }\n}"): (typeof documents)["\nquery GetUserFriends($id:String) {\n  getUserFriends (id:$id){\n    followers {\n      _id\n      name\n      surname\n      image\n    }\n    followings {\n      _id\n      name\n      surname\n      image\n    }\n  }\n}"];
+export function gql(source: "\nmutation changeNameSurnameTypeGhl($myId:String $name:String $surname:String){\n  changeNameSurname (input:{myId:$myId name:$name surname:$surname }) {\n  _id\n  name,\n  surname\n  }\n  }\n"): (typeof documents)["\nmutation changeNameSurnameTypeGhl($myId:String $name:String $surname:String){\n  changeNameSurname (input:{myId:$myId name:$name surname:$surname }) {\n  _id\n  name,\n  surname\n  }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

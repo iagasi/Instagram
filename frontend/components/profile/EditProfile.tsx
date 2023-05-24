@@ -2,16 +2,30 @@ import { WithModal } from "@/Hoc/WithModal";
 import { withModalType } from "@/types/modalTypes";
 import React from "react";
 import UserPreview from "../UserPreview";
-import { useReactiveVar } from "@apollo/client";
+import { gql, useMutation, useReactiveVar } from "@apollo/client";
 import { userVar } from "@/reactive/user";
 import { Settings } from "./Settings";
 import ChangePhoto from "./ChangePhoto";
 import { useForm,SubmitHandler } from "react-hook-form";
+import { log } from "console";
+import { Mutation } from "@/__generated__/graphql";
+import { useLogginedUserdata } from "@/hooks/user";
 interface IFormInput {
   firstName: string;
   lastName: string;
   age: number;
 }
+
+
+const changeCredentials=gql(`
+mutation changeNameSurnameTypeGhl($myId:String $name:String $surname:String){
+  changeNameSurname (input:{myId:$myId name:$name surname:$surname }) {
+  _id
+  name,
+  surname
+  }
+  }
+`)
 function EditProfileBtn(props: withModalType) {
 
   return (
@@ -28,14 +42,21 @@ function EditProfileBtn(props: withModalType) {
 
 
 function EditProfile(props: Pick<withModalType, "setModal">) {
-  const iAmUser = useReactiveVar(userVar);
+  const {data:logginedUser}=useLogginedUserdata()
   const { register, handleSubmit,formState:{ errors }  } = useForm<IFormInput>();
-  const onSubmit: SubmitHandler<IFormInput> = data => console.log(data);
+  const [mutateFunction, { data}] = useMutation<Mutation>(changeCredentials);
+  const onSubmit: SubmitHandler<IFormInput> = data =>{
+mutateFunction({variables:{
+  myId:logginedUser.user._id,
+  name:data.firstName,
+  surname:data.lastName
+}})    
+  }
   return (
     <div className=" w-[500px] h-[500px]  font-medium">
       <div className="relative w-fit">
-        <UserPreview user={iAmUser?.user} />
-        <ChangePhoto user={iAmUser?.user} />
+        <UserPreview user={logginedUser?.user} />
+        <ChangePhoto user={logginedUser?.user} />
       </div>
       <div className=" text-center mt-8 mb-7 text-xl"> Change your data</div>
       <form action="post" className=" flex flex-col space-y-2 m-auto items-center"
@@ -47,7 +68,7 @@ function EditProfile(props: Pick<withModalType, "setModal">) {
           <input
             className=" border-stone-500 border-[1px] w-3/5"
             type="text   "
-            defaultValue={iAmUser?.user.name}
+            defaultValue={logginedUser?.user.name}
             {...register("firstName", { required: true, maxLength: 20 , })}
           ></input>
        
@@ -62,7 +83,7 @@ function EditProfile(props: Pick<withModalType, "setModal">) {
           <input
             className=" border-stone-500 border-[1px] w-3/5"
             type="text   "
-            defaultValue={iAmUser?.user.surname}
+            defaultValue={logginedUser?.user.surname}
             {...register("lastName", { required: true, maxLength: 20 })}
           ></input>
         </div>
