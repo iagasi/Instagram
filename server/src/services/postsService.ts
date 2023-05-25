@@ -9,14 +9,17 @@ import {
   comments,
   dbComments,
   dbCommentsById,
+  deletePostById,
   getUserById,
   posts,
   userPrefferences,
-  users,
 } from "./db";
 import { CommentDto } from "../../../dto/commentDto";
+import { PostDto } from "../../../dto/postDto";
+
 import { UserType } from "../../../types/userType";
 import { UserService } from "./userService";
+import { fileService } from "./fileService";
 
 export class postService {
   static getFriendsPosts(userId: string) {
@@ -45,7 +48,7 @@ export class postService {
 
   static async likePost(postId: string, personId: string) {
     console.log(postId);
-    
+
     const foundUserPreffetences = await UserService.userPrefferences(personId);
     const targetPost = this.getPostById(postId);
     if (targetPost.userId === personId) {
@@ -58,8 +61,8 @@ export class postService {
       targetPost.likes.push(personId);
     }
     if (foundUserPreffetences?.saved.includes(postId)) {
-      const index=foundUserPreffetences.saved.indexOf(postId)
-      foundUserPreffetences.saved.splice(index,1)
+      const index = foundUserPreffetences.saved.indexOf(postId);
+      foundUserPreffetences.saved.splice(index, 1);
     } else {
       foundUserPreffetences?.saved.push(postId);
     }
@@ -120,5 +123,52 @@ export class postService {
       }
     }
     return users;
+  }
+
+  static async uploadPostImage(
+    userId: string,
+    file: Express.Multer.File | undefined
+  ) {
+    const userPrefferences = await UserService.userPrefferences(userId);
+    if (!userPrefferences) {
+      return;
+    }
+    if (!file) {
+      return;
+    }
+    try {
+      const filename = fileService.uploadFile(userId, "images", file);
+      if (filename) {
+        const post = new PostDto(userId, filename);
+
+        userPrefferences.posts.push(post._id);
+        console.log(userPrefferences);
+
+        postService.addPost(post);
+        return "ok";
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  static async deletePost(postId: string) {
+    const post = postService.getPostById(postId);
+    const userPrefferences = await UserService.userPrefferences(post.userId);
+    if (userPrefferences) {
+      const filteredPrefferences = userPrefferences?.posts.filter(
+        (id) => id !== postId
+      );
+      userPrefferences.posts = filteredPrefferences;
+
+      deletePostById(postId);
+      return "ok";
+    } else {
+      return;
+    }
+  }
+
+  static addPost(post: postType) {
+    posts.push(post);
   }
 }

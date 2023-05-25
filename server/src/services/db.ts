@@ -183,3 +183,9 @@ export const dbCommentsById = (id: string): Promise<commentType|undefined> => {
     res(comments.find((c) => c._id == id));
   });
 };
+
+
+export function deletePostById(postId:string){
+  const postIndex=posts.findIndex((post=>post._id==postId))
+  posts.splice(postIndex,1)
+  }
