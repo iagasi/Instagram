@@ -36,7 +36,7 @@ export function ProfileActions({ data }: { data: UserAndPrefferncesType }) {
           </p>
         </div>
       </div>
-      <div className=" pt-10 grid grid-cols-3 gap-1 w-fit m-auto">
+      <div className=" pt-10 grid grid-cols-3 gap-1 w-fit m-auto max-lg:grid-cols-2 max-md:grid-cols-1 ">
         {checked == 0 &&
           data &&
           data.prefferences.posts.map((postId) => (

@@ -7,13 +7,21 @@ import {
   userFriendsGql,
 } from "@/gql/user";
 import { LStorage } from "@/helpers/user";
-import { userVar, visitedPersonFriendsVar, visitedPersonVar } from "@/reactive/user";
+import {
+  userVar,
+  visitedPersonFriendsVar,
+  visitedPersonVar,
+} from "@/reactive/user";
 import { useMutation, useQuery, useReactiveVar } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { Settings } from "./profile/Settings";
 import { Modal } from "./Modal";
 import UserPreview from "./UserPreview";
-import { useLogginedUserdata, usePageFriendsQuery, useVisitedPageUser } from "@/hooks/user";
+import {
+  useLogginedUserdata,
+  usePageFriendsQuery,
+  useVisitedPageUser,
+} from "@/hooks/user";
 
 function UnsubscribeBtnHandler({
   deletingUser,
@@ -25,24 +33,22 @@ function UnsubscribeBtnHandler({
   buttonName: "Delete" | "Unsubscribe";
 }) {
   const [modal, setModal] = useState(false);
-  const loggedUser = useReactiveVar(userVar);
   let DeleteTypeGql =
     buttonName === "Delete" ? DeleteFollowerGql : DeleteFollowingGql;
-  const profileOwner = useReactiveVar(visitedPersonVar);
-
-  const [mutateFunction, { data}] = useMutation<Mutation>(DeleteTypeGql);
-  const { refetch: refetchFriends,data:pageFriends } = usePageFriendsQuery(profileOwner?.user?._id||"" ,true);
-  const {data:logginedUser,refetch}=useLogginedUserdata()
-
+  const [mutateFunction, { data }] = useMutation<Mutation>(DeleteTypeGql);
+  const { data: loggedUser, refetch } = useLogginedUserdata();
+  const { data: visitedPage, refetch: visitedPageRefetch } = useVisitedPageUser();
+  const { data: profileFriends, refetch: pageFriendRefetch } =
+    usePageFriendsQuery(visitedPage?.user?._id, false);
 
   useEffect(() => {
-    
-   refetch()
- refetchFriends();
-  }, [data, refetchFriends,pageFriends,refetch ]);
+    pageFriendRefetch();
+    visitedPageRefetch();
+    refetch();
+  }, [data, pageFriendRefetch, refetch, visitedPageRefetch]);
   function friendsHandler() {
     if (!loggedUser) {
-    console.log( <>NoLoggedUser</>)
+      console.log(<>NoLoggedUser</>);
     }
     mutateFunction({
       variables: {

@@ -56,6 +56,7 @@ export const userResolvers = {
       parrent: any,
       args: FriendsHandlerType
     ): Promise<UserAndPrefferncesType | null> {
+      return null
       return await UserService.deleteFollower(
         args.input.myId,
         args.input.candidateId

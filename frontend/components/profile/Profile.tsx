@@ -23,7 +23,7 @@ useEffect(()=>{
   refetchPageData()
 },[refetchPageData])
  const {data:profileFriends}=usePageFriendsQuery(visitedPageData?.user?._id||"1",false)
-visitedPersonFriendsVar(profileFriends)
+//visitedPersonFriendsVar(profileFriends)
  if (loading||!visitedPageData) {
     return <p className=" text-4xl">Loading</p>;
   } 

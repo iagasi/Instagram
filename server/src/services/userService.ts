@@ -37,8 +37,6 @@ export class UserService {
   }
 
   static async getUserFriends(id: string) {
-    console.log("getUserPageFriends");
-
     const user = await this.userPrefferences(id);
     const res: any = {
       followers: [],
@@ -54,40 +52,53 @@ export class UserService {
     return res;
   }
 
-  static async deleteFollower(
+  static async deleteFollowing(
+
     myId: string,
     candidateId: string
   ): Promise<UserAndPrefferncesType | null> {
+    console.log("here");
+    
     const iAmUser = await this.getSingleUser(myId);
+    console.log(myId);
+    
     if (iAmUser) {
       const userConfig = userPrefferences.find(
-        (config) => config.userId === iAmUser._id
+        (config) => config.userId === myId
       );
-
-      if (userConfig) {
-        userConfig.followers = userConfig.followers.filter(
+      const unfollowMeFromConfig = userPrefferences.find(
+        (config) => config.userId === candidateId
+      );
+      if (userConfig&&unfollowMeFromConfig) {
+        userConfig.followings = userConfig.followings.filter(
           (id) => id !== candidateId
         );
-        console.log(candidateId);
+        unfollowMeFromConfig.followers = unfollowMeFromConfig.followers.filter(
+          (id) => id !==myId
+        );
 
-        console.log(userConfig.followers);
         return new UserAndPrefferencesDto(iAmUser, userConfig);
       }
     }
     return null;
   }
 
-  static async deleteFollowing(
+  static async deleteFollower(
     myId: string,
     candidateId: string
   ): Promise<UserAndPrefferncesType | null> {
     const iAmUser = await this.getSingleUser(myId);
     const candidate = await this.getSingleUser(candidateId);
+    console.log("Here myst not be");
+    
     if (iAmUser) {
       const userConfig = userPrefferences.find(
         (config) => config.userId === iAmUser._id
+        
       );
-
+      const unfollowFromMeConfig = userPrefferences.find(
+        (config) => config.userId === candidateId
+      );
       if (userConfig && candidate) {
         userConfig.followings = userConfig.followings.filter(
           (id) => id !== candidateId
@@ -105,18 +116,22 @@ export class UserService {
     candidateId: string
   ): Promise<UserAndPrefferncesType | null> {
     const iAmUser = await this.getSingleUser(myId);
-
+const subscribeTo=await this.getSingleUser(candidateId)
     console.log("subscribe");
 
-    if (iAmUser) {
+    if (iAmUser&&subscribeTo) {
       const userConfig = userPrefferences.find(
         (config) => config.userId === iAmUser._id
       );
-
+const subscribeToConfig=userPrefferences.find(
+  (config) => config.userId === subscribeTo._id
+);
       if (userConfig) {
         if (userConfig.followings.includes(candidateId))
           throw new Error("Yoy alredy subscribed");
         userConfig.followings.push(candidateId);
+        subscribeToConfig?.followers.push(myId);
+
         return new UserAndPrefferencesDto(iAmUser, userConfig);
       }
     }

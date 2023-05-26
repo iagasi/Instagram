@@ -12,6 +12,7 @@ import OpenPost from "../post/OpenedPost";
 import { Modal } from "../Modal";
 
 function ProfilePost({ postId }: { postId: string }) {
+    const[hov,setHov]=useState(false)
   const [modal, setModal] = useState(false);
   const { data } = useQuery<Query>($gePostByIdGql, {
     variables: {
@@ -23,12 +24,17 @@ function ProfilePost({ postId }: { postId: string }) {
   const postData = data?.getPostById as postType;
 
   return (
-    <div className=" bg-slate-500 h-52 w-52" onClick={()=>setModal(!modal)}>
+    <div className=" relative h-52 w-52 cursor-pointer"
+     onClick={()=>setModal(!modal)}
+      onMouseOver={()=>setHov(true)}
+      onMouseLeave={()=>setHov(false)}>
+        {hov&&<div className=" fixed top-0 left-0   w-[100px] h-[100px] bg-slate-500 flex justify-center items-center "><button className="delete-btn bg-slate-50 h-fit w-fit p-1 rounded-sm ">Delete</button></div>}
       <Image
         src={postImage(postData?.image)}
         alt="uploaded post "
         width={500}
         height={500}
+        objectFit="cover"
       />
       {modal && (
         <Modal modal={modal} setModal={()=>setModal(!modal)}>
