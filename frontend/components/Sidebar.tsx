@@ -13,10 +13,12 @@ import { userVar } from "@/reactive/user";
 import Loading from "./Loading";
 import { profileImage } from "@/helpers/image";
 import { useLogginedUserdata } from "@/hooks/user";
+import SidebarCreate from "./SidebarCreate";
 
 export function Sidebar() {
   const router = useRouter();
   const [searchBar, setSearchbar] = useState(false);
+  const [create,setCreate]=useState(false)
   const {data:currLoggedUser}=useLogginedUserdata()
 
   if(!currLoggedUser){return<div><Loading size="40"/> </div>}
@@ -77,11 +79,7 @@ export function Sidebar() {
               <div className="sidebar__active"></div>
             )}
           </div>
-          <div className="sidebar-elem">
-            <AiOutlinePlusCircle />
-
-            <span className=" text-lg">Create</span>
-          </div>
+        <SidebarCreate/>
           <div
             className="relative  sidebar-elem"
             onClick={() => router.push("/profile/1")}

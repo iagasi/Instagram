@@ -19,7 +19,7 @@ function SharePosts(props: withModalType) {
     </div>
   );
 }
-function SharePostsModalData(props:withModalType) {
+ export function SharePostsModalData(props:withModalType) {
   const [loading, setLoading] = useState(false);
   const { data: user, refetch } = useLogginedUserdata();
   const uploadHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,9 +40,10 @@ function SharePostsModalData(props:withModalType) {
     }
   };
   return (
-    <div className=" flex items-center justify-center h-full ">
-      
-      <label className=" bg-blue-500 rounded-md p-2 cursor-pointer">
+    <div className=" flex flex-col  items-center justify-center h-full bg-white p-10 rounded-md   ">
+              <div className='  pb-20'> You can Upload images From your PC</div>
+
+      <label className=" bg-blue-400 hover:bg-blue-500 text-white rounded-md p-2 cursor-pointer">
         {
           loading?
           <div className="flex flex-col justify-center "><h1>Uploading...</h1><Loading size="40"/></div>
