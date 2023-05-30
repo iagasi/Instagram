@@ -33,8 +33,7 @@ function OpenOptions(props: propsType) {
     }
     const formData = new FormData();
     formData.append("File", selectedFile);
-    console.log(selectedFile);
-    console.log(props);
+
 
     await axios.put(PROFILE_IMAGE_UPLOAD + "/" + props.user._id, formData);
     props.setModal()

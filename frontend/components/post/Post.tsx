@@ -33,7 +33,6 @@ const {data:cardData,refetch}=useGetPostById(postId)
   const [modal, setModal] = useState(false);
 
 const postPublisher=data?.findUser as UserType
-console.log(cardData);
 
   return (
     <div className="  pb-4 w-fit  mt-10 border-t-2 ">

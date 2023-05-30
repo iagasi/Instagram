@@ -92,7 +92,7 @@ export const posts: postType[] = [
     image: "",
     userId: "1",
     comments: ["3", "1"],
-    likes: ["2"],
+    likes: ["2",],
   },
 
   {

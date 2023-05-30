@@ -130,10 +130,11 @@ input:focus {
 
   .sidebar__active {
     position: absolute;
-    background-color: rgb(102, 102, 255);
-    height: 2px;
-    width: 50%;
+    background-color: rgb(77, 77, 244);
+    height: 1px;
+    width: 70%;
     bottom: -10px;
+    
   }
 
   .vw90 {

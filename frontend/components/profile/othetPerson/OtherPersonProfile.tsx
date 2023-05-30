@@ -20,7 +20,6 @@ export function OtherPersonProfile({ profileOwner }: propsType) {
   const onlyHeFollowsMe =
     loggedData?.prefferences.followers.includes(visitedPage?.user?._id!) &&
     !loggedData?.prefferences.followings.includes(visitedPage?.user?._id!);
-console.log(onlyHeFollowsMe);
 
   if (onlyHeFollowsMe) {
     return (

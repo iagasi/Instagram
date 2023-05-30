@@ -27,7 +27,6 @@ const router=useRouter()
     return <div>Loading profileTop</div>;
   }
   const myProfile = router.query.id ==LStorage.getUser()?._id;
-console.log(visitedUser?.user);
 
   return (
     <div className=" flex mx-auto space-x-20 pb-8 pt-8  w-fit">

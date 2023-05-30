@@ -19,7 +19,6 @@ export function Main() {
     variables: { Id: LStorage.getUser()?._id  },
   });
   useEffect(()=>{refetch()},[refetch])
-  console.log(data?.getUserData);
   
   
   const userData = data?.getUserData as UserAndPrefferncesType;

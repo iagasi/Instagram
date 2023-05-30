@@ -14,11 +14,14 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     " mutation SubscribeGql($myId:String $candidateId:String){\n  subscribeTo (input:{myId:$myId candidateId:$candidateId }) {\n   user {\n     _id\n   }\n   prefferences {\n     followings\n     followers\n   }\n  }\n  }": types.SubscribeGqlDocument,
+    "\nmutation DeleteChat($input: deleteChatInput) {\n    deleteChat(input: $input) \n  }\n\n": types.DeleteChatDocument,
+    "\nmutation createChat($input: CreateChatInput) {\n    createChat(input: $input) {\n    _id\n   users\n    }\n  }": types.CreateChatDocument,
+    "\nmutation sendMessage($input: MessageInput) {\n  sendMessage(input: $input) {\n    message\n    timeStamp\n    userId\n  }\n}\n": types.SendMessageDocument,
     "\n  mutation commentPost($postId:String,$personId:String,$message:String){\n    commentPost(input:{_id:$postId,personId:$personId,message:$message})\n  }\n  ": types.CommentPostDocument,
     "\nmutation LikePost ($postId:String,$personId:String) {\n\n  likePost(input:{postId:$postId,personId:$personId}) {\n  likes\n  userId\n  }\n  }\n  ": types.LikePostDocument,
     "\nquery getPostLikedPersons($id:String){\n \n    getPostLikedPersons(postId:$id) {\n        _id,\n      name,\n      surname,\n      image\n    }\n  }\n": types.GetPostLikedPersonsDocument,
     "\nquery GetCommentPost($postId:String){\n  getPostCommentsAndAuthors(postId:$postId) {\ncommentMaker {\n  name\n  image\n}\n comment {\n   message\n   time\n   \n }\n    \n  }\n}": types.GetCommentPostDocument,
-    "\nquery findUser($id:String){\n  findUser(id:$id) {\n       _id\n    name\n    surname\n    image\n \n    \n  }\n}\n": types.FindUserDocument,
+    "\nquery findUser($id:String){\n  findUser(id:$id) {\n       _id\n    name\n    surname\n    image\n  }\n}\n": types.FindUserDocument,
     "\nmutation changeNameSurnameTypeGhl($myId:String $name:String $surname:String){\n  changeNameSurname (input:{myId:$myId name:$name surname:$surname }) {\n  _id\n  name,\n  surname\n  }\n  }\n": types.ChangeNameSurnameTypeGhlDocument,
 };
 
@@ -43,6 +46,18 @@ export function gql(source: " mutation SubscribeGql($myId:String $candidateId:St
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function gql(source: "\nmutation DeleteChat($input: deleteChatInput) {\n    deleteChat(input: $input) \n  }\n\n"): (typeof documents)["\nmutation DeleteChat($input: deleteChatInput) {\n    deleteChat(input: $input) \n  }\n\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\nmutation createChat($input: CreateChatInput) {\n    createChat(input: $input) {\n    _id\n   users\n    }\n  }"): (typeof documents)["\nmutation createChat($input: CreateChatInput) {\n    createChat(input: $input) {\n    _id\n   users\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\nmutation sendMessage($input: MessageInput) {\n  sendMessage(input: $input) {\n    message\n    timeStamp\n    userId\n  }\n}\n"): (typeof documents)["\nmutation sendMessage($input: MessageInput) {\n  sendMessage(input: $input) {\n    message\n    timeStamp\n    userId\n  }\n}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function gql(source: "\n  mutation commentPost($postId:String,$personId:String,$message:String){\n    commentPost(input:{_id:$postId,personId:$personId,message:$message})\n  }\n  "): (typeof documents)["\n  mutation commentPost($postId:String,$personId:String,$message:String){\n    commentPost(input:{_id:$postId,personId:$personId,message:$message})\n  }\n  "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -59,7 +74,7 @@ export function gql(source: "\nquery GetCommentPost($postId:String){\n  getPostC
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\nquery findUser($id:String){\n  findUser(id:$id) {\n       _id\n    name\n    surname\n    image\n \n    \n  }\n}\n"): (typeof documents)["\nquery findUser($id:String){\n  findUser(id:$id) {\n       _id\n    name\n    surname\n    image\n \n    \n  }\n}\n"];
+export function gql(source: "\nquery findUser($id:String){\n  findUser(id:$id) {\n       _id\n    name\n    surname\n    image\n  }\n}\n"): (typeof documents)["\nquery findUser($id:String){\n  findUser(id:$id) {\n       _id\n    name\n    surname\n    image\n  }\n}\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

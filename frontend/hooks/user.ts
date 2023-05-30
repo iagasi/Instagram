@@ -70,7 +70,7 @@ export function useGetPostCommentsAndAuthors(postId:string){
             skip:!postId
         
     })
-console.log(data);
+
 
     return {data ,loading,refetch}
 }

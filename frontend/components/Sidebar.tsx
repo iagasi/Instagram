@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineHome, AiOutlineCompass } from "react-icons/ai";
-import { BsSearch } from "react-icons/bs";
+import { BsMessenger, BsSearch } from "react-icons/bs";
 import { AiOutlineHeart, AiOutlinePlusCircle } from "react-icons/ai";
 import { RxAvatar, RxHamburgerMenu } from "react-icons/rx";
 import Image from "next/image";
@@ -14,6 +14,7 @@ import Loading from "./Loading";
 import { profileImage } from "@/helpers/image";
 import { useLogginedUserdata } from "@/hooks/user";
 import SidebarCreate from "./SidebarCreate";
+import MessengerOpenBtn from "./messenger/MessengerOpenBtn";
 
 export function Sidebar() {
   const router = useRouter();
@@ -80,6 +81,8 @@ export function Sidebar() {
             )}
           </div>
         <SidebarCreate/>
+<MessengerOpenBtn />
+       
           <div
             className="relative  sidebar-elem"
             onClick={() => router.push("/profile/1")}

@@ -15,6 +15,8 @@ export class UserService {
         res.push(candidate);
       }
     }
+   
+    
     return res;
   }
   static async getSingleUser(userId: string) {

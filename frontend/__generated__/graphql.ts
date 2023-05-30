@@ -14,19 +14,56 @@ export type Scalars = {
   Float: number;
 };
 
+export type CreateChatInput = {
+  user1Id?: InputMaybe<Scalars['String']>;
+  user2Id?: InputMaybe<Scalars['String']>;
+};
+
+export type CreateChatType = {
+  __typename?: 'CreateChatType';
+  _id?: Maybe<Scalars['String']>;
+  users?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
 export type FriendsHandlerType = {
   candidateId?: InputMaybe<Scalars['String']>;
   myId?: InputMaybe<Scalars['String']>;
+};
+
+export type GetChatsType = {
+  __typename?: 'GetChatsType';
+  chat?: Maybe<ChatType>;
+  chatWithInfo?: Maybe<UserType>;
+};
+
+export type MessagaeType = {
+  __typename?: 'MessagaeType';
+  _id?: Maybe<Scalars['String']>;
+  chatId?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  timeStamp?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+export type MessageInput = {
+  chatId?: InputMaybe<Scalars['String']>;
+  message?: InputMaybe<Scalars['String']>;
+  timeStamp?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   changeNameSurname?: Maybe<User>;
   commentPost?: Maybe<Scalars['String']>;
+  createChat?: Maybe<CreateChatType>;
+  deleteChat?: Maybe<Scalars['String']>;
   deleteFollower?: Maybe<PrefferencesType>;
   deleteFollowing?: Maybe<PrefferencesType>;
   likePost?: Maybe<PostType>;
+  sendMessage?: Maybe<MessagaeType>;
   subscribeTo?: Maybe<PrefferencesType>;
+  unreadMessageSet?: Maybe<Scalars['String']>;
 };
 
 
@@ -37,6 +74,16 @@ export type MutationChangeNameSurnameArgs = {
 
 export type MutationCommentPostArgs = {
   input?: InputMaybe<CommentPostInput>;
+};
+
+
+export type MutationCreateChatArgs = {
+  input?: InputMaybe<CreateChatInput>;
+};
+
+
+export type MutationDeleteChatArgs = {
+  input?: InputMaybe<DeleteChatInput>;
 };
 
 
@@ -55,8 +102,18 @@ export type MutationLikePostArgs = {
 };
 
 
+export type MutationSendMessageArgs = {
+  input?: InputMaybe<MessageInput>;
+};
+
+
 export type MutationSubscribeToArgs = {
   input?: InputMaybe<FriendsHandlerType>;
+};
+
+
+export type MutationUnreadMessageSetArgs = {
+  input?: InputMaybe<UnreadMessageInput>;
 };
 
 export type PrefferencesType = {
@@ -69,13 +126,16 @@ export type Query = {
   __typename?: 'Query';
   findByNameSurname?: Maybe<Array<Maybe<User>>>;
   findUser?: Maybe<User>;
+  getChats?: Maybe<Array<Maybe<GetChatsType>>>;
   getFriendsPosts?: Maybe<Array<Maybe<PostType>>>;
+  getMessages?: Maybe<Array<Maybe<MessageType>>>;
   getPostById?: Maybe<PostType>;
   getPostCommentsAndAuthors?: Maybe<Array<Maybe<UserCommetType>>>;
   getPostLikedPersons?: Maybe<Array<Maybe<UserType>>>;
   getUserData?: Maybe<PrefferencesType>;
   getUserFriends?: Maybe<UserFriendsType>;
   getUserPrefferences?: Maybe<Array<Maybe<UserPrefferencesType>>>;
+  unreadMessagesGet?: Maybe<Array<Maybe<UnreadMessageType>>>;
 };
 
 
@@ -89,8 +149,18 @@ export type QueryFindUserArgs = {
 };
 
 
+export type QueryGetChatsArgs = {
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+
 export type QueryGetFriendsPostsArgs = {
   id?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryGetMessagesArgs = {
+  chatId?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -121,6 +191,27 @@ export type QueryGetUserFriendsArgs = {
 
 export type QueryGetUserPrefferencesArgs = {
   id?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryUnreadMessagesGetArgs = {
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  listenMessages?: Maybe<MessagaeType>;
+  receiveMessage?: Maybe<MessagaeType>;
+};
+
+
+export type SubscriptionListenMessagesArgs = {
+  input?: InputMaybe<InputReceiveMessage>;
+};
+
+
+export type SubscriptionReceiveMessageArgs = {
+  input?: InputMaybe<InputReceiveMessage>;
 };
 
 export type User = {
@@ -168,6 +259,12 @@ export type ChangeNameSurnameType = {
   surname?: InputMaybe<Scalars['String']>;
 };
 
+export type ChatType = {
+  __typename?: 'chatType';
+  _id?: Maybe<Scalars['String']>;
+  users?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
 export type CommentPostInput = {
   _id?: InputMaybe<Scalars['String']>;
   message?: InputMaybe<Scalars['String']>;
@@ -184,9 +281,31 @@ export type CommentType = {
   time?: Maybe<Scalars['String']>;
 };
 
+export type DeleteChatInput = {
+  chatId?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+export type InputReceiveMessage = {
+  _id?: InputMaybe<Scalars['String']>;
+  chatId?: InputMaybe<Scalars['String']>;
+  message?: InputMaybe<Scalars['String']>;
+  timeStamp?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
+};
+
 export type LikePostInput = {
   personId?: InputMaybe<Scalars['String']>;
   postId?: InputMaybe<Scalars['String']>;
+};
+
+export type MessageType = {
+  __typename?: 'messageType';
+  _id?: Maybe<Scalars['String']>;
+  chatId?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  timeStamp?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
 };
 
 export type PostType = {
@@ -198,6 +317,18 @@ export type PostType = {
   userId?: Maybe<Scalars['String']>;
 };
 
+export type UnreadMessageInput = {
+  chatId?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+export type UnreadMessageType = {
+  __typename?: 'unreadMessageType';
+  _id?: Maybe<Scalars['String']>;
+  chatId?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
 export type SubscribeGqlMutationVariables = Exact<{
   myId?: InputMaybe<Scalars['String']>;
   candidateId?: InputMaybe<Scalars['String']>;
@@ -205,6 +336,27 @@ export type SubscribeGqlMutationVariables = Exact<{
 
 
 export type SubscribeGqlMutation = { __typename?: 'Mutation', subscribeTo?: { __typename?: 'PrefferencesType', user: { __typename?: 'User', _id?: string | null }, prefferences?: { __typename?: 'UserPrefferencesType', followings?: Array<string | null> | null, followers?: Array<string | null> | null } | null } | null };
+
+export type DeleteChatMutationVariables = Exact<{
+  input?: InputMaybe<DeleteChatInput>;
+}>;
+
+
+export type DeleteChatMutation = { __typename?: 'Mutation', deleteChat?: string | null };
+
+export type CreateChatMutationVariables = Exact<{
+  input?: InputMaybe<CreateChatInput>;
+}>;
+
+
+export type CreateChatMutation = { __typename?: 'Mutation', createChat?: { __typename?: 'CreateChatType', _id?: string | null, users?: Array<string | null> | null } | null };
+
+export type SendMessageMutationVariables = Exact<{
+  input?: InputMaybe<MessageInput>;
+}>;
+
+
+export type SendMessageMutation = { __typename?: 'Mutation', sendMessage?: { __typename?: 'MessagaeType', message?: string | null, timeStamp?: string | null, userId?: string | null } | null };
 
 export type CommentPostMutationVariables = Exact<{
   postId?: InputMaybe<Scalars['String']>;
@@ -255,6 +407,9 @@ export type ChangeNameSurnameTypeGhlMutation = { __typename?: 'Mutation', change
 
 
 export const SubscribeGqlDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SubscribeGql"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"myId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"candidateId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"subscribeTo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"myId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"myId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"candidateId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"candidateId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"prefferences"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"followings"}},{"kind":"Field","name":{"kind":"Name","value":"followers"}}]}}]}}]}}]} as unknown as DocumentNode<SubscribeGqlMutation, SubscribeGqlMutationVariables>;
+export const DeleteChatDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteChat"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"deleteChatInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteChat"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<DeleteChatMutation, DeleteChatMutationVariables>;
+export const CreateChatDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createChat"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateChatInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createChat"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"users"}}]}}]}}]} as unknown as DocumentNode<CreateChatMutation, CreateChatMutationVariables>;
+export const SendMessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"sendMessage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"MessageInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sendMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"timeStamp"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}}]}}]}}]} as unknown as DocumentNode<SendMessageMutation, SendMessageMutationVariables>;
 export const CommentPostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"commentPost"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"postId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"personId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"message"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commentPost"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"postId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"personId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"personId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"message"},"value":{"kind":"Variable","name":{"kind":"Name","value":"message"}}}]}}]}]}}]} as unknown as DocumentNode<CommentPostMutation, CommentPostMutationVariables>;
 export const LikePostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LikePost"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"postId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"personId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"likePost"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"postId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"postId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"personId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"personId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"likes"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}}]}}]}}]} as unknown as DocumentNode<LikePostMutation, LikePostMutationVariables>;
 export const GetPostLikedPersonsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getPostLikedPersons"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getPostLikedPersons"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"postId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"surname"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}}]}}]} as unknown as DocumentNode<GetPostLikedPersonsQuery, GetPostLikedPersonsQueryVariables>;

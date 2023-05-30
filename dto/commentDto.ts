@@ -1,4 +1,6 @@
-export class CommentDto{
+
+
+export class CommentDto {
     userId:string
     message:string
     time:number

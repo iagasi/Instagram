@@ -6,12 +6,17 @@ import React from "react";
 
 type propsType = {
   user: UserType|undefined|null ;
+  dissabled?:boolean
 };
-function UserPreview({ user }: propsType) {
+function UserPreview({ user ,dissabled }: propsType) {
   const router=useRouter()
+  function routeHandler(){
+   !dissabled&& router.push(`/profile/${user?._id}`)
+  }
   return (
     <div className=" flex space-x-5 p-4  cursor-pointer h-fit  "
-    onClick={()=>router.push(`/profile/${user?._id}`)}
+  onClick={routeHandler}
+   
     >
       <Image
         className=" rounded-full self-center"
