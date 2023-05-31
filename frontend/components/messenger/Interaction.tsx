@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import UserPreview from "../UserPreview";
 import { useLogginedUserdata } from "@/hooks/user";
 import { IoMdCall } from "react-icons/io";
@@ -12,7 +12,14 @@ import { useGetChats } from "@/hooks/chat";
 
 function Interaction() {
     const chatId=useReactiveVar(chatIdVar)
+const scrollRef=useRef(null)
 
+
+useEffect(() => {
+  console.log(666666);
+  
+  
+},[chatId]);
     const {data,loading} = useLogginedUserdata()
     const {data:chats}=useGetChats(data?.user?._id)
      const communicateWith=chats?.find(i=>i.chat._id===chatId)?.chatWithInfo
@@ -33,11 +40,11 @@ function Interaction() {
           <BsFillCameraVideoFill />
         </div>
       </div>
-      <div className=" flex-1 bg-slate-100 overflow-y-scroll" onClick={() => showEmojiVar(false)}>
+      <div ref={scrollRef} className=" flex-1 bg-slate-100 overflow-y-scroll" onClick={() => showEmojiVar(false)}>
         <MessagesList />
       </div>
 
-      <MessageInput />
+      <MessageInput  scrollElem={scrollRef}/>
     </div>
   );
 }

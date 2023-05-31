@@ -15,7 +15,10 @@ mutation DeleteChat($input: deleteChatInput) {
   }
 
 `);
-
+const unreadMessagesDeleteGql=gql(`
+mutation UnreadChatMessagesDelete($input: deleteUnreadType) {
+  unreadChatMessagesDelete(input: $input)
+}`)
 function Chats({
   logginedUser,
   chats: initialChats,
@@ -24,14 +27,26 @@ function Chats({
   chats: chatsAndFriendsType[];
 }) {
   const unreadData=useUnreadMessagesGet(logginedUser._id)
+  const [mutateFunctionDeleteUnread, { data:deleteStatus }] = useMutation<Mutation>(unreadMessagesDeleteGql);
 
   const [chats, setChats] = useState(initialChats);
   const [showDel, setShowDel] = useState<string | null>(null);
   const [deleteFn, { data }] = useMutation<Mutation>(deleteChatGql);
-  const [unreadMessags,setUnreadMessages]=useState<number|null>(null)
   useEffect(() => {
     setChats(initialChats);
   }, [initialChats]);
+useEffect(()=>{
+unreadData.refetch()
+},[deleteStatus, unreadData])
+function deleteUnreadMessages(chatId:string){
+  mutateFunctionDeleteUnread({
+    variables:{
+      input:{
+        chatId
+      }
+    }
+  })
+}
   function loadChats(
     e: React.SyntheticEvent,
     chatId: string,
@@ -39,6 +54,7 @@ function Chats({
   ) {
     chatIdVar(chatId);
     iAmMessagingWithVar(chat.chatWithInfo);
+    deleteUnreadMessages(chatId)
   }
 
   useEffect(() => {
@@ -58,8 +74,7 @@ function Chats({
       },
     });
   }
-  {console.log(chats);
-  }
+  
   return (
     <div
       className=" pl-4 pt-10 pr-3 border-r-2  w-1/3"

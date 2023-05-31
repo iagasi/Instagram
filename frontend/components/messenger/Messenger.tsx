@@ -11,7 +11,6 @@ import { Sidebar } from "../Sidebar";
 function Messenger() {
   const { data, loading } = useLogginedUserdata();
   const { data: chats, refetch: refetchChats } = useGetChats(data?.user?._id);
-  console.log(data);
   
   useEffect(() => {
     refetchChats();

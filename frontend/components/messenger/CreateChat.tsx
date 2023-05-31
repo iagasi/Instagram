@@ -14,14 +14,17 @@ mutation createChat($input: CreateChatInput) {
    users
     }
   }`);
+
+
 function CreateChat(props: { user: UserType }) {
   const [mutateFunction, { data }] = useMutation<Mutation>(createChat);
+
   const { data: loggineUserData, loading } = useLogginedUserdata();
   const { data: chats, refetch: refetchChats } = useGetChats(
     loggineUserData.user._id
   );
   const chatExist = chats.find(
-    (chat) => chat.chatWithInfo._id == props.user._id
+    (chat) => chat.chatWithInfo?._id == props.user._id
   );
 
   useEffect(() => {

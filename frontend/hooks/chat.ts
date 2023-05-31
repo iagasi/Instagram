@@ -1,6 +1,7 @@
 import { chatsAndFriendsType, messageType, unreadMessageType } from "@/../types/chatType";
 import { Query } from "@/__generated__/graphql";
 import { gql, useQuery, useSubscription } from "@apollo/client";
+import { log } from "console";
 const chatGql=gql(`
 query GETCHATS($userId:String){
     getChats(userId:$userId){
@@ -64,7 +65,7 @@ export function useGetMessages(chatId:string|null){
         listenChatMessagesGql,
         { variables: { input:{chatId} }}
       );
-      const data=res.data
+      const data:messageType=res?.data?.receiveMessage 
      return {data}
     }
   const unreadMessagesGetGql=gql(`
@@ -78,9 +79,32 @@ export function useGetMessages(chatId:string|null){
   `)  
 
     export function useUnreadMessagesGet(userId:string){
-const {data,refetch}=useQuery<Query>(unreadMessagesGetGql,{
+const {data,refetch,subscribeToMore}=useQuery<Query>(unreadMessagesGetGql,{
   variables:{userId}
 })
 const res=data?.unreadMessagesGet as unreadMessageType[]|undefined
-return {data:res,refetch}
+return {data:res,refetch,subscribeToMore}
+    }
+
+
+
+
+   export const subscribeUnreadMessages=gql(`
+    subscription receiveMessage($input: inputReceiveMessage){
+      listenMessages(input: $input) {
+        _id
+        chatId
+        userId
+      }
+    }
+    `)
+
+
+    export function useSubscribeUnreadMessages(userId:string){
+const {data}=useSubscription(subscribeUnreadMessages,{
+  variables:{input:{userId}}
+})
+
+
+return {data:data?.listenMessages}
     }

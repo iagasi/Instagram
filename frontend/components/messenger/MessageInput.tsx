@@ -16,7 +16,11 @@ mutation sendMessage($input: MessageInput) {
   }
 }
 `);
-function MessageInput() {
+function MessageInput({
+  scrollElem: scrollRef,
+}: {
+  scrollElem: React.MutableRefObject<null>;
+}) {
   const { data: logginedUserData, loading } = useLogginedUserdata();
   const chatId = useReactiveVar(chatIdVar);
 
@@ -24,7 +28,13 @@ function MessageInput() {
   const showEmoji = useReactiveVar(showEmojiVar);
 
   const [messageFn, { data }] = useMutation<Mutation>(sendMesageGql);
-
+  if (scrollRef.current) {
+    const element = scrollRef.current as HTMLDivElement;
+    console.log(element.scrollHeight);
+    setTimeout(() => {
+      element.scrollTop = element.scrollHeight;
+    }, 100);
+  }
   function sendMessage() {
     if (!chatId) {
       return;
@@ -42,13 +52,15 @@ function MessageInput() {
       },
     });
 
-    setVal("")
+    setVal("");
   }
   return (
     <div className="relative">
       {showEmoji && (
         <div className="absolute -top-[450px]">
-          <EmojiPicker onEmojiClick={(e) => setVal((prev:string)=>prev+e.emoji)} />
+          <EmojiPicker
+            onEmojiClick={(e) => setVal((prev: string) => prev + e.emoji)}
+          />
         </div>
       )}
 

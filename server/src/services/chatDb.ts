@@ -9,7 +9,12 @@ let unreadMessages = [
     _id: "fsdsddfs",
     userId: "1",
     chatId: "888",
+  }, {
+    _id: "fsdsdsddfs",
+    userId: "1",
+    chatId: "888a",
   },
+
 ];
 let chats: chatType[] = [
   {
@@ -21,9 +26,14 @@ let chats: chatType[] = [
     users: ["1", "3"],
   },
   {
-    _id: "468",
+    _id: "46588",
     users: ["4", "2"],
   },
+  {
+    _id: "44",
+    users: ["1", "4"],
+  },
+
 ];
 
 let messages = [
@@ -66,6 +76,7 @@ export const ChatService = {
 
   addMessage: function (message: (typeof messages)[0]) {
     messages.push(message);
+    return message
   },
 
   eleteMessage: function d(messageId: string) {
@@ -97,17 +108,22 @@ export const ChatService = {
   unreadMessageGet: async function (
     userId: string
   ): Promise<unreadMessageType[]> {
+    
     return unreadMessages.filter((unread) => unread.userId === userId);
   },
-  unreadMessageDelete: async function (chatId: string) {
+  unreadChatMessagesDelete: async function (chatId: string) {
     unreadMessages = unreadMessages.filter(
       (unread) => unread.chatId !== chatId
     );
+    return "ok"
   },
   unreadMessageSet: function (unread: Omit<unreadMessageType, "_id">) {
+    const Id=Math.random().toString()
     unreadMessages.push({
-      _id: Math.random().toString(),
+      _id:Id ,
       ...unread,
     });
+
+  return unreadMessages.find(unreadMessage=>unreadMessage._id===Id)
   },
 };
