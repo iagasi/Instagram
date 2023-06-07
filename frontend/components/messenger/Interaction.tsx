@@ -9,6 +9,7 @@ import { chatIdVar, iAmMessagingWithVar, showEmojiVar } from "./messengerState";
 import { messageType } from "@/../types/chatType";
 import { useReactiveVar } from "@apollo/client";
 import { useGetChats } from "@/hooks/chat";
+import VideoCall from "./VideoCall";
 
 function Interaction() {
     const chatId=useReactiveVar(chatIdVar)
@@ -36,8 +37,9 @@ useEffect(() => {
         }
         </div>
         <div className=" flex self-center space-x-8  text-3xl">
-          <IoMdCall />
-          <BsFillCameraVideoFill />
+     
+      <VideoCall/>
+    
         </div>
       </div>
       <div ref={scrollRef} className=" flex-1 bg-slate-100 overflow-y-scroll" onClick={() => showEmojiVar(false)}>

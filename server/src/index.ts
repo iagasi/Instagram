@@ -14,10 +14,12 @@ import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHt
 import bodyParser from "body-parser";
 import { expressMiddleware } from "@apollo/server/express4";
 
-
+import {connectedUserType} from "../../types/messengerType"
+import {UserType} from "../../types/userType"
 import { chatResolver, chatTypeDefs } from "./resolvers/chatResolver";
 
-
+import{Server} from "socket.io";
+import { Socket } from "dgram";
 
 const resolvers = mergeResolvers([userResolvers, postResolvers,chatResolver]);
 const typeDefs = mergeTypeDefs([userTypeDefs, postTypeDefs, chatTypeDefs]);
@@ -67,6 +69,46 @@ async function start() {
 
 start();
 
+import io from "socket.io"
+function v(){
+ let connected:connectedUserType[]=[]
+  const app=express()
+  const httpServer = createServer(app);
 
+  const io:io.Socket = require("socket.io")(httpServer, {
+    cors: {
+      origin: "http://localhost:3000"
+    }
+  })
 
-// Start incrementing
+  io.on("connection", (socket:io.Socket) => {
+    console.log("New user is connect")
+socket.on("setUser",(user:UserType)=>{
+  console.log(user);
+  
+  const isExist=connected.find((conUser)=>conUser._id===user._id)
+  if(!isExist&&user){
+    connected.push({
+      ...user,
+      socketId:socket.id
+    })
+console.log(connected);
+
+    socket.emit("setUserId",socket.id)
+  }
+  
+})
+
+    socket.on("getSocketId", (user: UserType&{from:string}) => {
+      const candidate=connected.find(conUser=>conUser._id===user._id)
+      io.to(user.from).emit("getSocketId", candidate?.socketId)
+
+    })
+    socket.on("disconnect", (socketId: string) => {
+     connected=connected.filter(conUser=>conUser.socketId!==socketId)
+    })
+  })
+httpServer.listen(2000,()=>{console.log("ws serwer");
+})
+}
+v()

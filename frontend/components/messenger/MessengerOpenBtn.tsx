@@ -1,23 +1,37 @@
-import { subscribeUnreadMessages, useSubscribeUnreadMessages, useUnreadMessagesGet } from "@/hooks/chat";
+import {
+  subscribeUnreadMessages,
+  useSubscribeUnreadMessages,
+  useUnreadMessagesGet,
+} from "@/hooks/chat";
 import { useLogginedUserdata } from "@/hooks/user";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { BsMessenger } from "react-icons/bs";
+import { socket } from "./socket";
+import { mySocketIdVar } from "./messengerState";
 
 function MessengerOpenBtn() {
-  const router = useRouter();
   const { data: loggedUserData } = useLogginedUserdata();
-  const {data:unreadData,subscribeToMore,refetch} = useUnreadMessagesGet(loggedUserData?.user?._id);
-  const {data}=useSubscribeUnreadMessages(loggedUserData.user._id)
-useEffect(()=>{
-  refetch()
-},[data])
 
- 
+  useEffect(() => {
+    socket.emit("setUser", loggedUserData.user);
+    socket.on("setUserId", (id) => {
+      console.log(id);
 
+      mySocketIdVar(id);
+    });
+  }, []);
+  const router = useRouter();
+  const {
+    data: unreadData,
+    subscribeToMore,
+    refetch,
+  } = useUnreadMessagesGet(loggedUserData?.user?._id);
+  const { data } = useSubscribeUnreadMessages(loggedUserData.user._id);
+  useEffect(() => {
+    refetch();
+  }, [data]);
 
-
- 
   return (
     <div
       className=" relative sidebar-elem"
