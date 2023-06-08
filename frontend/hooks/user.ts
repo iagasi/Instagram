@@ -8,9 +8,11 @@ import { log } from "console";
 import { useRouter } from "next/router";
 
 export function useLogginedUserdata(){
+
+    const userId=LStorage.getUser()?._id
     const { data: loggedUserData,refetch,loading } = useQuery<Query>(getUserAndPrefferencesGql , {
-        variables: { Id: LStorage.getUser()?._id },
-        skip: !LStorage.getUser()?._id,
+        variables: { Id: userId },
+        skip: !userId,
       });
       const loggedData = loggedUserData?.getUserData as UserAndPrefferncesType;
 

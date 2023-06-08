@@ -14,7 +14,7 @@ import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHt
 import bodyParser from "body-parser";
 import { expressMiddleware } from "@apollo/server/express4";
 
-import {connectedUserType} from "../../types/messengerType"
+import {connectType, connectedUserType} from "../../types/messengerType"
 import {UserType} from "../../types/userType"
 import { chatResolver, chatTypeDefs } from "./resolvers/chatResolver";
 
@@ -70,6 +70,7 @@ async function start() {
 start();
 
 import io from "socket.io"
+import { log } from "console";
 function v(){
  let connected:connectedUserType[]=[]
   const app=express()
@@ -84,7 +85,7 @@ function v(){
   io.on("connection", (socket:io.Socket) => {
     console.log("New user is connect")
 socket.on("setUser",(user:UserType)=>{
-  console.log(user);
+
   
   const isExist=connected.find((conUser)=>conUser._id===user._id)
   if(!isExist&&user){
@@ -92,19 +93,50 @@ socket.on("setUser",(user:UserType)=>{
       ...user,
       socketId:socket.id
     })
-console.log(connected);
 
-    socket.emit("setUserId",socket.id)
-  }
   
+  }
+
+  if(isExist){isExist.socketId=socket.id}
+      socket.emit("setUserId",isExist?.socketId)
+
 })
 
     socket.on("getSocketId", (user: UserType&{from:string}) => {
       const candidate=connected.find(conUser=>conUser._id===user._id)
+      console.log(candidate);
+      
+
+      
       io.to(user.from).emit("getSocketId", candidate?.socketId)
 
     })
-    socket.on("disconnect", (socketId: string) => {
+
+    socket.on("call",(data: connectType)=>{
+      if(!data.to){console.log(" call to socket id undefned//////////////////////////////////////////////////////////////////");
+      }
+      console.log("///////////////////////////");
+      
+      io.to(data.to).emit("call",data)
+    })
+
+    socket.on("answer",(data: Omit<connectType,"user"|"from">)=>{
+      if(!data.to){console.log(" answer to socket id undefned//////////////////////////////////////////////////////////////////");
+      }
+      
+      io.to(data.to).emit("answer",data)
+    })
+socket.on("disconnect",(id)=>{
+  console.log(id);
+  
+})
+   
+    socket.on( "deleteUser", (socketId: string) => {
+      console.log("..................");
+      
+      console.log(socketId);
+      console.log("..................");
+
      connected=connected.filter(conUser=>conUser.socketId!==socketId)
     })
   })
