@@ -1,10 +1,12 @@
-import { log } from "console";
+import express, { CookieOptions } from "express";
+import { cookieName } from "../../../constants";
 import {
   UserType,
   UserPrefferencesType,
   UserAndPrefferncesType,
 } from "../../../types/userType";
 import { UserService } from "../services/userService";
+import { refreshAcessToken } from "../services/tokenservice";
 
 interface QueryUserArgs {
   id: string;
@@ -25,6 +27,34 @@ type changeNameSurnameType = {
 };
 export const userResolvers = {
   Query: {
+    login: async (
+      parrent: UserType,
+      args: Pick<UserType, "email" | "password">,
+      { req, res }: { req: express.Request; res: express.Response }
+    ) => {
+      const resUser = await UserService.login({
+        email: args.email,
+        password: args.password,
+      });
+      const cookieOptions: CookieOptions = {
+        //httpOnly: true,
+        maxAge: 1 * 60 * 60 * 24 * 1000,
+        secure: true,
+      };
+      res.cookie(cookieName, resUser?.refreshToken, cookieOptions);
+
+      return {
+        acessToken: resUser?.acessToken,
+        _id: resUser?._id,
+      };
+    },
+    refreshToken: (
+      _: any,
+      args: { refreshToken: string },
+      { req, res }: { req: express.Request; res: express.Response }
+    ) => {
+      refreshAcessToken(args.refreshToken);
+    },
     findUser: (parrent: UserType, args: QueryUserArgs) => {
       return UserService.getSingleUser(args.id);
     },
@@ -43,6 +73,12 @@ export const userResolvers = {
   },
 
   Mutation: {
+    register: async (parrent: UserType, args: { input: UserType }) => {
+      //   throw new Error("ooooooooooooooppppp")
+      const res = await UserService.register(args.input);
+      return res;
+    },
+
     async subscribeTo(
       parrent: any,
       args: FriendsHandlerType
@@ -56,7 +92,7 @@ export const userResolvers = {
       parrent: any,
       args: FriendsHandlerType
     ): Promise<UserAndPrefferncesType | null> {
-      return null
+      //return null;
       return await UserService.deleteFollower(
         args.input.myId,
         args.input.candidateId
@@ -88,6 +124,8 @@ type User{
   name: String
   surname: String
   image:String
+  email:String
+  password:String
 }
 
 type UserPrefferencesType {
@@ -108,7 +146,14 @@ type UserFriendsType{
   followers:[User]
   followings:[User]
 }
+type LoginType{
+  _id:String
+  acessToken:String
+  
+}
 type Query{
+  refreshToken(refreshToken:String):String
+  login(password:String,email:String,name:String):LoginType
   findUser(id:String):User
   getUserFriends(id:String):UserFriendsType
   getUserPrefferences(id:String):[UserPrefferencesType]
@@ -128,11 +173,19 @@ input changeNameSurnameType {
     name: String
     surname: String
 }
+input inputRegister {
+  _id:String
+  name: String
+  surname: String
+  image:String
+  email:String
+  password:String
+}
 type Mutation{
   subscribeTo(input:FriendsHandlerType):PrefferencesType
   deleteFollower(input:FriendsHandlerType):PrefferencesType
   deleteFollowing(input:FriendsHandlerType):PrefferencesType
   changeNameSurname(input:changeNameSurnameType):User
-
+  register(input:inputRegister):String
 }
 `;

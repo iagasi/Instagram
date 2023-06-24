@@ -11,21 +11,29 @@ export const users: UserType[] = [
     name: "Georg",
     surname: "Herimand",
     image: "user-images/1.jpg",
+    email:"georgh@gmail.com",
+    password:"'$2b$10$PvPftbpHhiTjHBInSMF9wev7MpBEhOsV2gdSENmg3376HSGXqR6yi'"
   },
   {
     _id: "2",
     name: "Linda",
     surname: "Jerix",
     image: "user-images/2.jpg",
+    email:"linda@gmail.com",
+    password:"'$2b$10$PvPftbpHhiTjHBInSMF9wev7MpBEhOsV2gdSENmg3376HSGXqR6yi'"
   },
   {
     _id: "3",
     name: "Ande",
     surname: "Avallon",
     image: "user-images/3.jpg",
+    email:"andre@gmail.com",
+    password:"'$2b$10$PvPftbpHhiTjHBInSMF9wev7MpBEhOsV2gdSENmg3376HSGXqR6yi'"
   },
 ];
+export const tokensDB:{_id:string,refreshToken:string}[]=[
 
+]
 export const userPrefferences: UserPrefferencesType[] = [
   {
     _id: "456",

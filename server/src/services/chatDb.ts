@@ -94,7 +94,8 @@ export const ChatService = {
       (chat) => chat.users.includes(user1Id) && chat.users.includes(user2Id)
     );
     if (ischatExist) {
-      throw Error("Chat already exists");
+      return"Chat already exists"
+      throw Error();
     }
     const id = String(Math.random() * 10);
     const newChat = {
