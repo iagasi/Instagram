@@ -1,3 +1,6 @@
+import io from "socket.io";
+import cookieParser from "cookie-parser";
+
 import { ApolloServer } from "@apollo/server";
 import { userResolvers, userTypeDefs } from "./resolvers/userResolver";
 import { mergeResolvers, mergeTypeDefs } from "@graphql-tools/merge";
@@ -19,6 +22,11 @@ import { UserType } from "../../types/userType";
 import { chatResolver, chatTypeDefs } from "./resolvers/chatResolver";
 
 import { validateAcessToken } from "./services/tokenservice";
+export interface IsloggedRequest extends express.Request {
+  isLogged: boolean;
+}
+import { refreshTokensApi } from "./resolvers/refreshTokenController";
+import { authApi } from "./resolvers/authController";
 
 const resolvers = mergeResolvers([userResolvers, postResolvers, chatResolver]);
 const typeDefs = mergeTypeDefs([userTypeDefs, postTypeDefs, chatTypeDefs]);
@@ -27,12 +35,18 @@ async function start() {
 
   const app = express();
 
-  // const corsOptions = {
-  //   origin:[ "http://localhost:3000"],
-  //   credentials: true,
+  app.use(express.json());
+  app.use(
+    cors({
+      origin: ["http://localhost:3000", "http://localhost:4000"],
+      credentials: true,
+    })
+  );
+  app.use(cookieParser());
 
-  // };
-  // app.use(cors(corsOptions));
+  app.use("/", authApi);
+
+  app.use("/", refreshTokensApi);
 
   app.use(express.static("public"));
   app.use("/file", fileRouter);
@@ -71,11 +85,7 @@ async function start() {
     bodyParser.json(),
     expressMiddleware(server, {
       context: async ({ req, res }) => {
-        if (req.headers.referer !== "http://localhost:4000/graphql") {
-          console.log(req.headers.cookie);
-
-          validateAcessToken(req);
-        }
+        const isValid = validateAcessToken(req);
 
         return { req, res };
       },
@@ -88,10 +98,6 @@ async function start() {
 }
 
 start();
-
-import io from "socket.io";
-import { log } from "console";
-import { GraphQLError } from "graphql";
 
 function v() {
   let connected: connectedUserType[] = [];
@@ -148,9 +154,7 @@ function v() {
 
       io.to(data.to).emit("answer", data);
     });
-    socket.on("disconnect", (id) => {
-      console.log(id);
-    });
+    socket.on("disconnect", (id) => {});
 
     socket.on("deleteUser", (socketId: string) => {
       console.log("..................");

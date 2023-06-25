@@ -48,7 +48,7 @@ const postPublisher=data?.findUser as UserType
         height={526}
         objectFit="cover"
       />
-      <LikePost postData={cardData} currUser={currUser} refetch={refetch} />
+      <LikePost postData={cardData} currUser={currUser} refetch={refetch} postPublisher={postPublisher}  />
       <div className=" space-y-1"  onClick={() => setModal(!modal)}>
         <CommentPost postData={cardData} currUser={currUser} postPublisher={postPublisher} />
       </div>

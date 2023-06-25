@@ -30,7 +30,6 @@ const SubscribeGql =
 function SubscribeBthHandler(props: { candidate: UserType,buttonName?:string }) {
   const router = useRouter();
   const RouterId = router.query.id as string;
-console.log(props.buttonName);
 
   const loggedUser = useReactiveVar(userVar);
   const [mutateFunction, { data }] = useMutation<Mutation>(SubscribeGql);

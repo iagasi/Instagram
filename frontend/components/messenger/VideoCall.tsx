@@ -25,7 +25,7 @@ function VideoCall() {
   function record(): Promise<MediaStream> {
     return new Promise((res, rej) => {
       navigator.mediaDevices.getUserMedia({ video: true }).then((st) => {
-        setStream(st);
+      //  setStream(st);
         res(st);
       });
     });
@@ -39,6 +39,7 @@ function VideoCall() {
       console.log("No My socketId");
       return;
     }
+    
     setMakeCall(true);
     record();
     socket.emit("getSocketId", { ...IAmMessagingWith, from: mySocketId });
@@ -60,6 +61,7 @@ function VideoCall() {
         trickle: false,
         stream: MYVIDEO,
       });
+      setStream(MYVIDEO)
 
       peer.on("signal", (signal) => {
         const callto: connectType = {
@@ -71,8 +73,10 @@ function VideoCall() {
         socket.emit("call", callto);
       });
       peer.on("stream", (stream) => {
-        console.log("stream p1/////////////////////////");
         if (resVideo.current) {
+          console.log();
+          console.log("stream p1/////////////////////////");
+
           resVideo.current.srcObject = stream;
         }
       });
@@ -82,9 +86,10 @@ function VideoCall() {
 
       socket.on("answer", (data: Omit<connectType, "user" | "from">) => {
         console.log(data.signal);
-
         peer.signal(data.signal);
       });
+
+      peer.on('close', () => { console.log('peer closed'); socket.off("answer"); });
       connectionRef.current = peer;
     }
   }
@@ -97,24 +102,23 @@ function VideoCall() {
         }}
       />
 
-      {mySocketId}
+
 
       {makeCall && (
-        <div className="absolute top-0 left-0 bg-slate-600 text-white p-5 w-screen h-screen  z-30">
-          <div>
+        <div className="">
+          <Video
+            myVideo={myVideo}
+            resVideo={resVideo}
+            close={() => setMakeCall(false)}
+            connectionRef={connectionRef}
+            videoStream={stream}
+          >
             <div className=" text-center flex flex-col items-center">
-              <h1> Calling...</h1>
+              {/* <h1> Calling...</h1> */}
 
               <UserPreview user={IAmMessagingWith} />
             </div>
-            <Video
-              myVideo={myVideo}
-              resVideo={resVideo}
-              close={() => setMakeCall(false)}
-              connectionRef={connectionRef}
-              videoStream={stream}
-            />
-          </div>
+          </Video>
         </div>
       )}
     </div>

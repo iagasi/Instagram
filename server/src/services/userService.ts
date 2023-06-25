@@ -56,17 +56,26 @@ export class UserService {
       }
     | undefined
   > {
+   // console.log(email);
+    
     const user = users.find((user) => user.email === email.trim());
     if (!user) {
       console.log("You don t registered to Login");
       return;
     }
 
+
     return new Promise((resolve, rej) => {
       bcrypt.compare(password, user.password, function (err, result) {
         if (err) {
-          throw Error("Email or Password incorrect");
-        } else {
+       console.log("compare error");
+       
+        } 
+        if(!result){  rej("Email or Password incorrect");}
+        
+        else {
+          console.log(password);
+          
           const res = generateTokens({ _id: user._id, name: user.name });
 
           {

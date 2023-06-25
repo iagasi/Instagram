@@ -50,7 +50,7 @@ const mySocketId=useReactiveVar(mySocketIdVar)
       {router.pathname == "/messenger" && (
         <div className="sidebar__active"></div>
       )}
-      {unreadData?.length && (
+      {unreadData?.length!==0 && (
         <div className=" absolute -top-4 left-5 bg-red-600 text-xl w-6 h-6 flex justify-center  items-center  text-white  rounded-full">
           {unreadData?.length}
         </div>

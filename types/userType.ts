@@ -3,6 +3,8 @@ export type UserType = {
     name: string ;
     surname: string;
     image: string ;
+    email:string
+    password:string
 };
 
 export type userActions = {
@@ -21,3 +23,7 @@ export type UserPrefferencesType = {
   tagged: string[];
 };
 export type UserAndPrefferncesType= {user:UserType,prefferences:UserPrefferencesType}
+export type LocalStorageUserType={
+  _id:string,
+  acessToken:string
+}

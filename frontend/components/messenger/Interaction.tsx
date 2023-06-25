@@ -17,7 +17,7 @@ const scrollRef=useRef(null)
 
 
 useEffect(() => {
-  console.log(666666);
+  
   
   
 },[chatId]);
@@ -32,13 +32,13 @@ useEffect(() => {
         onClick={() => showEmojiVar(false)}
       >
         <div> {
-          chatId&&          <UserPreview user={communicateWith} />
+          chatId&&<UserPreview user={communicateWith} />
 
         }
         </div>
         <div className=" flex self-center space-x-8  text-3xl">
      
-      <VideoCall/>
+     {chatId&& <VideoCall/>}
     
         </div>
       </div>
@@ -46,7 +46,7 @@ useEffect(() => {
         <MessagesList />
       </div>
 
-      <MessageInput  scrollElem={scrollRef}/>
+     {chatId&& <MessageInput  scrollElem={scrollRef}/>}
     </div>
   );
 }

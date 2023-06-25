@@ -5,7 +5,7 @@ import UserPreview from "../UserPreview";
 import { chatIdVar, iAmMessagingWithVar, showEmojiVar } from "./messengerState";
 import { UserType } from "@/../types/userType";
 import { chatsAndFriendsType, unreadMessageType } from "@/../types/chatType";
-import { getChatMessagsGql, useGetMessages, useUnreadMessagesGet } from "@/hooks/chat";
+import { getChatMessagsGql, useGetChats, useGetMessages, useUnreadMessagesGet } from "@/hooks/chat";
 import FindUsers from "./FindUsers";
 import { gql, useMutation } from "@apollo/client";
 import { Mutation } from "@/__generated__/graphql";
@@ -28,7 +28,9 @@ function Chats({
 }) {
   const unreadData=useUnreadMessagesGet(logginedUser._id)
   const [mutateFunctionDeleteUnread, { data:deleteStatus }] = useMutation<Mutation>(unreadMessagesDeleteGql);
-
+  const { data: chatsx, refetch: refetchChats } = useGetChats(
+    logginedUser._id
+  );
   const [chats, setChats] = useState(initialChats);
   const [showDel, setShowDel] = useState<string | null>(null);
   const [deleteFn, { data }] = useMutation<Mutation>(deleteChatGql);
@@ -62,6 +64,7 @@ function deleteUnreadMessages(chatId:string){
     if (deletedId) {
       const newChats = chats.filter((chat) => chat.chat._id !== deletedId);
       setChats(newChats);
+      refetchChats()
     }
   }, [data?.deleteChat]);
   function DeleHandler(chatId: string) {

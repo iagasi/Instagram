@@ -64,9 +64,14 @@ if(newMessage){
   if (!chatId) {
     return (
       <div className=" text-4xl pt-5  text-gray-400 text-center">
-        <p>Realtime</p>
-        Chat Application
+        <p>Realtime </p>
+        <p className=" text-gray-500">Video and Messaging </p>
+   
+       Application
         <p>Like Messenger</p>
+        <small>
+          Search friend in search Bar (left side)and create chat to communicate !
+        </small>
         <div className=" text-xl text-stone-800 0 flex justify-center pt-5"></div>
       </div>
     );

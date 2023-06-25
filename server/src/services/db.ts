@@ -12,7 +12,7 @@ export const users: UserType[] = [
     surname: "Herimand",
     image: "user-images/1.jpg",
     email:"georgh@gmail.com",
-    password:"'$2b$10$PvPftbpHhiTjHBInSMF9wev7MpBEhOsV2gdSENmg3376HSGXqR6yi'"
+    password:"$2b$10$Gi4W/6p5xqOratDu/OJmqO9BFWeaHlLe1/XaXUg5unyGkw3vZT3WC"
   },
   {
     _id: "2",
@@ -20,7 +20,7 @@ export const users: UserType[] = [
     surname: "Jerix",
     image: "user-images/2.jpg",
     email:"linda@gmail.com",
-    password:"'$2b$10$PvPftbpHhiTjHBInSMF9wev7MpBEhOsV2gdSENmg3376HSGXqR6yi'"
+    password:"$2b$10$Gi4W/6p5xqOratDu/OJmqO9BFWeaHlLe1/XaXUg5unyGkw3vZT3WC"
   },
   {
     _id: "3",
@@ -28,7 +28,7 @@ export const users: UserType[] = [
     surname: "Avallon",
     image: "user-images/3.jpg",
     email:"andre@gmail.com",
-    password:"'$2b$10$PvPftbpHhiTjHBInSMF9wev7MpBEhOsV2gdSENmg3376HSGXqR6yi'"
+    password:"$2b$10$Gi4W/6p5xqOratDu/OJmqO9BFWeaHlLe1/XaXUg5unyGkw3vZT3WC"
   },
 ];
 export const tokensDB:{_id:string,refreshToken:string}[]=[

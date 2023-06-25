@@ -5,10 +5,11 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { TbMessageCircle2 } from "react-icons/tb";
 import { gql } from "../../__generated__/gql";
-import { UserAndPrefferncesType } from "@/../types/userType";
+import { UserAndPrefferncesType, UserType } from "@/../types/userType";
 import OpenLikes from "./OpenLikes";
 import { log } from "console";
 import { useGetPostById } from "@/hooks/post";
+import CreateChat from "./CreateChat";
 
 const like = gql(`
 mutation LikePost ($postId:String,$personId:String) {
@@ -23,8 +24,9 @@ type props = {
   postData: postType | undefined;
   currUser: UserAndPrefferncesType | null;
   refetch: any;
+  postPublisher:UserType
 };
-export function LikePost({ postData, currUser, refetch }: props) {
+export function LikePost({ postData, currUser, refetch ,postPublisher}: props) {
   const [likePost, { data: likedData }] = useMutation(like);
   useEffect(() => {
     refetch();
@@ -51,8 +53,7 @@ export function LikePost({ postData, currUser, refetch }: props) {
             onClick={likeHandler}
           />
         )}
-
-        <TbMessageCircle2 className=" cursor-pointer  hover:text-gray-300" />
+        {postData && <CreateChat postCreatorId={postPublisher?._id} />}
       </div>
       <OpenLikes likes={postData?.likes} postData={postData} />
     </div>

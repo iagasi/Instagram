@@ -15,7 +15,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     " mutation SubscribeGql($myId:String $candidateId:String){\n  subscribeTo (input:{myId:$myId candidateId:$candidateId }) {\n   user {\n     _id\n   }\n   prefferences {\n     followings\n     followers\n   }\n  }\n  }": types.SubscribeGqlDocument,
     "\nmutation DeleteChat($input: deleteChatInput) {\n    deleteChat(input: $input) \n  }\n\n": types.DeleteChatDocument,
-    "\nmutation createChat($input: CreateChatInput) {\n    createChat(input: $input) {\n    _id\n   users\n    }\n  }": types.CreateChatDocument,
+    "\nmutation UnreadChatMessagesDelete($input: deleteUnreadType) {\n  unreadChatMessagesDelete(input: $input)\n}": types.UnreadChatMessagesDeleteDocument,
     "\nmutation sendMessage($input: MessageInput) {\n  sendMessage(input: $input) {\n    message\n    timeStamp\n    userId\n  }\n}\n": types.SendMessageDocument,
     "\n  mutation commentPost($postId:String,$personId:String,$message:String){\n    commentPost(input:{_id:$postId,personId:$personId,message:$message})\n  }\n  ": types.CommentPostDocument,
     "\nmutation LikePost ($postId:String,$personId:String) {\n\n  likePost(input:{postId:$postId,personId:$personId}) {\n  likes\n  userId\n  }\n  }\n  ": types.LikePostDocument,
@@ -50,7 +50,7 @@ export function gql(source: "\nmutation DeleteChat($input: deleteChatInput) {\n 
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\nmutation createChat($input: CreateChatInput) {\n    createChat(input: $input) {\n    _id\n   users\n    }\n  }"): (typeof documents)["\nmutation createChat($input: CreateChatInput) {\n    createChat(input: $input) {\n    _id\n   users\n    }\n  }"];
+export function gql(source: "\nmutation UnreadChatMessagesDelete($input: deleteUnreadType) {\n  unreadChatMessagesDelete(input: $input)\n}"): (typeof documents)["\nmutation UnreadChatMessagesDelete($input: deleteUnreadType) {\n  unreadChatMessagesDelete(input: $input)\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

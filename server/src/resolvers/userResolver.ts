@@ -25,36 +25,17 @@ type changeNameSurnameType = {
     surname: string;
   };
 };
+
+function ModifyMessage(sender: string) {
+  return function (target: any, propertyKey: string) {
+    // use  sender, target and propertyKey arguments ...
+  };
+}
+
 export const userResolvers = {
   Query: {
-    login: async (
-      parrent: UserType,
-      args: Pick<UserType, "email" | "password">,
-      { req, res }: { req: express.Request; res: express.Response }
-    ) => {
-      const resUser = await UserService.login({
-        email: args.email,
-        password: args.password,
-      });
-      const cookieOptions: CookieOptions = {
-        //httpOnly: true,
-        maxAge: 1 * 60 * 60 * 24 * 1000,
-        secure: true,
-      };
-      res.cookie(cookieName, resUser?.refreshToken, cookieOptions);
-
-      return {
-        acessToken: resUser?.acessToken,
-        _id: resUser?._id,
-      };
-    },
-    refreshToken: (
-      _: any,
-      args: { refreshToken: string },
-      { req, res }: { req: express.Request; res: express.Response }
-    ) => {
-      refreshAcessToken(args.refreshToken);
-    },
+   
+  
     findUser: (parrent: UserType, args: QueryUserArgs) => {
       return UserService.getSingleUser(args.id);
     },
@@ -151,9 +132,11 @@ type LoginType{
   acessToken:String
   
 }
+type RefreshType{
+  acessToken:String,
+  refreshToken:String
+}
 type Query{
-  refreshToken(refreshToken:String):String
-  login(password:String,email:String,name:String):LoginType
   findUser(id:String):User
   getUserFriends(id:String):UserFriendsType
   getUserPrefferences(id:String):[UserPrefferencesType]

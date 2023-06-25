@@ -6,19 +6,11 @@ import { gql, useMutation } from "@apollo/client";
 import { Mutation, Query } from "@/__generated__/graphql";
 import { useLogginedUserdata } from "@/hooks/user";
 import { useGetChats } from "@/hooks/chat";
-
-const createChat = gql(`
-mutation createChat($input: CreateChatInput) {
-    createChat(input: $input) {
-    _id
-   users
-    }
-  }`);
+import { useCreateChat } from "./hooks";
 
 
 function CreateChat(props: { user: UserType }) {
-  const [mutateFunction, { data }] = useMutation<Mutation>(createChat);
-
+const {createChat,data}=useCreateChat(props.user._id)
   const { data: loggineUserData, loading } = useLogginedUserdata();
   const { data: chats, refetch: refetchChats } = useGetChats(
     loggineUserData.user._id
@@ -32,14 +24,7 @@ function CreateChat(props: { user: UserType }) {
   }, [data?.createChat, refetchChats]);
 
   function createChatHandler() {
-    mutateFunction({
-      variables: {
-        input: {
-          user1Id: loggineUserData.user._id,
-          user2Id: props.user._id,
-        },
-      },
-    });
+  createChat()
   }
 
   if (props.user._id === loggineUserData?.user?._id) {

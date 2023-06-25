@@ -3,3 +3,5 @@ export enum ImagesEnum {
     POST="images"
 
 }
+
+export  const cookieName="Instagram_Cookie"
