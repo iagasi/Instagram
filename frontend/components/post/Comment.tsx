@@ -1,13 +1,17 @@
 import React from 'react'
 import UserPreview from '../UserPreview'
 import { combinedUserAndCommentType } from '@/../types/postType'
+import TimeAgo from 'javascript-time-ago';
+import en from "javascript-time-ago/locale/en";
 
+TimeAgo.addDefaultLocale(en);
+const timeAgo = new TimeAgo("en-US");
  export function Comment({commentMaker,comment}:combinedUserAndCommentType) {
   return (
-    <div className=' flex mb-2 w-full  text-small  relative'>
+    <div className=' flex mb-2   text-small w-3/4 relative pb-2'>
         <UserPreview user={commentMaker}/>
-        <div className=' pt-4   break-words'> {comment.message}</div>
-        <small className=' absolute bottom-0 left-16'>3d</small>
+        <div className=' pt-4   break-words  w-3/5'> {comment.message}</div>
+        <small className=' absolute bottom-0 left-0 font-bold'>{timeAgo.format(Number(comment.time)) }</small>
     </div>
   )
 }

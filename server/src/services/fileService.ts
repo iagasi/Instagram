@@ -31,7 +31,7 @@ class FileService {
     const p = path.join(__dirname, "../../public", filePath);
     console.log(p);
 
-    if (fs.existsSync(p)) {
+    if (fs.existsSync(p)&&filePath) {
       fs.unlink(p, (err) => {
         if (err) {
           console.log(err);

@@ -24,18 +24,18 @@ type props = {
   postData: postType | undefined;
   currUser: UserAndPrefferncesType | null;
   refetch: any;
-  postPublisher:UserType
 };
-export function LikePost({ postData, currUser, refetch ,postPublisher}: props) {
+export function LikePost({ postData, currUser, refetch }: props) {
   const [likePost, { data: likedData }] = useMutation(like);
   useEffect(() => {
     refetch();
   }, [likedData, refetch]);
 
   function likeHandler() {
+  
     try {
       likePost({
-        variables: { postId: postData?._id, personId: currUser?.user._id },
+        variables: { postId: postData?._id||"1", personId: currUser?.user._id },
       });
     } catch (e) {}
   }
@@ -53,7 +53,7 @@ export function LikePost({ postData, currUser, refetch ,postPublisher}: props) {
             onClick={likeHandler}
           />
         )}
-        {postData && <CreateChat postCreatorId={postPublisher?._id} />}
+        {postData && <CreateChat postCreatorId={postData?.userId} />}
       </div>
       <OpenLikes likes={postData?.likes} postData={postData} />
     </div>

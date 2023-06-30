@@ -5,41 +5,42 @@ import {
   postType,
 } from "../../../types/postType";
 import { PostError } from "../errors";
-import {
-  comments,
-  dbComments,
-  dbCommentsById,
-  deletePostById,
-  getUserById,
-  posts,
-  userPrefferences,
-} from "./db";
+
 import { CommentDto } from "../../../dto/commentDto";
 import { PostDto } from "../../../dto/postDto";
 
 import { UserType } from "../../../types/userType";
 import { UserService } from "./userService";
 import { fileService } from "./fileService";
+import { PrefferenceDb } from "../db/schemas/Prefferences";
+import { PostsDb } from "../db/schemas/Post";
+import { CommentsDb } from "../db/schemas/Comments";
+import { UserDb } from "../db/schemas/User";
+import { ObjectId } from "mongodb";
 
 export class postService {
-  static getFriendsPosts(userId: string) {
-    const preffer = userPrefferences.find((pref) => pref.userId == userId);
+  static async getFriendsPosts(userId: string) {
+    const preffer = await PrefferenceDb.findOne({ userId });
     if (!preffer) {
       return [];
     }
-    const postsArr = posts.filter((post) =>
-      preffer.followings.includes(post.userId)
-    );
 
-    return postsArr;
+    const posts = [];
+    for (const userId of preffer?.followings) {
+      const pref = await PrefferenceDb.findOne({ userId: userId });
+      if (pref) {
+        posts.push(...pref?.posts);
+      }
+    }
+
+    return posts;
   }
-  static getPostById(postId: string) {
+  static async getPostById(postId: string) {
     if (!postId) {
       throw new PostError("Id s Not provided");
     }
 
-    const targetPost = posts.find((p) => p._id == postId);
-
+    const targetPost = await PostsDb.findById(postId);
     if (!targetPost) {
       throw new PostError("Post Not Found with this id");
     }
@@ -47,18 +48,22 @@ export class postService {
   }
 
   static async likePost(postId: string, personId: string) {
-    console.log(postId);
-
+    console.log("here");
+    
     const foundUserPreffetences = await UserService.userPrefferences(personId);
-    const targetPost = this.getPostById(postId);
-    if (targetPost.userId === personId) {
-      throw new PostError("You cannot like yout own Post");
-    }
-    if (targetPost.likes.includes(personId)) {
-      const index = targetPost.likes.indexOf(personId);
-      targetPost.likes.splice(index, 1);
+    const targetPost = await PostsDb.findById(postId);
+    if(!targetPost){return}
+   // console.log(typeof postId);
+
+    // if (targetPost.userId == personId) {
+    //   throw new PostError("You cannot like yout own Post");
+    // }
+    if (targetPost.likes.includes(personId.toString())) {
+      targetPost.likes = targetPost.likes.filter(
+        (e) => e !== personId.toString()
+      );
     } else {
-      targetPost.likes.push(personId);
+      targetPost.likes.push(personId.toString());
     }
     if (foundUserPreffetences?.saved.includes(postId)) {
       const index = foundUserPreffetences.saved.indexOf(postId);
@@ -66,39 +71,47 @@ export class postService {
     } else {
       foundUserPreffetences?.saved.push(postId);
     }
+  
+try{
+      await targetPost?.save();
+  await foundUserPreffetences?.save();
+}
+
+catch(e){
+  console.log(e)
+}
     return targetPost;
   }
 
-  static commentPost(postId: string, personId: string, message: string) {
-    const targetPost = this.getPostById(postId);
+  static async commentPost(postId: string, personId: string, message: string) {
+    const targetPost = await this.getPostById(postId);
 
     if (!targetPost) {
       return;
     }
 
-    const createComment = comments.push({
-      _id: Math.floor(Math.random() * 100).toString(),
+    const createComment = await new CommentsDb({
       personId,
       message,
       postId,
       time: Date.now().toString(),
-    });
+    }).save();
 
-    targetPost.comments.push(comments[createComment - 1]._id);
-
-    return comments[createComment - 1]._id;
+    targetPost.comments.push(createComment._id);
+    await targetPost.save();
+    return createComment._id;
   }
 
   static async getPostCommentsAndAuthors(postId: string) {
-    const post = this.getPostById(postId);
+    const post = await this.getPostById(postId);
     const commentsArray: combinedUserAndCommentType[] = [];
 
     for await (const commetId of post.comments) {
-      const comment = await dbCommentsById(commetId);
+      const comment = (await CommentsDb.findById(commetId)) as commentType;
       if (!comment) {
         throw new Error("comment not found");
       }
-      const user = await getUserById(comment.personId);
+      const user = (await UserDb.findById(comment.personId)) as UserType;
       if (!user) {
         throw new Error("user not found");
       }
@@ -112,10 +125,10 @@ export class postService {
     return commentsArray;
   }
 
-  static async getPostLikedPersons(postId: string): Promise<UserType[]> {
-    const post = this.getPostById(postId);
+  static async getPostLikedPersons(postId: string) {
+    const post = await this.getPostById(postId);
 
-    const users: UserType[] = [];
+    const users = [];
     for await (const userId of post.likes) {
       const user = await UserService.getSingleUser(userId);
       if (user) {
@@ -140,11 +153,11 @@ export class postService {
       const filename = fileService.uploadFile(userId, "images", file);
       if (filename) {
         const post = new PostDto(userId, filename);
-
-        userPrefferences.posts.push(post._id);
+        const newPost = await new PostsDb(post).save();
         console.log(userPrefferences);
 
-        postService.addPost(post);
+        userPrefferences.posts.push(newPost._id);
+        await userPrefferences.save();
         return "ok";
       }
     } catch (e) {
@@ -153,22 +166,16 @@ export class postService {
   }
 
   static async deletePost(postId: string) {
-    const post = postService.getPostById(postId);
-    const userPrefferences = await UserService.userPrefferences(post.userId);
+    const post = await postService.getPostById(postId);
+    const userPrefferences = await UserService.userPrefferences(
+      post.userId.toString()
+    );
     if (userPrefferences) {
       const filteredPrefferences = userPrefferences?.posts.filter(
-        (id) => id !== postId
+        (id) => id.toString() !== postId
       );
       userPrefferences.posts = filteredPrefferences;
-
-      deletePostById(postId);
-      return "ok";
-    } else {
-      return;
+      await userPrefferences.save();
     }
-  }
-
-  static addPost(post: postType) {
-    posts.push(post);
   }
 }

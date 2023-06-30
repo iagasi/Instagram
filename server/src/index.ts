@@ -27,6 +27,7 @@ export interface IsloggedRequest extends express.Request {
 }
 import { refreshTokensApi } from "./resolvers/refreshTokenController";
 import { authApi } from "./resolvers/authController";
+import { connectDb } from "./db";
 
 const resolvers = mergeResolvers([userResolvers, postResolvers, chatResolver]);
 const typeDefs = mergeTypeDefs([userTypeDefs, postTypeDefs, chatTypeDefs]);
@@ -34,7 +35,7 @@ async function start() {
   const schema = makeExecutableSchema({ typeDefs, resolvers });
 
   const app = express();
-
+connectDb()
   app.use(express.json());
   app.use(
     cors({

@@ -25,7 +25,6 @@ export function Main() {
 
   const userData = data?.getUserData as UserAndPrefferncesType;
   userVar(userData);
-console.log(userId);
 
   return (
     <div className="flex justify-between  w-full">

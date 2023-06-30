@@ -26,7 +26,7 @@ export function Post({postId }: { postId: string | undefined }) {
 const {data:currUser}=useLogginedUserdata()
 const {data:cardData,refetch}=useGetPostById(postId)
   const { data } = useQuery(query, {
-    variables: { id: cardData?.userId.toString(),
+    variables: { id: cardData?.userId,
      },
      skip:!cardData
   });

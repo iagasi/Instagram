@@ -19,9 +19,11 @@ router.put("/user-photo/:id", upload.single("File"), async (req, res) => {
       return console.log(" user not found");
     }
     fileService.removeFile(user?.image);
-    const savedImage = fileService.uploadFile(user._id, "user-images", req.file);
-    if (savedImage) user.image = savedImage;
-    console.log(user);
+   const savedImage = fileService.uploadFile(user._id.toString(), "user-images", req.file);
+   if (savedImage) {
+    user.image = savedImage
+  user.save()
+  };
   } catch (e) {
     console.log(e);
   }

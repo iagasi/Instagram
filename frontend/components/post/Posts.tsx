@@ -17,6 +17,7 @@ function Posts() {
   });
 useEffect(()=>{refetch()},[refetch])
   const posts: postType[] = data?.getFriendsPosts;
+console.log(posts);
 
   return (
     <div>

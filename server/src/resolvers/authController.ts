@@ -30,7 +30,7 @@ try{
 
      res.json({
         acessToken: resUser?.acessToken,
-        _id: resUser?._id,
+        _id: resUser?.userId,
       });
 
 }
@@ -41,7 +41,10 @@ try{
 })
 
 router.post("/register",async (req,res)=>{
-  UserService.register({email:req.body.email,password:req.body.password,name:req.body.name})
+const answer= await UserService.register({email:req.body.email,password:req.body.password,name:req.body.name,surname:req.body.surname})
+console.log(answer);
+res.send(answer)
+
 })
 
 export const authApi=router

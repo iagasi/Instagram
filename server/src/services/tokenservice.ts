@@ -3,11 +3,11 @@ import jwt from "jsonwebtoken";
 const ACCESS_TOKEN_KEY = "sfsdsdfsd";
 const REFRESH_TOKEN_KEY = "sfsdsdfsd";
 import express from "express";
-import { tokensDB } from "./db";
 import { UserService } from "./userService";
+import { TokenDb } from "../db/schemas/TokenDb";
 
 export function generateTokens(payload: object) {
-  var acessToken = jwt.sign(payload, ACCESS_TOKEN_KEY,{expiresIn:"1m"});
+  var acessToken = jwt.sign(payload, ACCESS_TOKEN_KEY,{expiresIn:"1d"});
   var refreshToken = jwt.sign(payload, REFRESH_TOKEN_KEY,{expiresIn:"10d"});
 
   return {
@@ -19,7 +19,6 @@ export function generateTokens(payload: object) {
 export function validateAcessToken(req: express.Request) {
   
   let token = req.headers.authorization?.split("Bearer")[1];
-  const user = "5";
 
   let verify = null;
   if (token) {
@@ -50,7 +49,7 @@ export  async function refreshAcessToken(Token: string) {
       if (!decoded) {
         throw new Error("token decoding Error");
       }
-      const foundToken = tokensDB.find((v) => v._id === decoded._id);
+      const foundToken = await TokenDb.findById(decoded._id)
   
       if (!foundToken) {
         throw new Error("Token in db not Exists");

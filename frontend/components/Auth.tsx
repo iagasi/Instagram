@@ -8,7 +8,7 @@ import Loading from "./Loading";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { LStorage } from "@/helpers/user";
-const LOGIN_URL=process.env.NEXT_PUBLIC_SERVER_URL
+const LOGIN_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 const input =
   " p-1 w-full border  border-gray-300  rounded-md mt-9 focus:outline-0 focus:border-green-700";
 
@@ -54,7 +54,7 @@ class AuthBoundary extends React.Component<{ children: JSX.Element }> {
   }
 }
 function Auth() {
-  const [loading,setLoading]=useState(false)
+  const [loading, setLoading] = useState(false);
   const [logData, setLogdata] = useState<{
     email: string | null;
     password: string | null;
@@ -68,16 +68,20 @@ function Auth() {
 
   //
 
-  const onSubmit =async (data: { email: string; password: string }) => {
-   if(logData&&LOGIN_URL){
-    setLoading(true)
-    console.log(data);
-    
-    const res=  await axios.post(LOGIN_URL+"/login",{email:data.email,password:data.password},{withCredentials:true})
-   console.log(res.data);
-   LStorage.setUser(res.data)
-    setLoading(false)
-   }
+  const onSubmit = async (data: { email: string; password: string }) => {
+    if (logData && LOGIN_URL) {
+      setLoading(true);
+      console.log(data);
+
+      const res = await axios.post(
+        LOGIN_URL + "/login",
+        { email: data.email, password: data.password },
+        { withCredentials: true }
+      );
+      console.log(res.data);
+      LStorage.setUser(res.data);
+      setLoading(false);
+    }
   };
   return (
     <div className=" flex justify-center h-screen items-center">
@@ -90,8 +94,11 @@ function Auth() {
           height={60}
         />
         <div className=" text-red-500 h-5">
-          <div> {errors.email && errors.email.message}</div>
-          <div> {errors.password && errors.password.message}</div>
+          <div> {errors.email && errors.email.message?.toString()}</div>
+          <div> {errors.password && errors.password.message?.toString()}</div>
+         
+
+
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -126,7 +133,7 @@ function Auth() {
           />
 
           <button className=" mt-5 text-white text-lg bg-blue-400 p-1 w-full rounded-lg">
-            {!loading?"Login":"Loading"}
+            {!loading ? "Login" : "Loading"}
           </button>
         </form>
 
@@ -138,7 +145,6 @@ function Auth() {
 }
 
 function Register(props: withModalType) {
-
   return (
     <button
       className=" text-blue-400  font-bold block mx-auto p-1"
@@ -149,16 +155,32 @@ function Register(props: withModalType) {
   );
 }
 function RegisterPage(props: withModalType) {
-  // const { register, data: regData, loading } = useRegister();
-  const onSubmit = (data: { email: string; password: string,name: string,surname: string }) => {
-axios.post(LOGIN_URL+"/register",{email:data.email,password:data.password,name:data.name,surname:data.surname})
-  };
+  const [loading, setLoading] = useState(false);
+  const [resData, setResData] = useState("");
   const {
     handleSubmit,
-    register:registerHook,
-    formState: { errors },
+    register: registerHook,
+    formState: { errors},
     getValues,
   } = useForm();
+  const onSubmit = async (data: {
+    email: string;
+    password: string;
+    name: string;
+    surname: string;
+  }) => {
+    console.log(errors);
+    
+    setLoading(true);
+    const res = await axios.post(LOGIN_URL + "/register", {
+      email: data.email,
+      password: data.password,
+      name: data.name,
+      surname: data.surname,
+    });
+    setLoading(false);
+    setResData(res.data);
+  };
 
 
   return (
@@ -175,16 +197,22 @@ axios.post(LOGIN_URL+"/register",{email:data.email,password:data.password,name:d
       <div className=" p-20 pt-0">
         <h1 className=" text-center pt-5 text-2xl text-blue-500">Register</h1>
         <form className=" flex flex-col  " onSubmit={handleSubmit(onSubmit)}>
-          <input className={input}
-          placeholder="Email" type="text"
-          {...registerHook("email", {
-            required: " * Email Required",
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: " * Invalid email address",
-            },
-          })} />
-          <input className={input} placeholder="Password" type="text"
+          <input
+            className={input}
+            placeholder="Email"
+            type="text"
+            {...registerHook("email", {
+              required: " * Email Required",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: " * Invalid email address",
+              },
+            })}
+          />
+          <input
+            className={input}
+            placeholder="Password"
+            type="text"
             {...registerHook("password", {
               validate: (value) => {
                 const { password } = getValues();
@@ -195,9 +223,30 @@ axios.post(LOGIN_URL+"/register",{email:data.email,password:data.password,name:d
                   return "* Passwords length min 6!";
                 }
               },
+            })}
+          />
+          <input className={input} placeholder="name" type="text"
+            {...registerHook("name", {
+              validate: (value) => {
+                const { name } = getValues();
+                if (!name.length) {
+                  return "* Name required";
+                }
+           
+              },
             })} />
-          <input className={input} placeholder="name" type="text" />
-          <input className={input} placeholder="surname" type="text" />
+          <input className={input} placeholder="surname" type="text"
+            {...registerHook("surname", {
+              validate: (value) => {
+                const { surname } = getValues();
+                if (!surname.length) {
+                  return "* Surname required";
+                }
+                if (surname.length < 2) {
+                  return "* Surname min 2 characters!";
+                }
+              },
+            })} />
           <button
             className=" text-blue-400  font-bold block mx-auto  bg-slate-200 p-2 rounded-md mt-5"
             type="submit"
@@ -206,16 +255,18 @@ axios.post(LOGIN_URL+"/register",{email:data.email,password:data.password,name:d
           </button>
         </form>
         <div className=" text-red-500 h-5">
-          <div> {errors.email && errors.email.message}</div>
-          <div> {errors.password && errors.password.message}</div>
+          <div> {errors.email && errors.email.message?.toString()}</div>
+          <div> {errors.password && errors.password.message?.toString()}</div>
+          <div> {errors.name && errors.name.message?.toString()}</div>
+          <div> {errors.surname && errors.surname.message?.toString()}</div>
         </div>
         <div className="  font-bold text-green-600  flex  justify-center pt-5">
-          {/* {loading && (
+          {loading && (
             <div>
               <Loading size="30" />
             </div>
           )}
-          {regData} */}
+          {resData}
         </div>
       </div>
     </div>
@@ -226,7 +277,7 @@ const WithRegister = WithModal(Register, RegisterPage);
 
 const withBounday = () => (
   <AuthBoundary>
-  <Auth />
-   </AuthBoundary>
+    <Auth />
+  </AuthBoundary>
 );
-export default  withBounday;
+export default withBounday;

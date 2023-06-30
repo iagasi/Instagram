@@ -1,7 +1,7 @@
 import { UserType } from "./userType"
 
 export type postType={
-    _id:string
+ _id:string
     userId:string
     image:string
     likes: string[]

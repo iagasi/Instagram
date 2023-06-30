@@ -36,29 +36,24 @@ export const userResolvers = {
   Query: {
    
   
-    findUser: (parrent: UserType, args: QueryUserArgs) => {
-      return UserService.getSingleUser(args.id);
+    findUser: async (parrent: UserType, args: QueryUserArgs) => {
+      return  await UserService.getSingleUser(args.id);
     },
-    findByNameSurname: (parrent: UserType, args: { name: string }) => {
-      return UserService.findPersonsByNameAndSurname(args.name);
+   findByNameSurname: async (parrent: UserType, args: { name: string }) => {
+      return await UserService.findPersonsByNameAndSurname(args.name);
     },
-    getUserPrefferences: (parrent: UserType, args: QueryUserArgs) => {
-      return UserService.userPrefferences(args.id);
+   getUserPrefferences: async(parrent: UserType, args: QueryUserArgs) => {
+      return await UserService.userPrefferences(args.id);
     },
-    getUserData(parrent: UserPrefferencesType, args: QueryUserArgs) {
-      return UserService.getUserData(args.id);
+   async getUserData(parrent: UserPrefferencesType, args: QueryUserArgs) {
+      return  await UserService.getUserData(args.id);
     },
-    getUserFriends(parrent: any, args: QueryUserArgs) {
-      return UserService.getUserFriends(args.id);
+   async getUserFriends(parrent: any, args: QueryUserArgs) {
+      return  await UserService.getUserFriends(args.id);
     },
   },
 
   Mutation: {
-    register: async (parrent: UserType, args: { input: UserType }) => {
-      //   throw new Error("ooooooooooooooppppp")
-      const res = await UserService.register(args.input);
-      return res;
-    },
 
     async subscribeTo(
       parrent: any,
@@ -156,19 +151,11 @@ input changeNameSurnameType {
     name: String
     surname: String
 }
-input inputRegister {
-  _id:String
-  name: String
-  surname: String
-  image:String
-  email:String
-  password:String
-}
+
 type Mutation{
   subscribeTo(input:FriendsHandlerType):PrefferencesType
   deleteFollower(input:FriendsHandlerType):PrefferencesType
   deleteFollowing(input:FriendsHandlerType):PrefferencesType
   changeNameSurname(input:changeNameSurnameType):User
-  register(input:inputRegister):String
 }
 `;

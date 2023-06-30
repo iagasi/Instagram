@@ -129,7 +129,7 @@ export const chatResolver = {
           payload: { receiveMessage: messageType },
           args: { input: { chatId: string } }
         ) => {
-          console.log("subscribe")
+         // console.log("subscribe")
           const subscribeToChat = args.input.chatId;
           const receivedMessageInChat = payload.receiveMessage.chatId;
           return subscribeToChat === receivedMessageInChat;

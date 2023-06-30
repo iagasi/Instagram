@@ -18,8 +18,8 @@ interface ICommentPostInput {
 }
 export const postResolvers = {
   Query: {
-    getFriendsPosts: (parrent: UserType, args: QueryUserArgs) => {
-      return postService.getFriendsPosts(args.id);
+    getFriendsPosts: async (parrent: UserType, args: QueryUserArgs) => {
+      return  await postService.getFriendsPosts(args.id);
     },
     getPostCommentsAndAuthors: async (
       parrent: UserType,
@@ -30,19 +30,21 @@ export const postResolvers = {
     getPostById: async (
       parrent: UserType,
       args: { postId: string }
-    ): Promise<postType> => {
+    ) => {
       return await postService.getPostById(args.postId);
     },
 
     getPostLikedPersons: async (
       parrent: UserType,
       args: { postId: string }
-    ): Promise<UserType[]> => {
+    ) => {
       return await postService.getPostLikedPersons(args.postId);
     },
   },
   Mutation: {
     likePost: (paretn: any, args: ILikePostInput) => {
+      console.log(1);
+      
       return postService.likePost(args.input.postId, args.input.personId);
     },
 

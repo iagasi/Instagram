@@ -1,5 +1,7 @@
+import { Schema } from "mongoose";
+
 export type UserType = {
-    _id: string ;
+    _id: Schema.Types.ObjectId;
     name: string ;
     surname: string;
     image: string ;
@@ -14,7 +16,7 @@ export type userActions = {
 };
 
 export type UserPrefferencesType = {
-  _id: string;
+  _id: Schema.Types.ObjectId;
   userId: UserType["_id"];
   followers: string[];
   followings:string[]

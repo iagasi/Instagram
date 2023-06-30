@@ -85,7 +85,7 @@ export function Sidebar() {
        
           <div
             className="relative  sidebar-elem"
-            onClick={() => router.push("/profile/1")}
+            onClick={() => router.push("/profile/"+currLoggedUser.user._id)}
           >
              <Image
         className=" rounded-full h-[40px] w-[40px]"

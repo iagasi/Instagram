@@ -15,6 +15,7 @@ import { gql, useMutation, useQuery, useReactiveVar } from "@apollo/client";
 import { log } from "console";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
+import Loading from "./Loading";
 const SubscribeGql =
   gql(` mutation SubscribeGql($myId:String $candidateId:String){
   subscribeTo (input:{myId:$myId candidateId:$candidateId }) {
@@ -27,12 +28,16 @@ const SubscribeGql =
    }
   }
   }`);
-function SubscribeBthHandler(props: { candidate: UserType,buttonName?:string }) {
+function SubscribeBthHandler(props: {
+  candidate: UserType;
+  buttonName?: string;
+}) {
   const router = useRouter();
   const RouterId = router.query.id as string;
 
   const loggedUser = useReactiveVar(userVar);
-  const [mutateFunction, { data }] = useMutation<Mutation>(SubscribeGql);
+  const [mutateFunction, { data, loading }] =
+    useMutation<Mutation>(SubscribeGql);
   const profileOwner = useReactiveVar(visitedPersonVar);
 
   const { refetch: refetchFriends, data: pageFriends } = usePageFriendsQuery(
@@ -59,10 +64,13 @@ function SubscribeBthHandler(props: { candidate: UserType,buttonName?:string }) 
   }
   return (
     <button onClick={subscribeHandler} className="  text-blue-700 font-bold">
-      {
-        props.buttonName?props.buttonName:"Subscribe"
-      }
-   
+      {loading ? (
+        <Loading />
+      ) : props.buttonName ? (
+        props.buttonName
+      ) : (
+        "Subscribe"
+      )}
     </button>
   );
 }

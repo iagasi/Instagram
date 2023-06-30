@@ -1,45 +1,54 @@
 import { log } from "console";
-import { tokensDB, userPrefferences, users } from "./db";
 import { UserAndPrefferncesType, UserType } from "../../../types/userType";
 import { UserAndPrefferencesDto } from "../../../dto/userDto";
 import bcrypt from "bcrypt";
 import { generateTokens } from "./tokenservice";
+import { UserDb } from "../db/schemas/User";
+import { TokenDb } from "../db/schemas/TokenDb";
+import { PrefferenceDb } from "../db/schemas/Prefferences";
 const saltRounds = 10;
 export class UserService {
   static async register({
     email,
     name,
     password,
+    surname,
   }: {
     email: string;
     name: string;
     password: string;
+    surname: string;
   }) {
-    if (password.length < 6) {
-      return "password length must be 6 or greater";
-    }
-    const candidate = users.find((user) => user.email === email);
-    if (!candidate) {
-      bcrypt.hash(password, saltRounds, function (err, hash) {
-        if (err) {
-          return "bcrypt error";
-        }
-        saveUser(hash);
-      });
-      function saveUser(hash: string) {
-        users.push({
-          _id: Math.random().toString(),
-          name: name,
-          surname: "",
-          password: hash,
-          image: "",
-          email: email,
-        });
+    try {
+      if (password.length < 6) {
+        return "password length must be 6 or greater";
       }
+      const candidate = await UserDb.findOne({ email: email });
 
-      return "Sucessfully registered";
-    } else {
-      return "This Email Already  registered";
+      if (!candidate) {
+        bcrypt.hash(password, saltRounds, async function (err, hash) {
+          if (err) {
+            return "bcrypt error";
+          }
+          const doc = new UserDb({
+            email: email,
+            password: hash,
+            name: name,
+            surname: surname,
+          });
+          await doc.save();
+          doc._id;
+          const prefferenceDoc = new PrefferenceDb();
+          prefferenceDoc.userId = doc._id;
+          await prefferenceDoc.save();
+        });
+
+        return "Sucessfully registered";
+      } else {
+        return "This Email Already  registered";
+      }
+    } catch (e) {
+      console.log("Registracion error");
     }
   }
   static async login({
@@ -50,44 +59,46 @@ export class UserService {
     password: string;
   }): Promise<
     | {
-        _id: string;
+        userId: string;
         acessToken: string;
         refreshToken: string;
       }
     | undefined
   > {
-   // console.log(email);
-    
-    const user = users.find((user) => user.email === email.trim());
+    // console.log(email);
+    const user = await UserDb.findOne({ email: email.trim() });
+
     if (!user) {
       console.log("You don t registered to Login");
       return;
     }
 
-
     return new Promise((resolve, rej) => {
-      bcrypt.compare(password, user.password, function (err, result) {
+      bcrypt.compare(password, user.password, async function (err, result) {
         if (err) {
-       console.log("compare error");
-       
-        } 
-        if(!result){  rej("Email or Password incorrect");}
-        
-        else {
+          console.log("compare error");
+        }
+        if (!result) {
+          rej("Email or Password incorrect");
+        } else {
           console.log(password);
-          
+
           const res = generateTokens({ _id: user._id, name: user.name });
 
           {
-            const refreshToken = tokensDB.find((t) => t._id === user._id);
+            const refreshToken = await TokenDb.findOne({ userId: user._id });
             if (refreshToken) {
               refreshToken.refreshToken = res.refreshToken;
             } else {
-              tokensDB.push({ _id: user._id, refreshToken: res.refreshToken });
+              const newToken = new TokenDb({
+                userId: user._id,
+                refreshToken: res.refreshToken,
+              });
+              await newToken.save();
             }
           }
           resolve({
-            _id: user._id,
+            userId: user._id.toString(),
             acessToken: res.acessToken,
             refreshToken: res.refreshToken,
           });
@@ -95,38 +106,41 @@ export class UserService {
       });
     });
   }
-  static userPrefferences(userId: string) {
-    return userPrefferences.find((e) => e.userId === userId);
+  static async userPrefferences(userId: string) {
+    return await PrefferenceDb.findOne({ userId: userId });
   }
 
   static async getUsers(userIds: string[]) {
-    const res: UserType[] = [];
+    const res = [];
     for await (const id of userIds) {
       const candidate = await this.getSingleUser(id);
       if (candidate) {
-        res.push(candidate);
+        res.push({ ...candidate });
       }
     }
 
     return res;
   }
   static async getSingleUser(userId: string) {
-    return users.find((user) => user._id == userId);
+    return await UserDb.findById(userId);
   }
   static async getUserData(userId: string) {
     const user = (await this.getSingleUser(userId)) as any;
+
     if (user) {
       const prefferences = this.userPrefferences(user?._id);
       return { user: user, prefferences: prefferences };
     }
   }
 
-  static findPersonsByNameAndSurname(searchCase: string) {
-    return users.filter(
-      (user) =>
-        user.name.toLowerCase().includes(searchCase.toLowerCase()) ||
-        user.surname?.toLowerCase().includes(searchCase.toLowerCase())
-    );
+  static async findPersonsByNameAndSurname(searchCase: string) {
+    const regex = new RegExp(searchCase, "i");
+
+    const persons = await UserDb.find({
+      $or: [{ name: { $regex: regex } }, { surname: { $regex: regex } }],
+    });
+
+    return persons;
   }
 
   static async getUserFriends(id: string) {
@@ -155,12 +169,12 @@ export class UserService {
     console.log(myId);
 
     if (iAmUser) {
-      const userConfig = userPrefferences.find(
-        (config) => config.userId === myId
-      );
-      const unfollowMeFromConfig = userPrefferences.find(
-        (config) => config.userId === candidateId
-      );
+      const userConfig = await PrefferenceDb.findOne({ userId: myId });
+
+      const unfollowMeFromConfig = await PrefferenceDb.findOne({
+        userId: candidateId,
+      });
+
       if (userConfig && unfollowMeFromConfig) {
         userConfig.followings = userConfig.followings.filter(
           (id) => id !== candidateId
@@ -168,7 +182,8 @@ export class UserService {
         unfollowMeFromConfig.followers = unfollowMeFromConfig.followers.filter(
           (id) => id !== myId
         );
-
+await userConfig.save()
+await unfollowMeFromConfig.save()
         return new UserAndPrefferencesDto(iAmUser, userConfig);
       }
     }
@@ -184,12 +199,15 @@ export class UserService {
     console.log("Here myst not be");
 
     if (iAmUser) {
-      const userConfig = userPrefferences.find(
-        (config) => config.userId === iAmUser._id
-      );
-      const unfollowFromMeConfig = userPrefferences.find(
-        (config) => config.userId === candidateId
-      );
+      await PrefferenceDb.findOne({ userId: iAmUser._id });
+      const userConfig = await PrefferenceDb.findOneAndUpdate({
+        userId: iAmUser._id,
+      });
+
+      const unfollowFromMeConfig = await PrefferenceDb.findOne({
+        userId: candidateId,
+      });
+
       if (userConfig && candidate) {
         userConfig.followings = userConfig.followings.filter(
           (id) => id !== candidateId
@@ -197,6 +215,8 @@ export class UserService {
         userConfig.followers = userConfig.followers.filter(
           (id) => id !== candidateId
         );
+        await userConfig.save()
+        await unfollowFromMeConfig?.save()
         return new UserAndPrefferencesDto(iAmUser, userConfig);
       }
     }
@@ -211,19 +231,20 @@ export class UserService {
     console.log("subscribe");
 
     if (iAmUser && subscribeTo) {
-      const userConfig = userPrefferences.find(
-        (config) => config.userId === iAmUser._id
-      );
-      const subscribeToConfig = userPrefferences.find(
-        (config) => config.userId === subscribeTo._id
-      );
-      if (userConfig) {
-        if (userConfig.followings.includes(candidateId))
-          throw new Error("Yoy alredy subscribed");
-        userConfig.followings.push(candidateId);
-        subscribeToConfig?.followers.push(myId);
+      const userConfig = await PrefferenceDb.findOne({ userId: iAmUser._id });
+      const subscribeToConfig = await PrefferenceDb.findOne({
+        userId: subscribeTo._id,
+      });
 
-        return new UserAndPrefferencesDto(iAmUser, userConfig);
+
+      if (userConfig&&iAmUser) {
+          if (userConfig.followings.includes(candidateId))
+            throw new Error("Yoy alredy subscribed");
+          userConfig.followings.push(candidateId);
+          subscribeToConfig?.followers.push(myId);
+          await userConfig.save()
+          await subscribeToConfig?.save()
+          return new UserAndPrefferencesDto(iAmUser, userConfig);
       }
     }
 
@@ -236,6 +257,7 @@ export class UserService {
 
     if (name) user.name = name;
     if (surname) user.surname = surname;
+    await user.save()
     return user;
   }
 }
