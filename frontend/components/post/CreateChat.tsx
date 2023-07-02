@@ -5,10 +5,11 @@ import { useCreateChat } from "../messenger/hooks";
 import { useRouter } from "next/router";
 import { useGetChats } from "@/hooks/chat";
 import { useLogginedUserdata } from "@/hooks/user";
+import { chatIdVar, iAmMessagingWithVar } from "../messenger/messengerState";
 
-function CreateChat({ postCreatorId }: { postCreatorId: string }) {
+function CreateChat({ postCreator,children }: { postCreator: UserType ,children:React.ReactNode }) {
   const { data: loggineUserData } = useLogginedUserdata();
-  const { createChat, data } = useCreateChat(postCreatorId);
+  const { createChat, data } = useCreateChat(postCreator?._id);
   const { data: chats, refetch: refetchChats } = useGetChats(
     loggineUserData.user._id
   );
@@ -17,22 +18,31 @@ function CreateChat({ postCreatorId }: { postCreatorId: string }) {
 
   function chatHandler() {
     const chatExist = chats?.find((chat) =>
-      chat.chat.users.includes(postCreatorId)
+      chat.chat.users.includes(postCreator._id)
     );
     console.log(chatExist);
 
     if (!chatExist) {
       createChat();
+      refetchChats()
     }
     router.push("/messenger");
+    iAmMessagingWithVar(postCreator);
+    if(chatExist?.chat._id){
+
+    }
+           chatIdVar(chatExist?.chat._id);
+
+
   }
-  console.log(data);
 
   return (
-    <TbMessageCircle2
+    <div
       className=" cursor-pointer  hover:text-gray-300"
       onClick={chatHandler}
-    />
+    >
+      {children}
+    </div>
   );
 }
 

@@ -2,9 +2,15 @@ import React, { useState } from "react";
 import SahrePosts from "./SharePosts";
 import { UserAndPrefferncesType } from "@/../types/userType";
 import ProfilePost from "./ProfilePost";
+import { useRouter } from "next/router";
+import { useLogginedUserdata } from "@/hooks/user";
 
 export function ProfileActions({ data }: { data: UserAndPrefferncesType }) {
   const [checked, setChecked] = useState<null | number>(0);
+  const{data:loggedUser}=useLogginedUserdata()
+  const router=useRouter()
+ // console.log(router.query.id===loggedUser.user._id);
+  
   return (
     <div className="   ">
       <div className="">
@@ -51,7 +57,7 @@ export function ProfileActions({ data }: { data: UserAndPrefferncesType }) {
           ))}
       </div>
       
-      {checked == 0 && <SahrePosts />}
+      {(checked == 0&&router.query.id===loggedUser.user._id) && <SahrePosts />}
     </div>
   );
 }

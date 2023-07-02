@@ -42,11 +42,11 @@ const mySocketId=useReactiveVar(mySocketIdVar)
   return (
     <div
   
-      className=" relative sidebar-elem"
+      className=" relative sidebar-elem   flex  "
       onClick={() => router.push("/messenger")}
     >
-      <BsMessenger className=" text-blue-500" />
-      <span className=" text-lg"> Messenger</span>
+      <BsMessenger className=" text-blue-500 "  size={35}/>
+      <span className=" text-lg sidebar-descr-hide"> Messenger</span>
       {router.pathname == "/messenger" && (
         <div className="sidebar__active"></div>
       )}

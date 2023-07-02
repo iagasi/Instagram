@@ -53,8 +53,8 @@ type props = {
     return <div className=" bg-red-800 p-6">Error</div>;
   }
   return (
-    <div className=" relative w-[70vw] h-[80vh] flex ">
-      <div className=" w-3/5 h-full relative bg-slate-200  flex justify-start ">
+    <div className=" relative w-[70vw] h-[80vh] flex justify-between max-xl:flex-col ">
+      <div className=" w-3/5 h-full relative bg-slate-200  flex justify-start  flex-1 max-xl:w-full">
         <div className="  ">
           <Image
             src={postImage(props?.postData?.image)}
@@ -64,7 +64,8 @@ type props = {
           />
         </div>
       </div>
-      <div className=" pl-5  h-3/4">
+      <div className=" pl-5  h-3/4 w-[30%]  max-2xl:w-[40%] max-xl:w-full max-xl:h-[50%] max-xl:overflow-y-auto
+       ">
         <div>
           <UserPreview user={props.postPublisher} />
           <hr />
@@ -83,7 +84,11 @@ type props = {
           </div>
 
           <div className="sticky top-0 w-3/4">
-            <LikePost postData={props.postData} currUser={props.currUser} refetch={refetchSinglePost}/>
+            <LikePost
+             postData={props.postData} 
+             currUser={props.currUser}
+              refetch={refetchSinglePost}
+              />
             <CommentPost {...props} refetchPosts={refetchPosts} />
             <hr />
           </div>

@@ -15,11 +15,11 @@ function SharePosts(props: withModalType) {
         onClick={() => props.setModal()}
       />
 
-      <div className=" text-2xl">SahrePosts</div>
+      <div className=" text-2xl">ShrePosts</div>
     </div>
   );
 }
- export function SharePostsModalData(props:withModalType) {
+export function SharePostsModalData(props: withModalType) {
   const [loading, setLoading] = useState(false);
   const { data: user, refetch } = useLogginedUserdata();
   const uploadHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,22 +34,25 @@ function SharePosts(props: withModalType) {
     try {
       await axios.put(UPLOAD_POST_IMAGE_URL + "/" + user.user._id, formData);
       refetch();
-    } finally {
       setLoading(false);
-      props.setModal()
+    } finally {
+      // props.setModal()
     }
   };
   return (
-    <div className=" flex flex-col  items-center justify-center h-full bg-white p-10 rounded-md   ">
-              <div className='  pb-20'> You can Upload images From your PC</div>
+    <div className=" flex flex-col  items-center justify-center h-full bg-white p-10 rounded-md max-md:p-4   ">
+      {loading ? (
+        <div className="flex flex-col justify-center ">
+          <h1>Uploading...</h1>
+          <Loading size="40" />
+        </div>
+      ) : (
+        <div className="  pb-20"> You can Upload images From your PC</div>
+      )}
 
       <label className=" bg-blue-400 hover:bg-blue-500 text-white rounded-md p-2 cursor-pointer">
-        {
-          loading?
-          <div className="flex flex-col justify-center "><h1>Uploading...</h1><Loading size="40"/></div>
-          :<div>Upload from Pc</div> 
-        }
-       
+        {<div>Upload from Pc</div>}
+
         <input
           className="hidden"
           type="file"

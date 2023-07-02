@@ -17,6 +17,7 @@ import { PostsDb } from "../db/schemas/Post";
 import { CommentsDb } from "../db/schemas/Comments";
 import { UserDb } from "../db/schemas/User";
 import { ObjectId } from "mongodb";
+import mongoose from "mongoose";
 
 export class postService {
   static async getFriendsPosts(userId: string) {
@@ -153,11 +154,11 @@ catch(e){
       const filename = fileService.uploadFile(userId, "images", file);
       if (filename) {
         const post = new PostDto(userId, filename);
-        const newPost = await new PostsDb(post).save();
+        const newPost = await new PostsDb({...post}).save();
         console.log(userPrefferences);
 
         userPrefferences.posts.push(newPost._id);
-        await userPrefferences.save();
+       await userPrefferences.save();
         return "ok";
       }
     } catch (e) {

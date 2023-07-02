@@ -15,16 +15,23 @@ import { profileImage } from "@/helpers/image";
 import { useLogginedUserdata } from "@/hooks/user";
 import SidebarCreate from "./SidebarCreate";
 import MessengerOpenBtn from "./messenger/MessengerOpenBtn";
+import { SidebarMore } from "./SidebarMore";
 
 export function Sidebar() {
   const router = useRouter();
   const [searchBar, setSearchbar] = useState(false);
-  const [create,setCreate]=useState(false)
-  const {data:currLoggedUser}=useLogginedUserdata()
+  const [create, setCreate] = useState(false);
+  const { data: currLoggedUser } = useLogginedUserdata();
 
-  if(!currLoggedUser){return<div><Loading size="40"/> </div>}
+  if (!currLoggedUser) {
+    return (
+      <div>
+        <Loading size="40" />{" "}
+      </div>
+    );
+  }
   return (
-    <div>
+    <div className="">
       {searchBar && (
         <Search
           close={() => {
@@ -33,80 +40,91 @@ export function Sidebar() {
         />
       )}
 
-      <header className=" sticky top-0 z-20 flex flex-col  bg-white space-y-20 border-r-2   text-3xl   p-4 pb-10 w-[250px] h-screen ">
+      <header className=" sticky top-0 z-20 flex flex-col  bg-white space-y-20 border-r-2   text-3xl  pl-4  max-[850px]:pl-0 pb-10 w-[250px] h-screen max-xl:w-[180px] max-[850px]:w-[70px]  ">
         <div
-          className=" w-36 h-10  pt-8 pb-8 cursor-pointer"
+          className=" w-36 h-10  pt-8 pb-8 cursor-pointer "
           onClick={() => router.push("/")}
         >
-          <Image
-            className=" block "
-            src="/bglogo.png"
-            alt="logo"
-            width={200}
-            height={60}
-          />
+          <div className=" max-[850px]:hidden">
+            <Image
+              className=" block "
+              src="/bglogo.png"
+              alt="logo"
+              width={200}
+              height={60}
+            />
+          </div>
+          <div className=" hidden max-[850px]:flex justify-center  w-[70px] ">
+            <Image
+              className=" block "
+              src="/small-logo.png"
+              alt="logo"
+              width={50}
+              height={50}
+            />
+          </div>
         </div>
-
-        <nav className=" flex    flex-col  w-full space-y-8   ">
-          <div
-            className="relative sidebar-elem  "
-            onClick={() => router.push("/")}
-          >
-            <AiOutlineHome className=" cursor-pointer " />
-            <span className=" text-lg">Home</span>
-            {router.pathname == "/" && <div className="sidebar__active"></div>}
-          </div>
-          <div onClick={() => setSearchbar(!searchBar)}>
-            <div className="sidebar-elem">
-              <BsSearch />
-              <span className=" text-lg">Search</span>
+        <div className=" h-full flex flex-col justify-between">
+          <nav className=" flex    flex-col  w-full space-y-8   ">
+            <div
+              className="relative sidebar-elem  "
+              onClick={() => router.push("/")}
+            >
+              <AiOutlineHome className=" cursor-pointer " />
+              <span className=" text-lg  sidebar-descr-hide ">Home</span>
+              {router.pathname == "/" && (
+                <div className="sidebar__active"></div>
+              )}
             </div>
-          </div>
+            <div onClick={() => setSearchbar(!searchBar)}>
+              <div className="sidebar-elem">
+                <BsSearch />
+                <span className=" text-lg  sidebar-descr-hide">Search</span>
+              </div>
+            </div>
 
-          <div
-            className="relative sidebar-elem"
-            onClick={() => router.push("/explore")}
-          >
-            <AiOutlineCompass />
-            <span className=" text-lg">Interesting</span>
-            {router.pathname == "/explore" && (
-              <div className="sidebar__active"></div>
-            )}
-          </div>
-          <div className="sidebar-elem" onClick={() => router.push("/like")}>
-            <AiOutlineHeart />
-            <span className=" text-lg">Like</span>
-            {router.pathname == "/like" && (
-              <div className="sidebar__active"></div>
-            )}
-          </div>
-        <SidebarCreate/>
-<MessengerOpenBtn />
-       
-          <div
-            className="relative  sidebar-elem"
-            onClick={() => router.push("/profile/"+currLoggedUser.user._id)}
-          >
-             <Image
-        className=" rounded-full h-[40px] w-[40px]"
-        src={profileImage(currLoggedUser?.user?.image)}
-        height={35}
-        width={35}
-        objectFit="cover"
-        alt="Profile image"
-      />
+            <div
+              className="relative sidebar-elem"
+              onClick={() => router.push("/explore")}
+            >
+              <AiOutlineCompass />
+              <span className=" text-lg sidebar-descr-hide">Interesting</span>
+              {router.pathname == "/explore" && (
+                <div className="sidebar__active"></div>
+              )}
+            </div>
+            <div className="sidebar-elem" onClick={() => router.push("/like")}>
+              <AiOutlineHeart />
+              <span className=" text-lg sidebar-descr-hide">Like</span>
+              {router.pathname == "/like" && (
+                <div className="sidebar__active"></div>
+              )}
+            </div>
+            <SidebarCreate />
+            <MessengerOpenBtn />
 
-            <span className="  text-lg">
-              <strong>{currLoggedUser?.user?.name}</strong>
-            </span>
-            {router.pathname.split("/").includes("profile") && (
-              <div className="sidebar__active"></div>
-            )}
-          </div>
-        </nav>
-        <div className=" flex  items-stretch">
-          <RxHamburgerMenu />
-          <span className=" text-lg">More</span>
+            <div
+              className="relative  sidebar-elem"
+              onClick={() => router.push("/profile/" + currLoggedUser.user._id)}
+            >
+              <Image
+                className=" rounded-full h-[40px] w-[40px]"
+                src={profileImage(currLoggedUser?.user?.image)}
+                height={35}
+                width={35}
+                objectFit="cover"
+                alt="Profile image"
+              />
+
+              <span className="  text-lg sidebar-descr-hide">
+                <strong>{currLoggedUser?.user?.name}</strong>
+              </span>
+              {router.pathname.split("/").includes("profile") && (
+                <div className="sidebar__active"></div>
+              )}
+            </div>
+          </nav>
+       <SidebarMore/>
         </div>
       </header>
     </div>

@@ -12,15 +12,15 @@ function SidebarCreate(props: propsType) {
     <div className="sidebar-elem " onClick={() => props.setModal()}>
       <AiOutlinePlusCircle />
 
-      <span className=" text-lg">Create</span>
+      <span className=" text-lg sidebar-descr-hide">Create</span>
     </div>
   );
 }
 
 function SidebarCreateHandler(props: propsType) {
   return (
-    <div className=" w-[600px] flex  flex-col items-center  text-xl pb-10">
-      <div className=" border-b-2 pb-2 w-full text-center ">Create Post</div>
+    <div className=" w-[600px] flex  flex-col items-center  text-xl pb-10 max-md:w-[300px] max-md:text-sm">
+      <div className=" border-b-2 pb-2 w-full text-center  ">Create Post</div>
       <div className="pt-10">
         <AiOutlineFileImage className="  w-[100px] h-[100px]" />
       </div>

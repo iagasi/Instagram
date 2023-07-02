@@ -16,7 +16,7 @@ export function Settings({ children }: propsType) {
   }, []);
 
   return (
-    <div ref={r} className=" " onClick={(e) => e.stopPropagation()}>
+    <div ref={r} className="" onClick={(e) => e.stopPropagation()}>
       {children}
     </div>
   );

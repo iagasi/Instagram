@@ -7,6 +7,7 @@ import { userVar } from "@/reactive/user";
 import UnsubscribeBtnHandler from "@/components/UnsubscribeBtnHandler";
 import { DeleteOrAddToFriends } from "@/components/DeleteOrAddToFriends";
 import { useLogginedUserdata, useVisitedPageUser } from "@/hooks/user";
+import CreateChat from "@/components/post/CreateChat";
 
 type propsType = {
   profileOwner: UserAndPrefferncesType;
@@ -44,7 +45,9 @@ export function OtherPersonProfile({ profileOwner }: propsType) {
         )
         //  <DeleteOrAddToFriends loggedUser={profileOwner.user} friends={} />
       }
-      <button className="primaryBtn ">Send Message</button>
+      <CreateChat postCreator={visitedPage.user} >
+      <button className="primaryBtn   text-gray-600">Send Message </button>
+          </CreateChat>
 
 
       <ProfileParameters />

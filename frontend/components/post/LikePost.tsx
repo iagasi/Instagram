@@ -25,7 +25,7 @@ type props = {
   currUser: UserAndPrefferncesType | null;
   refetch: any;
 };
-export function LikePost({ postData, currUser, refetch }: props) {
+export function LikePost({ postData, currUser, refetch, }: props) {
   const [likePost, { data: likedData }] = useMutation(like);
   useEffect(() => {
     refetch();
@@ -53,7 +53,7 @@ export function LikePost({ postData, currUser, refetch }: props) {
             onClick={likeHandler}
           />
         )}
-        {postData && <CreateChat postCreatorId={postData?.userId} />}
+
       </div>
       <OpenLikes likes={postData?.likes} postData={postData} />
     </div>

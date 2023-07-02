@@ -6,6 +6,7 @@ import { generateTokens } from "./tokenservice";
 import { UserDb } from "../db/schemas/User";
 import { TokenDb } from "../db/schemas/TokenDb";
 import { PrefferenceDb } from "../db/schemas/Prefferences";
+import { ObjectId } from "mongodb";
 const saltRounds = 10;
 export class UserService {
   static async register({
@@ -107,7 +108,7 @@ export class UserService {
     });
   }
   static async userPrefferences(userId: string) {
-    return await PrefferenceDb.findOne({ userId: userId });
+    return await PrefferenceDb.findOne({ userId: new ObjectId(userId)});
   }
 
   static async getUsers(userIds: string[]) {
@@ -115,7 +116,7 @@ export class UserService {
     for await (const id of userIds) {
       const candidate = await this.getSingleUser(id);
       if (candidate) {
-        res.push({ ...candidate });
+        res.push( candidate );
       }
     }
 
@@ -154,9 +155,11 @@ export class UserService {
       const followings = await this.getUsers(user?.followings);
       res.followers = followers;
       res.followings = followings;
+
     }
 
     return res;
+    
   }
 
   static async deleteFollowing(

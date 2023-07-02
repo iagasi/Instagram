@@ -9,6 +9,7 @@ import { UserType } from "@/../types/userType";
 import UserPreview from "./UserPreview";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { useLogginedUserdata } from "@/hooks/user";
 
 const wrapperId = "searchWrapper";
 const query = gql`
@@ -25,6 +26,8 @@ type propsType = {
   close: () => void;
 };
 export function Search({ close }: propsType) {
+  const { data: loggedUser } = useLogginedUserdata();
+
   const [searchText, setSearchText] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const searchValue = useDebounder(searchText, 800);
@@ -59,7 +62,7 @@ export function Search({ close }: propsType) {
             wrapperHandler(e);
           }}
         ></div>
-        <div className=" search-panel  border-1 border-[1px] rounded-md  border-gray-300 p-5 absolute  top-0 w-72 bg-white h-screen   ">
+        <div className=" search-panel  border-1 border-[1px] rounded-md  border-gray-300 p-5 absolute  top-0 w-72 bg-white h-screen left-0   ">
           <div className="  space-y-7 pb-5 border-b-[1px] border-gray-400">
             <h1 className="  text-center"> Search People</h1>
             <div className=" flex  bg-slate-100 pl-2 pr-2 items-center">
@@ -85,33 +88,39 @@ export function Search({ close }: propsType) {
             </div>
           )}
           <div className=" pt-10 space-y-5">
-            {users && !users.length && (
-              
-              <div className=" flex  flex-col justify-center items-center">
-                <Image
-                  className=" rounded-full h-[150px] w-[150px] "
-                  src={"/users-not-foung.png"}
-                  height={150}
-                  width={150}
-                  objectFit="cover"
-                  alt="Profile image"
-                />
-                <h2>User not found!!</h2>
-              </div>
-            )}
+            {(users && !users.length) ||
+              (users?.length === 1 &&
+                users.find((e) => e._id === loggedUser.user._id) && (
+                  <div className=" flex  flex-col justify-center items-center">
+                    <Image
+                      className=" rounded-full h-[150px] w-[150px] "
+                      src={"/users-not-foung.png"}
+                      height={150}
+                      width={150}
+                      objectFit="cover"
+                      alt="Profile image"
+                    />
+                    <h2>User not found!!</h2>
+                  </div>
+                ))}
             {users &&
-              users.map((user, i) => (
-                <div
-                  className=" cursor-pointer hover:bg-gray-300 rounded-md text-lg"
-                  key={user._id}
-                  onClick={() => {
-                    router.push(`/profile/${user._id}`);
-                    close();
-                  }}
-                >
-                  <UserPreview user={user} />
-                </div>
-              ))}
+              users.map((user, i) => {
+                if (user._id === loggedUser.user._id) {
+                  return;
+                }
+                return (
+                  <div
+                    className=" cursor-pointer hover:bg-gray-300 rounded-md text-lg"
+                    key={user._id}
+                    onClick={() => {
+                      router.push(`/profile/${user._id}`);
+                      close();
+                    }}
+                  >
+                    <UserPreview user={user} />
+                  </div>
+                );
+              })}
           </div>
         </div>
       </div>

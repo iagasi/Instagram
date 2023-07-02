@@ -37,6 +37,7 @@ const  logginedUserData = useReactiveVar(userVar)
   if (!logginedUserData) {return <> Error No logged person</>}
   if (!friends) {return <> Error No Friends</>}
 console.log("deloete or add");
+console.log(friends);
 
   return (
     <div className=" p-3 flex flex-col  items-start">

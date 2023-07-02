@@ -17,13 +17,14 @@ function Profile() {
 const {data:logginedUser}=useLogginedUserdata()
 userVar(logginedUser)
 const {loading,data:visitedPageData,refetch:refetchPageData}=useVisitedPageUser()
-// visitedPersonVar(data)
-//  const visitedPerson= useReactiveVar(visitedPersonVar)
+const {data:profileFriends,refetch:refetchFriends}=usePageFriendsQuery(visitedPageData?.user?._id||"1",false)
+
 useEffect(()=>{
+  refetchFriends()
   refetchPageData()
-},[refetchPageData])
- const {data:profileFriends}=usePageFriendsQuery(visitedPageData?.user?._id||"1",false)
-//visitedPersonFriendsVar(profileFriends)
+})
+
+ 
  if (loading||!visitedPageData) {
     return <p className=" text-4xl">Loading</p>;
   } 

@@ -39,6 +39,9 @@ input:focus {
 }
 
 @layer components {
+  :root {
+    --searchLeft:250px
+    }
   .delete-btn {
     color: red;
     font-weight: 600;
@@ -58,6 +61,7 @@ input:focus {
     /* transition-delay:0.2s; */
   }
 
+
   .search-panel {
     z-index: 0;
     animation: searchMove 0.5s;
@@ -69,7 +73,7 @@ input:focus {
       left: 0px;
     }
     to {
-      left: 250px;
+      left: var(--searchLeft);
     }
   }
 
@@ -118,26 +122,52 @@ input:focus {
     background: rgb(5, 5, 220);
   }
   .setting__item {
+    border-radius: 5px;
     border-bottom: 2px solid rgb(187, 185, 185);
     text-align: center;
-    font-size: large;
+    font-size: small;
     padding: 10px;
     cursor: pointer;
+    font-weight: 700;
   }
   .setting__item:hover {
-    background-color: rgb(205, 201, 201);
+    background-color: rgb(232, 227, 227);
   }
 
   .sidebar__active {
     position: absolute;
-    background-color: rgb(77, 77, 244);
-    height: 1px;
-    width: 70%;
+    background-color: rgb(178, 178, 228);
+    height: 2px;
+    width: 60%;
+  
     bottom: -10px;
-    
   }
 
   .vw90 {
     width: 90vw;
+  }
+
+  @media only screen and (max-width: 1280px) {
+
+    :root {
+      --searchLeft:180px
+      }
+  
+      .sidebar__active{
+        width: 100%;
+      }
+  }
+  @media only screen and (max-width: 850px) {
+    .sidebar-elem{
+      justify-content: center;
+    }
+  
+    .sidebar-descr-hide {
+      display: none;
+    }
+    :root {
+      --searchLeft:60px
+      }
+
   }
 }
