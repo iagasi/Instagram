@@ -2,13 +2,11 @@ import { combinedUserAndCommentType, postType } from "@/../types/postType";
 import { UserAndPrefferncesType, UserType } from "@/../types/userType";
 import React, { useEffect, useRef, useState } from "react";
 import { gql } from "../../__generated__/gql";
-import { useMutation,} from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { AiOutlineSend } from "react-icons/ai";
 
-import OpenPost from "./OpenedPost";
 import Loading from "../Loading";
-import { postVar } from "@/reactive/post";
-import { Modal } from "../Modal";
+
 import PostComments from "./PostComments";
 
 type props = {
@@ -30,7 +28,6 @@ function CommentPost({
   refetchPosts,
 }: props) {
   const modaIsOpen = document.querySelector("#modal");
-
 
   const [messageText, setMessageText] = useState("");
   const [loadComments, setLoadComments] = useState(false);
@@ -62,8 +59,6 @@ function CommentPost({
   }
   return (
     <div className=" pr-5">
- 
-
       <div className="cursor-pointer">
         <PostComments postData={postData} loadCommets={loadComments} />
       </div>

@@ -12,7 +12,7 @@ const pubsub = new PubSub();
 
  async function newMessage(message: messageType) {
  const chat= await ChatService.getSingleChat(message.chatId)
- const friendId=chat?.users.find(id=>message.userId!==id)
+ const friendId=chat?.users.find(id=>message.userId.toString()!==id.toString())
  if(friendId){
 
   const createdMessage= await ChatService.unreadMessageSet({
@@ -37,9 +37,8 @@ async function newMessaesPermisions(
 }
 
 async function message(message: messageType) {
-  const id=Math.random().toString()
   const createdMessage=await ChatService.addMessage({
-    _id: id,
+ 
     chatId: message.chatId,
     message: message.message,
     userId: message.userId,
@@ -53,10 +52,13 @@ export const chatResolver = {
       const res = [];
       const chats = await ChatService.getchats(args.userId);
       
+      if(!chats)return
 
       for await (const chat of chats) {
         let friendId = null;
-        friendId = chat.users.find((e) => e !== args.userId);
+        friendId = chat.users.find((e) => e.toString() !== args.userId.toString());
+
+
 
         if (!friendId) return "userNot found";
         const friendData = await UserService.getSingleUser(friendId);
@@ -80,7 +82,8 @@ export const chatResolver = {
   },
   Mutation: {
     sendMessage: async (p: any, args: { input: messageType }) => {
-      const chat = ChatService.getSingleChat(args.input.chatId);
+      const chat = await ChatService.getSingleChat(args.input.chatId);
+     
       if (chat && chat.users.includes(args.input.userId)) {
   
         newMessage(args.input);
@@ -111,8 +114,8 @@ export const chatResolver = {
       ChatService.unreadMessageSet(args.input);
     },
     unreadChatMessagesDelete:async function ( parrent: any,
-      args: { input: {chatId:string} }){
-      return  ChatService.unreadChatMessagesDelete(args.input.chatId)
+      args: { input: {chatId:string,userId:string} }){
+      return  ChatService.unreadChatMessagesDelete(args.input.chatId,args.input.userId)
       }
 
   },
@@ -120,7 +123,7 @@ export const chatResolver = {
   Subscription: {
     receiveMessage: {
       subscribe: withFilter(
-        (parrent: any, args: { input: { chatId: string } }) => {console.log("subscribe");
+        (parrent: any, args: { input: { chatId: string } }) => {
         
           return pubsub.asyncIterator(["MESSAGE"]);
         },
@@ -129,7 +132,6 @@ export const chatResolver = {
           payload: { receiveMessage: messageType },
           args: { input: { chatId: string } }
         ) => {
-         // console.log("subscribe")
           const subscribeToChat = args.input.chatId;
           const receivedMessageInChat = payload.receiveMessage.chatId;
           return subscribeToChat === receivedMessageInChat;
@@ -141,7 +143,7 @@ export const chatResolver = {
     listenMessages: {
       subscribe: withFilter(
         (parrent: any, args: { input: messageType }) => {
-          console.log("unread subscribe111");
+          // console.log("unread subscribe111");
 
           return pubsub.asyncIterator(["LISTEN_MESSAGE"]);
           
@@ -248,6 +250,7 @@ input inputReceiveMessage{
   }
   input deleteUnreadType{
     chatId:String
+    userId:String
   }
   type Mutation{
     sendMessage(input:MessageInput):MessagaeType

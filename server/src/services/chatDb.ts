@@ -3,128 +3,94 @@ import {
   messageType,
   unreadMessageType,
 } from "../../../types/chatType";
+import { ChatDb } from "../db/schemas/Chats";
+import { MessageDb } from "../db/schemas/Messages";
+import {  UnreadDb } from "../db/schemas/UnreadMessages";
 
-let unreadMessages = [
-  {
-    _id: "fsdsddfs",
-    userId: "1",
-    chatId: "888",
-  }, {
-    _id: "fsdsdsddfs",
-    userId: "1",
-    chatId: "888a",
-  },
-
-];
-let chats: chatType[] = [
-  {
-    _id: "888",
-    users: ["1", "2"],
-  },
-  {
-    _id: "888a",
-    users: ["1", "3"],
-  },
-  {
-    _id: "46588",
-    users: ["4", "2"],
-  },
-  {
-    _id: "44",
-    users: ["1", "4"],
-  },
-
-];
-
-let messages = [
-  {
-    _id: "4575",
-    chatId: "888",
-    message:
-      "how are tou t y n c  georgirrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
-    timeStamp: "456666",
-    userId: "2",
-  },
-  {
-    _id: "455",
-    chatId: "888",
-    message: "hello linda",
-    timeStamp: "1",
-    userId: "1",
-  },
-];
 
 export const ChatService = {
-  getSingleChat: function (chatId: string): chatType | undefined {
-    const chat = chats.find((ch) => ch._id === chatId);
+  getSingleChat: async function (chatId: string): Promise<chatType | null> {
+    
+    const chat = await ChatDb.findById(chatId) as chatType | null;
+    
     return chat;
   },
-  getchats: function (userId: string): Promise<chatType[]> {
-    const myChat = chats.filter((item) => item.users.includes(userId));
-    return new Promise((res, rej) => {
-      res(myChat);
-    });
+  getchats: async function (userId: string): Promise<chatType[] | null> {
+    const myChat= await ChatDb.find( { users: { $all: [userId] } }) as chatType[] | null
+
+    return myChat;
   },
 
-  getchatsMessages: function (chatIdId: string): Promise<messageType[]> {
-    const myChat = messages.filter((message) => message.chatId === chatIdId);
-    myChat.sort((a, b) => Number(a.timeStamp) - Number(b.timeStamp));
-    return new Promise((res, rej) => {
-      res(myChat);
-    });
+  getchatsMessages:  async function (chatId: string): Promise<messageType[]> {
+    const myChat = await MessageDb.find({chatId:chatId}) as messageType[]
+    if(myChat){
+          myChat.sort((a, b) => Number(a.timeStamp) - Number(b.timeStamp));
+
+    }
+    return myChat
+
   },
 
-  addMessage: function (message: (typeof messages)[0]) {
-    messages.push(message);
-    return message
+  addMessage: async function (message:{ 
+    chatId: string;
+    message: string;
+    timeStamp: string;
+    userId: string;}) {
+
+   const newMessage=await new MessageDb(message).save()
+  
+    return newMessage;
   },
 
-  eleteMessage: function d(messageId: string) {
-    messages = messages.filter((mes) => mes._id !== messageId);
+  eleteMessage:  async function d(messageId: string) {
+    await MessageDb.findByIdAndDelete(messageId)
   },
 
-  deleteChat: function (chatId: string, userId: string) {
-    messages = messages.filter((mes) => mes.chatId !== chatId);
-    chats = chats.filter((chat) => chat._id !== chatId);
+  deleteChat: async function (chatId: string, userId: string) {
+
+    await MessageDb.deleteMany({chatId:chatId})
+    await ChatDb.findByIdAndDelete(chatId)
+   await UnreadDb.deleteMany({chatId:chatId})
     return chatId;
   },
 
-  createChat: function (user1Id: string, user2Id: string) {
-    const ischatExist = chats.find(
-      (chat) => chat.users.includes(user1Id) && chat.users.includes(user2Id)
-    );
+  createChat: async function (user1Id: string, user2Id: string) {
+
+    
+    const ischatExist= await ChatDb.findOne( { users: { $all: [user1Id,user2Id] } })
     if (ischatExist) {
-      return"Chat already exists"
+      console.log("Chat already exists");
+      
+      return "Chat already exists";
       throw Error();
     }
-    const id = String(Math.random() * 10);
+    
     const newChat = {
-      _id: id,
-      users: [user1Id, user2Id],
+      userId:user1Id,
+      users: [user2Id, user1Id,],
     };
-    chats.push(newChat);
-    return newChat;
+   const createdchat= await new ChatDb(newChat).save()
+  
+   
+    return createdchat;
   },
 
   unreadMessageGet: async function (
     userId: string
   ): Promise<unreadMessageType[]> {
-    
-    return unreadMessages.filter((unread) => unread.userId === userId);
+return await UnreadDb.find({userId:userId})
   },
-  unreadChatMessagesDelete: async function (chatId: string) {
-    unreadMessages = unreadMessages.filter(
-      (unread) => unread.chatId !== chatId
-    );
-    return "ok"
-  },
-  unreadMessageSet: function (unread: Omit<unreadMessageType, "_id">) {
-    const Id=Math.random().toString()
-    unreadMessages.push({
-      _id:Id ,
-      ...unread,
-    });
+  unreadChatMessagesDelete: async function (chatId: string,userId:string) {
 
-  return unreadMessages.find(unreadMessage=>unreadMessage._id===Id)
+
+await UnreadDb.deleteMany({$and:[{chatId:chatId},{userId:userId}]})
+    return "ok";
+  },
+  unreadMessageSet:async function (unread: Omit<unreadMessageType, "_id">) {
+   const unreadMessage= new UnreadDb(unread)
+  await  unreadMessage.save()
+ 
+const unreades= await UnreadDb.findById(unreadMessage._id)
+return unreades
   },
 };

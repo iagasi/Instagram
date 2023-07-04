@@ -7,7 +7,13 @@ import { useGetChats } from "@/hooks/chat";
 import { useLogginedUserdata } from "@/hooks/user";
 import { chatIdVar, iAmMessagingWithVar } from "../messenger/messengerState";
 
-function CreateChat({ postCreator,children }: { postCreator: UserType ,children:React.ReactNode }) {
+function CreateChat({
+  postCreator,
+  children,
+}: {
+  postCreator: UserType;
+  children: React.ReactNode;
+}) {
   const { data: loggineUserData } = useLogginedUserdata();
   const { createChat, data } = useCreateChat(postCreator?._id);
   const { data: chats, refetch: refetchChats } = useGetChats(
@@ -24,23 +30,17 @@ function CreateChat({ postCreator,children }: { postCreator: UserType ,children:
 
     if (!chatExist) {
       createChat();
-      refetchChats()
+      refetchChats();
     }
     router.push("/messenger");
-    iAmMessagingWithVar(postCreator);
-    if(chatExist?.chat._id){
-
+  //  iAmMessagingWithVar(postCreator);
+    if (chatExist?.chat._id) {
     }
-           chatIdVar(chatExist?.chat._id);
-
-
+    chatIdVar(chatExist?.chat._id);
   }
 
   return (
-    <div
-      className=" cursor-pointer  hover:text-gray-300"
-      onClick={chatHandler}
-    >
+    <div className=" cursor-pointer  hover:text-gray-300" onClick={chatHandler}>
       {children}
     </div>
   );

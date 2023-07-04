@@ -14,6 +14,7 @@ import {
 import FindUsers from "./FindUsers";
 import { gql, useMutation } from "@apollo/client";
 import { Mutation } from "@/__generated__/graphql";
+import { log } from "console";
 const deleteChatGql = gql(`
 mutation DeleteChat($input: deleteChatInput) {
     deleteChat(input: $input) 
@@ -44,11 +45,12 @@ function Chats({
   useEffect(() => {
     unreadData.refetch();
   }, [deleteStatus, unreadData]);
-  function deleteUnreadMessages(chatId: string) {
+  function deleteUnreadMessages(chatId: string,userId:string) {
     mutateFunctionDeleteUnread({
       variables: {
         input: {
           chatId,
+          userId
         },
       },
     });
@@ -56,11 +58,17 @@ function Chats({
   function loadChats(
     e: React.SyntheticEvent,
     chatId: string,
-    chat: chatsAndFriendsType
+    chat: chatsAndFriendsType,
+    userId:string
   ) {
+
+    
     chatIdVar(chatId);
     iAmMessagingWithVar(chat.chatWithInfo);
-    deleteUnreadMessages(chatId);
+    deleteUnreadMessages(chatId,userId);
+
+ 
+
   }
 
   useEffect(() => {
@@ -97,7 +105,7 @@ function Chats({
           <div
             className="  relative flex justify-between items-center "
             key={chat.chat._id}
-            onClick={(e) => loadChats(e, chat.chat._id, chat)}
+            onClick={(e) => loadChats(e, chat.chat._id, chat,logginedUser._id)}
             onMouseOver={() => setShowDel(chat.chat._id)}
             onMouseLeave={() => setShowDel(null)}
           >

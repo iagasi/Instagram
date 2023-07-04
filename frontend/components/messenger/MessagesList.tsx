@@ -19,6 +19,8 @@ const timeAgo = new TimeAgo("en-US");
 function MessagesList() {
   const chatId = useReactiveVar(chatIdVar) as string;
   const IAmMessagingWith = useReactiveVar(iAmMessagingWithVar);
+  console.log(IAmMessagingWith);
+  
 const [messages,setMessages]=useState<messageType[]|[]>([])
   const {
     data: LoadedMessages,
