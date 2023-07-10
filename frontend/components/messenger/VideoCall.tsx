@@ -13,6 +13,8 @@ import { connectType } from "../../../types/messengerType";
 import UserPreview from "../UserPreview";
 import Video from "./Video";
 function VideoCall() {
+  const audio=new Audio("./music/make-call.wav")
+
   const [stream, setStream] = useState<MediaStream | undefined>();
   const mySocketId = useReactiveVar(mySocketIdVar);
   const { data: logginedUser } = useLogginedUserdata();
@@ -22,14 +24,35 @@ function VideoCall() {
 
   const connectionRef = useRef<Peer.Instance | null>(null);
   const [makeCall, setMakeCall] = useState(false);
+  
   function record(): Promise<MediaStream> {
     return new Promise((res, rej) => {
       navigator.mediaDevices.getUserMedia({ video: true }).then((st) => {
-      //  setStream(st);
+      setStream(st);
         res(st);
       });
     });
   }
+  useEffect(()=>{
+if(makeCall){
+  audio.loop = true
+  audio.volume=0.3
+  audio.play()
+}
+if(!makeCall){
+  audio.pause()
+}
+return()=>{
+  audio.pause()
+
+  stream?.getTracks().forEach((track) => {
+   console.log(track);
+   
+        track.stop();
+});
+
+}
+  },[makeCall])
 
   if (stream && myVideo.current) {
     myVideo.current.srcObject! = stream;

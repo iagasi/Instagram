@@ -22,7 +22,7 @@ function IsMyFriend(props: propsType) {
         </button>
       ) : (
         <button className=" bg-blue-500  hover:bg-blue-600 p-2 rounded-md">
-          Subccribe
+          Subscribe
         </button>
       )}
     </div>

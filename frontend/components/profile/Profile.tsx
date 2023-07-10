@@ -31,7 +31,7 @@ useEffect(()=>{
   
   return (
     <div className="">
-      <div className=" flex ">
+      <div className=" flex max-[500px]:block text-lg max-[750px]:text-sm ">
         <Sidebar />
         <div className=" flex-1">
           <ProfileTop visitedUser={visitedPageData} profileFriends={profileFriends} />

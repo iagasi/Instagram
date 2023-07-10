@@ -17,26 +17,26 @@ function Video({myVideo,connectionRef,close,videoStream,resVideo ,children}:prop
     }
   },[])
   return (
-    <div className='fixed top-0 left-0 bg-slate-600 text-white p-5 w-screen h-screen  z-30'>
+    <div className='fixed top-0 left-0 bg-slate-600 text-white  w-screen h-screen  z-30 '>
        {
         children
        }
        
           <video
-              className=" w-full  border-2 absolute left-5 bottom-5 bg-black"
+              className=" w-[99%] h-3/4 border-2 absolute  bottom-10 bg-black"
               ref={resVideo}
               autoPlay
           
             />
   <video
-              className=" w-[200px] h-[200px] border-2 absolute left-5 bottom-5"
+              className=" w-[200px] h-[200px] border-2 absolute left-5 bottom-10"
               ref={myVideo}
               muted
               autoPlay
               controls
             />
             <button
-              className=" absolute left-0 right-0 bottom-7 w-fit m-auto bg-red-600 rounded-md p-2 "
+              className=" absolute left-0 right-0 bottom-12 w-fit m-auto bg-red-600 rounded-md p-2 "
               onClick={() => {
                 connectionRef.current?.destroy();
                 myVideo.current?.pause()

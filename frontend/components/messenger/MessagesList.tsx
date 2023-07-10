@@ -19,7 +19,6 @@ const timeAgo = new TimeAgo("en-US");
 function MessagesList() {
   const chatId = useReactiveVar(chatIdVar) as string;
   const IAmMessagingWith = useReactiveVar(iAmMessagingWithVar);
-  console.log(IAmMessagingWith);
   
 const [messages,setMessages]=useState<messageType[]|[]>([])
   const {
@@ -65,7 +64,7 @@ if(newMessage){
 
   if (!chatId) {
     return (
-      <div className=" text-4xl pt-5  text-gray-400 text-center">
+      <div className=" text-4xl pt-5  text-gray-400 text-center max-md:text-lg max-[550px]:hidden">
         <p>Realtime </p>
         <p className=" text-gray-500">Video and Messaging </p>
    

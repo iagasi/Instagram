@@ -7,6 +7,7 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 import UserPreview from "../UserPreview";
 import { BiMessageAdd } from "react-icons/bi";
 import CreateChat from "./CreateChat";
+import Loading from "../Loading";
 const query = gql`
   query ($name: String) {
     findByNameSurname(name: $name) {
@@ -21,27 +22,18 @@ const query = gql`
 function FindUsers() {
   const [searchText, setSearchText] = useState("");
   const searchValue = useDebounder(searchText, 800);
-const searchRef=useRef(null)
+  const searchRef = useRef(null);
   const { loading, data, refetch } = useQuery(query, {
     variables: { name: searchValue },
     skip: !searchValue,
   });
   const users = data?.findByNameSurname as UserType[] | [];
-   const close=function (e:MouseEvent){
+  const close = function () {
+    setSearchText("");
+  };
 
-    const target=e.target as HTMLDivElement
-
-    
-  }
-  useEffect(()=>{
-document.body.addEventListener("click",close)
-return()=>{
-  document.body.removeEventListener("click",close)
-
-}
-  },[])
   return (
-    <div  ref={searchRef} className=" relative" onBlur={()=>{console.log("click outside")}}>
+    <div ref={searchRef} className=" relative">
       <div className=" flex  bg-slate-100 pl-2 pr-2 items-center">
         <input
           //   ref={inputRef}
@@ -51,6 +43,8 @@ return()=>{
           onChange={(e) => setSearchText(e.target.value)}
           value={searchText}
         />
+        {loading && <Loading />}
+
         {searchText && (
           <IoMdCloseCircleOutline
             className=" cursor-pointer text-2xl text-red-600"
@@ -59,37 +53,43 @@ return()=>{
         )}
       </div>
       {users && (
-        <div className=" absolute bg-slate-300 w-full h-screen  z-50 ">
-          {!users.length && (
-            <div className=" flex  flex-col justify-center items-center ">
-              <Image
-                className=" rounded-full h-[150px] w-[150px] "
-                src={"/users-not-foung.png"}
-                height={150}
-                width={150}
-                objectFit="cover"
-                alt="Profile image"
-              />
-              <h2>User not found!!</h2>
-            </div>
-          )}
-          {users && (
-            <div>
-              {users.map((user, i) => (
-                <div
-                  className=" cursor-pointer hover:bg-gray-300 rounded-md text-lg "
-                  key={user._id}
-                >
-                  <CreateChat user={user}  />
+        <div>
+          <div className=" absolute bg-white  max-w-500px h-screen   rounded-lg  shadow-lg z-30 p-2  max-[970px]:text-sm ">
+            {!users.length && (
+              <div className=" flex  flex-col justify-center items-center  border-b-2 ">
+                <h2 className=" font-bold pb-5">User not found!!</h2>
+
+                <Image
+                  className=" rounded-full h-[150px] w-[150px] "
+                  src={"/users-not-foung.png"}
+                  height={150}
+                  width={150}
+                  objectFit="cover"
+                  alt="Profile image"
+                />
+              </div>
+            )}
+            {users && (
+              <>
+                <div className="">
+                  {users.length !== 0 && (
+                    <h3 className="text-black  text-lg self-center pt-5 font-bold text-center border-b-2 pb-2">
+                      Found Users
+                    </h3>
+                  )}
+                  {users.map((user, i) => (
+                    <div className=" sidebar-elem  pr-3 " key={user._id}>
+                      <CreateChat user={user} />
+                    </div>
+                  ))}
                 </div>
-              ))}
-              {users.length !== 0 && (
-                <h3 className="text-black  text-lg self-center pt-5">
-                  Found Users
-                </h3>
-              )}
-            </div>
-          )}
+              </>
+            )}
+          </div>
+          <div
+            className=" fixed h-screen w-screen top-0 left-0   z-20"
+            onClick={(e) => close()}
+          ></div>
         </div>
       )}
     </div>

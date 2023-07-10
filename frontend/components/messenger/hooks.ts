@@ -1,6 +1,7 @@
 import { Mutation } from "@/__generated__/graphql";
 import { useLogginedUserdata } from "@/hooks/user";
 import { gql, useMutation } from "@apollo/client";
+import { useEffect, useState } from "react";
 
  const createChat = gql(`
 mutation createChat($input: CreateChatInput) {
@@ -11,7 +12,8 @@ mutation createChat($input: CreateChatInput) {
   }`);
 
 export function useCreateChat(chatWithId:string){
-  const [mutateFunction, { data }] = useMutation<Mutation>(createChat);
+  const [l,setL]=useState(false)
+  const [mutateFunction, { data },] = useMutation(createChat);
   const { data: loggineUserData, loading } = useLogginedUserdata();
   function createChatHandler() {
     mutateFunction({
@@ -22,6 +24,10 @@ export function useCreateChat(chatWithId:string){
         },
       },
     });
+    setL(true)
   }
-return {createChat:createChatHandler,data}
+  useEffect(()=>{
+    setL(false)
+  },[data])
+return {createChat:createChatHandler,data,loading:l}
 }

@@ -29,16 +29,22 @@ const router=useRouter()
   const myProfile = router.query.id ==LStorage.getUser()?._id;
 
   return (
-    <div className=" flex mx-auto space-x-20 pb-8 pt-8  w-fit">
-      <Image
-        className=" rounded-full h-[150px] w-[150px]"
+    <div className=" flex mx-auto space-x-20 pb-8 pt-8  w-fit   max-sm:space-x-6 ">
+      <div className=" relative bg-gray-100h-[150px] w-[150px]  max-sm:w-[80px] max-sm:h[80px]  ">
+   <Image
+        className=" rounded-full "
         src={profileImage(visitedUser?.user?.image)}
         height={150}
         width={150}
         objectFit="cover"
+
         alt="Profile image"
+        
       />
-      <div className=" space-y-5">
+
+      </div>
+   
+      <div className=" space-y-5   ">
         <div className=" justify-between flex   items-center space-x-4">
           <span className=" font-bold h-fit">
             {visitedUser.user.name} {visitedUser.user.surname}
@@ -55,7 +61,7 @@ const router=useRouter()
             />
           )}
         </div>
-        <div className="  flex space-x-5">
+        <div className="  flex space-x-5 ">
           {/* <PostModal user={user} users={user.prefferences.posts}/> */}
          <FollowersModal  friends={profileFriends?.followers} buttonName={"Delete"}  />
          <FollowingsModal friends={profileFriends?.followings} buttonName={"Unsubscribe"} />

@@ -18,8 +18,11 @@
 
 * {
   box-sizing: border-box;
-}
 
+}
+body{
+  background-color: rgb(251, 251, 251)
+}
 *::-webkit-scrollbar {
   width: 8px;
 }
@@ -39,6 +42,14 @@ input:focus {
 }
 
 @layer components {
+  .height-big{
+  
+    aspect-ratio : 1 / 1;
+  }
+
+  .heigh-small{
+    aspect-ratio : 1 / 1;
+  }
   :root {
     --searchLeft:250px
     }
@@ -96,7 +107,7 @@ input:focus {
     border-radius: 3px;
     color: white;
     font-weight: 600;
-    font-size: large;
+    /* font-size: large; */
   }
   .submit-btn:hover {
     background: rgb(49, 49, 248);

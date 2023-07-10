@@ -32,40 +32,49 @@ type props = {
   postData: postType | undefined;
   currUser: UserAndPrefferncesType | null;
   postPublisher: UserType;
-
 };
- function OpenPost(props: props) {
-  const { data,refetch } = useQuery(GetCommentPost, {
+function OpenPost(props: props) {
+  const { data, refetch } = useQuery(GetCommentPost, {
     variables: { postId: props.postData?._id },
     skip: !props.postData?._id,
-    pollInterval:4000
+    pollInterval: 4000,
   });
-  const {data:cardData,refetch:refetchSinglePost}=useGetPostById(props.postData?._id)
+  const { data: cardData, refetch: refetchSinglePost } = useGetPostById(
+    props.postData?._id
+  );
 
-  const commetsAndUsers =  data?.getPostCommentsAndAuthors as combinedUserAndCommentType[];
-  function refetchPosts(){
-    refetch()
-    return commetsAndUsers
+  const commetsAndUsers =
+    data?.getPostCommentsAndAuthors as combinedUserAndCommentType[];
+  function refetchPosts() {
+    refetch();
+    return commetsAndUsers;
   }
-
 
   if (!props.postData || !props.postPublisher) {
     return <div className=" bg-red-800 p-6">Error</div>;
   }
   return (
-    <div className=" relative w-[70vw] h-[80vh] flex justify-between max-xl:flex-col ">
-      <div className=" w-3/5 h-full relative bg-slate-200  flex justify-start  flex-1 max-xl:w-full">
+    <div
+      className=" relative w-[80vw] h-[90vh] flex justify-between
+      max-[1100px]:h-[70vh]
+      max-[900px]:h-[50vh]
+      max-[900px]:text-sm
+    "
+    >
+      <div className=" w-3/5 h-full relative bg-slate-200  flex justify-start  flex-1 ">
         <div className="  ">
           <Image
             src={postImage(props?.postData?.image)}
             alt="user Image"
             layout="fill"
-            objectFit="cover"
+            objectFit="contain"
           />
         </div>
       </div>
-      <div className=" pl-5  h-3/4 w-[30%]  max-2xl:w-[40%] max-xl:w-full max-xl:h-[50%] max-xl:overflow-y-auto
-       ">
+      <div
+        className=" pl-5  h-3/4 w-[30%]  max-2xl:w-[40%] 
+       "
+      >
         <div>
           <UserPreview user={props.postPublisher} />
           <hr />
@@ -85,10 +94,10 @@ type props = {
 
           <div className="sticky top-0 w-3/4">
             <LikePost
-             postData={props.postData} 
-             currUser={props.currUser}
+              postData={props.postData}
+              currUser={props.currUser}
               refetch={refetchSinglePost}
-              />
+            />
             <CommentPost {...props} refetchPosts={refetchPosts} />
             <hr />
           </div>
@@ -97,8 +106,5 @@ type props = {
     </div>
   );
 }
-
-
-
 
 export default OpenPost;

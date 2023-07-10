@@ -30,7 +30,6 @@ function MessageInput({
   const [messageFn, { data }] = useMutation<Mutation>(sendMesageGql);
   if (scrollRef.current) {
     const element = scrollRef.current as HTMLDivElement;
-    console.log(element.scrollHeight);
     setTimeout(() => {
       element.scrollTop = element.scrollHeight;
     }, 100);

@@ -9,12 +9,13 @@ type propsType = {
   dissabled?:boolean
 };
 function UserPreview({ user ,dissabled }: propsType) {
+  const surname=user?.surname.slice(0,13)
   const router=useRouter()
   function routeHandler(){
    !dissabled&& router.push(`/profile/${user?._id}`)
   }
   return (
-    <div className=" flex space-x-5 p-4  cursor-pointer h-fit  "
+    <div className=" flex space-x-5 p-4  cursor-pointer h-fit "
   onClick={routeHandler}
    
     >
@@ -25,12 +26,12 @@ function UserPreview({ user ,dissabled }: propsType) {
         width={38}
         height={38}
         objectFit="cover"
-      //  layout="fixed"
+     layout="fixed"
       />
       <div>
         <div className=" flex space-x-2 cursor-pointer font-bold">
           <h3 className=" text-md">{user?.name}</h3>
-          <h3 className=" text-md">{user?.surname}</h3>
+          <h3 className=" text-md">{surname}</h3>
         </div>
         {/* <p className=" text-sm">abu-dhabi-united-arab-emirates</p> */}
       </div>

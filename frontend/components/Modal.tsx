@@ -1,5 +1,6 @@
+import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
-
+import * as ReactDOM from 'react-dom'
 type propsType = {
   setModal: () => void;
  
@@ -14,7 +15,7 @@ export function Modal({ modal, setModal,children}: propsModalType) {
   function toggle() {
     setModal(!modal);
   }
-  return (
+  return ReactDOM.createPortal(
     <div
     id="modal"
       className=" fixed z-30 w-screen h-screen top-0 left-0 bg-neutral-600 bg-opacity-70	 flex items-center justify-center "
@@ -40,6 +41,7 @@ export function Modal({ modal, setModal,children}: propsModalType) {
           children
         }
       </div>
-    </div>
+    </div>,
+      document.body
   );
 }

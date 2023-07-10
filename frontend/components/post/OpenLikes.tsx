@@ -39,10 +39,10 @@ function OpenLikes(props: openLikeType) {
 
   const postLikers = data.getPostLikedPersons as UserType[];
   return (
-    <div className="text-lg p-2">
+    <div className="text-lg p-2 max-lg:text-sm">
         <h2 className=" border-b-2 pb-4 text-xl text-center  fo">Marks Like</h2>
       {postLikers.map((e) => {
-        return <div key={e._id} className=" flex justify-center items-center">
+        return <div key={e._id} className=" flex justify-between items-center ">
             <UserPreview user={e}/>
             <IsMyFriend loggedPerson={loggedPerson} candidate={e}/>
 

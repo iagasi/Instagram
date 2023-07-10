@@ -32,7 +32,7 @@ export function OtherPersonProfile({ profileOwner }: propsType) {
     );
   }
   return (
-    <div className=" space-x-3 flex">
+    <div className=" space-x-3 flex ">
       {
         weAreSubscribedToEachOther ? (
           <UnsubscribeBtnHandler

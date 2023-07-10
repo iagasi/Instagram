@@ -14,7 +14,9 @@ import {
 import FindUsers from "./FindUsers";
 import { gql, useMutation } from "@apollo/client";
 import { Mutation } from "@/__generated__/graphql";
-import { log } from "console";
+import { Modal } from "../Modal";
+import { Settings } from "../profile/Settings";
+import { BsFillTrashFill } from "react-icons/bs";
 const deleteChatGql = gql(`
 mutation DeleteChat($input: deleteChatInput) {
     deleteChat(input: $input) 
@@ -39,18 +41,20 @@ function Chats({
   const [chats, setChats] = useState(initialChats);
   const [showDel, setShowDel] = useState<string | null>(null);
   const [deleteFn, { data }] = useMutation<Mutation>(deleteChatGql);
+  const [deleteModal, setDeleteModal] = useState(false);
+
   useEffect(() => {
     setChats(initialChats);
   }, [initialChats]);
   useEffect(() => {
     unreadData.refetch();
   }, [deleteStatus, unreadData]);
-  function deleteUnreadMessages(chatId: string,userId:string) {
+  function deleteUnreadMessages(chatId: string, userId: string) {
     mutateFunctionDeleteUnread({
       variables: {
         input: {
           chatId,
-          userId
+          userId,
         },
       },
     });
@@ -59,16 +63,11 @@ function Chats({
     e: React.SyntheticEvent,
     chatId: string,
     chat: chatsAndFriendsType,
-    userId:string
+    userId: string
   ) {
-
-    
     chatIdVar(chatId);
     iAmMessagingWithVar(chat.chatWithInfo);
-    deleteUnreadMessages(chatId,userId);
-
- 
-
+    deleteUnreadMessages(chatId, userId);
   }
 
   useEffect(() => {
@@ -88,11 +87,12 @@ function Chats({
         },
       },
     });
+    setDeleteModal(false);
   }
 
   return (
     <div
-      className=" pl-4 pt-10 pr-3 border-r-2  w-1/3"
+      className=" pl-4 pt-10 pr-3 border-r-2  w-1/3 overflow-hidden  overflow-y-scroll max-sm:text-sm "
       onClick={() => showEmojiVar(false)}
     >
       <h2 className="  font-bold text-xl pb-5">
@@ -105,7 +105,7 @@ function Chats({
           <div
             className="  relative flex justify-between items-center "
             key={chat.chat._id}
-            onClick={(e) => loadChats(e, chat.chat._id, chat,logginedUser._id)}
+            onClick={(e) => loadChats(e, chat.chat._id, chat, logginedUser._id)}
             onMouseOver={() => setShowDel(chat.chat._id)}
             onMouseLeave={() => setShowDel(null)}
           >
@@ -113,11 +113,41 @@ function Chats({
             <Unread unreadData={unreadData.data} chatId={chat.chat._id} />
             {showDel === chat.chat._id && (
               <button
-                className=" bg-red-400 hover:bg-red-600 h-fit p-1 text-white rounded-md "
-                onClick={() => DeleHandler(chat.chat._id)}
+                id="deleteBtn"
+                className=" bg-red-400 hover:bg-red-600 h-fit p-1 text-white rounded-md  "
+                onClick={(e) => {
+                  console.log(e.currentTarget);
+                  setDeleteModal(true);
+                  setShowDel(null);
+                }}
               >
-                Del
+                <BsFillTrashFill />
               </button>
+            )}
+            {deleteModal && (
+              <Modal modal={deleteModal} setModal={() => setDeleteModal(false)}>
+                <div>
+                  <div className=" p-5 text-lg text-center">
+                    <div> Are you sure Delete Chat!</div>
+                    <small>All messaged will be lost</small>
+                  </div>
+
+                  <Settings>
+                    <div
+                      className=" text-red-500  "
+                      onClick={() => DeleHandler(chat.chat._id)}
+                    >
+                      Yes
+                    </div>
+                    <div
+                      className=" "
+                       onClick={() => setDeleteModal(!deleteModal)}
+                    >
+                      Cancell
+                    </div>
+                  </Settings>
+                </div>
+              </Modal>
             )}
           </div>
         ))}

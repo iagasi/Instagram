@@ -18,6 +18,9 @@ interface ICommentPostInput {
 }
 export const postResolvers = {
   Query: {
+    getInterestingPosts:async(parrent: UserType, args: QueryUserArgs)=>{
+return await postService.interestingPosts(args.id)
+    },
     getFriendsPosts: async (parrent: UserType, args: QueryUserArgs) => {
       return  await postService.getFriendsPosts(args.id);
     },
@@ -91,6 +94,7 @@ type Query{
   getPostCommentsAndAuthors(postId:String):[UserCommetType]
   getPostById(postId:String):postType
   getPostLikedPersons(postId:String):[UserType]
+  getInterestingPosts(id:String):[postType]
 }
   
 input likePostInput{

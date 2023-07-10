@@ -31,7 +31,7 @@ export function Sidebar() {
     );
   }
   return (
-    <div className="">
+    <div className="   max-[500px]:h-[80px]">
       {searchBar && (
         <Search
           close={() => {
@@ -40,7 +40,25 @@ export function Sidebar() {
         />
       )}
 
-      <header className=" sticky top-0 z-20 flex flex-col  bg-white space-y-20 border-r-2   text-3xl  pl-4  max-[850px]:pl-0 pb-10 w-[250px] h-screen max-xl:w-[180px] max-[850px]:w-[70px]  ">
+      <header
+        className=" sticky top-0 bottom-4 z-20 flex flex-col  bg-white space-y-20 border-r-2  pl-0 text-3xl  
+      pb-10 w-[250px]
+      h-screen
+      border-t-2
+       
+      max-xl:w-[180px]
+      max-[850px]:w-[70px] 
+      max-[850px]:pl-0
+
+      max-[500px]:space-y-0
+      max-[500px]:flex-row 
+      max-[500px]:h-[50px]
+      max-[500px]:w-screen
+      max-[500px]: items-center
+      max-[500px]: pt-2
+      max-[500px]:justify-start
+      "
+      >
         <div
           className=" w-36 h-10  pt-8 pb-8 cursor-pointer "
           onClick={() => router.push("/")}
@@ -54,7 +72,7 @@ export function Sidebar() {
               height={60}
             />
           </div>
-          <div className=" hidden max-[850px]:flex justify-center  w-[70px] ">
+          <div className=" hidden max-[850px]:flex    max-[400px]:hidden justify-center   ">
             <Image
               className=" block "
               src="/small-logo.png"
@@ -64,8 +82,22 @@ export function Sidebar() {
             />
           </div>
         </div>
-        <div className=" h-full flex flex-col justify-between">
-          <nav className=" flex    flex-col  w-full space-y-8   ">
+        <div
+          className=" h-full flex flex-col justify-between
+              max-[500px]:flex-row  
+              max-[500px]:flex-1
+              max-[500px]:space-x-2
+
+        "
+        >
+          <nav
+            className=" flex    flex-col  w-full space-y-8  h-full
+           max-[500px]:gap-2
+           max-[500px]:space-y-0
+           max-[500px]:flex-row
+           max-[500px]:h-[40px]
+          "
+          >
             <div
               className="relative sidebar-elem  "
               onClick={() => router.push("/")}
@@ -114,6 +146,7 @@ export function Sidebar() {
                 width={35}
                 objectFit="cover"
                 alt="Profile image"
+                layout="fixed"
               />
 
               <span className="  text-lg sidebar-descr-hide">
@@ -124,7 +157,7 @@ export function Sidebar() {
               )}
             </div>
           </nav>
-       <SidebarMore/>
+          <SidebarMore />
         </div>
       </header>
     </div>

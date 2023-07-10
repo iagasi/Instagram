@@ -26,7 +26,7 @@ useEffect(() => {
      const communicateWith=chats?.find(i=>i.chat._id===chatId)?.chatWithInfo
 
   return (
-    <div className="  flex flex-col flex-1 pr-10 pb-10 h-screen  justify-between bg-red ">
+    <div className="  flex flex-col flex-1 pr-10    justify-between   h-full ">
       <div
         className="  flex  justify-between  border-b-2   "
         onClick={() => showEmojiVar(false)}

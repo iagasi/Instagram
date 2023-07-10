@@ -4,7 +4,10 @@ import { RxHamburgerMenu } from "react-icons/rx";
 export function SidebarMore() {
   const [moreOpen, setMoreOpen] = useState(false);
   return (
-    <div className=" items-stretch   space-x-2 cursor-pointer relative ">
+    <div className=" items-stretch   space-x-2 cursor-pointer relative  max-[500px]:hidden 
+    "
+    
+  >
       <div
         className="  flex sidebar-elem items-stretch "
         onClick={() => setMoreOpen(!moreOpen)}

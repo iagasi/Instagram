@@ -20,10 +20,22 @@ function Messenger() {
   }
 
   return (
-    <div className="flex h-screen pb-7">
-      <Sidebar />
-      {chats && <Chats logginedUser={data.user} chats={chats} />}
-      <Interaction />
+    <div
+      className="flex h-screen pb-5
+     max-[500px]:block
+     max-sm:text-sm
+     justify-between
+    "
+    >
+        <Sidebar />
+      <div
+        className=" flex w-full  h-full    
+
+"
+      >
+        {chats && <Chats logginedUser={data.user} chats={chats} />}
+        <Interaction />
+      </div>
     </div>
   );
 }

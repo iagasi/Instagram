@@ -58,7 +58,7 @@ function UnsubscribeBtnHandler({
     });
   }
   return (
-    <div>
+    <div className=" ">
       {modal && (
         <Modal modal={modal} setModal={() => setModal(!modal)}>
           <div className=" p-10">
@@ -78,7 +78,7 @@ function UnsubscribeBtnHandler({
 
       <button
         onClick={() => setModal(!modal)}
-        className="submit-btn bg-red-400 hover:bg-red-500"
+        className=" submit-btn bg-red-400 hover:bg-red-500"
       >
         {buttonName}
       </button>
