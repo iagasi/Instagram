@@ -53,14 +53,14 @@ export function Sidebar() {
       max-[500px]:space-y-0
       max-[500px]:flex-row 
       max-[500px]:h-[50px]
-      max-[500px]:w-screen
+      max-[500px]:w-full
       max-[500px]: items-center
       max-[500px]: pt-2
       max-[500px]:justify-start
       "
       >
         <div
-          className=" w-36 h-10  pt-8 pb-8 cursor-pointer "
+          className="  h-10  pt-8 pb-8 cursor-pointer "
           onClick={() => router.push("/")}
         >
           <div className=" max-[850px]:hidden">
@@ -72,7 +72,7 @@ export function Sidebar() {
               height={60}
             />
           </div>
-          <div className=" hidden max-[850px]:flex    max-[400px]:hidden justify-center   ">
+          <div className=" hidden max-[850px]:flex    max-[500px]:hidden justify-center   ">
             <Image
               className=" block "
               src="/small-logo.png"
@@ -91,11 +91,13 @@ export function Sidebar() {
         "
         >
           <nav
-            className=" flex    flex-col  w-full space-y-8  h-full
+            className=" flex    flex-col  w-full space-y-8  h-full border-b-2
            max-[500px]:gap-2
            max-[500px]:space-y-0
            max-[500px]:flex-row
            max-[500px]:h-[40px]
+           max-[500px]:justify-between
+
           "
           >
             <div

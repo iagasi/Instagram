@@ -12,6 +12,7 @@ import { LStorage } from "@/helpers/user";
 import { Query } from "@/__generated__/graphql";
 import { useLogginedUserdata, usePageFriendsQuery, useVisitedPageUser } from "@/hooks/user";
 import { useEffect } from "react";
+import Logo from "../Logo";
 
 function Profile() {
 const {data:logginedUser}=useLogginedUserdata()
@@ -26,7 +27,7 @@ useEffect(()=>{
 
  
  if (loading||!visitedPageData) {
-    return <p className=" text-4xl">Loading</p>;
+    return <Logo/>;
   } 
   
   return (

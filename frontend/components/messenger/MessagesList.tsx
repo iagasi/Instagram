@@ -90,12 +90,13 @@ if(newMessage){
     );
   }
   return (
-    <div className=" space-y-10 h-full p-2">
+    <div className=" space-y-10 h-full p-2  
+    
+   "
+    >
       {messages.length &&
         messages.map((m) => (
-          <div className="flex " key={m._id}>
-            <Message message={m} />
-          </div>
+            <Message message={m} key={m._id} />
         ))}
     </div>
   );
@@ -111,11 +112,11 @@ function Message({ message }: { message: messageType }) {
   const style =
     sender?._id == loggedUserInfo?.user._id
       ? ` ml-auto  bg-blue-300`
-      : " bg-gray-200";
+      : " bg-gray-300";
   return (
-    <div className={" relative rounded-lg  pl-1 pr-1  max-w-[50%]" + style}>
+    <div className={" relative rounded-lg w-fit  max-w-[200px] overflow-hidden" + style}>
       <UserPreview user={sender} />
-      <div className=" break-words ">{message.message}</div>
+      <div className=" break-words overflow-hidden ">{message.message}</div>
       <div className=" absolute -bottom-5 right-0 font-bold text-slate-400 ">
         {timeAgo.format(new Date(Number(message.timeStamp)))}
       </div>

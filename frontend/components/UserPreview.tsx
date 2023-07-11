@@ -9,7 +9,7 @@ type propsType = {
   dissabled?:boolean
 };
 function UserPreview({ user ,dissabled }: propsType) {
-  const surname=user?.surname.slice(0,13)
+  const surname=user?.surname?.slice(0,13)
   const router=useRouter()
   function routeHandler(){
    !dissabled&& router.push(`/profile/${user?._id}`)

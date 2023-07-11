@@ -7,6 +7,7 @@ import { useLogginedUserdata } from "@/hooks/user";
 import { useReactiveVar } from "@apollo/client";
 import { chatIdVar, iAmMessagingWithVar } from "./messengerState";
 import { Sidebar } from "../Sidebar";
+import ChatHoc from "./hoc/ChatHoc";
 
 function Messenger() {
   const { data, loading } = useLogginedUserdata();
@@ -27,13 +28,20 @@ function Messenger() {
      justify-between
     "
     >
-        <Sidebar />
+      <Sidebar />
       <div
         className=" flex w-full  h-full    
 
 "
       >
-        {chats && <Chats logginedUser={data.user} chats={chats} />}
+        {chats && (
+            <ChatHoc
+              MainComponent={() => (
+                <Chats logginedUser={data.user} chats={chats} />
+              )}
+           
+            />
+        )}
         <Interaction />
       </div>
     </div>

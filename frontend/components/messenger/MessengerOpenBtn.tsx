@@ -42,7 +42,9 @@ const mySocketId=useReactiveVar(mySocketIdVar)
   return (
     <div
   
-      className=" relative sidebar-elem   flex  "
+      className=" relative sidebar-elem  flex  justify-center  
+      max-[850px]:gap-0
+      "
       onClick={() => router.push("/messenger")}
     >
       <BsMessenger className=" text-blue-500 "  size={35}/>

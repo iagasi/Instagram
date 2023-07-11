@@ -15,7 +15,7 @@ export function useLogginedUserdata(){
         skip: !userId,
       });
       const loggedData = loggedUserData?.getUserData as UserAndPrefferncesType;
-
+ 
     {
         return {
             loading,

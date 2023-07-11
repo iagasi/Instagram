@@ -62,7 +62,12 @@ export function Search({ close }: propsType) {
             wrapperHandler(e);
           }}
         ></div>
-        <div className=" search-panel  border-1 border-[1px] rounded-md  border-gray-300 p-5 absolute  top-0 w-72 bg-white h-screen left-0   ">
+        <div className=" search-panel  border-1 border-[1px] rounded-md  border-gray-300 p-5 absolute  top-0 w-72 bg-white h-screen left-0  
+         max-[500px]:top-12
+
+
+        ">
+         
           <div className="  space-y-7 pb-5 border-b-[1px] border-gray-400">
             <h1 className="  text-center"> Search People</h1>
             <div className=" flex  bg-slate-100 pl-2 pr-2 items-center">

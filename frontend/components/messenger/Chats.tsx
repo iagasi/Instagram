@@ -92,14 +92,14 @@ function Chats({
 
   return (
     <div
-      className=" pl-4 pt-10 pr-3 border-r-2  w-1/3 overflow-hidden  overflow-y-scroll max-sm:text-sm "
+      className=" pl-4 pt-10 pr-3 border-r-2   overflow-hidden  overflow-y-scroll  max-sm:text-sm "
       onClick={() => showEmojiVar(false)}
     >
       <h2 className="  font-bold text-xl pb-5">
         {logginedUser.name} {logginedUser.surname}
       </h2>
       <FindUsers />
-      <h3 className=" font-bold border-b-2 pb-3">Messages</h3>
+      <h3 className=" font-bold border-b-2 pb-3">Chats</h3>
       <div className=" space-y-2">
         {chats.map((chat) => (
           <div

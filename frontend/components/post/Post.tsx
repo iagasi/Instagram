@@ -44,7 +44,12 @@ export function Post({
   const postPublisher = data?.findUser as UserType;
 
   return (
-    <div className="  pb-4 w-fit  mt-10 border-t-2 ">
+    <div className="  pb-4 w-[460px]  mt-10 border-t-2 p-2 
+    
+    max-[550px]:w-[390px]
+    max-[400px]:w-[300px]
+
+    ">
       <div className=" flex justify-between ">
         <UserPreview user={postPublisher} />
         <PostSettings post={post} postMaker={postPublisher} />
@@ -54,10 +59,10 @@ export function Post({
         onClick={() => setModal(!modal)}
       >
         <Image
-          className=" w-[468px] h-[526px]"
+          className=" max-w-full h-[526px]"
           src={postImage(cardData?.image)}
           alt="Card Image"
-          width={468}
+          width={460}
           height={526}
           objectFit="cover"
         />

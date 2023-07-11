@@ -9,20 +9,22 @@ import { UserAndPrefferncesType, UserType } from "@/../types/userType";
 import { LStorage } from "@/helpers/user";
 import { Sidebar } from "./Sidebar";
 import { useLogginedUserdata } from "@/hooks/user";
+import Logo from "./Logo";
 
 export function Main() {
-  const [id, setId] = useState("");
   const userId = LStorage.getUser()?._id;
   console.log(userId);
 
   const { data: loggedUser } = useLogginedUserdata();
-  const { data, refetch } = useQuery(getUserAndPrefferencesGql, {
+  const { data, refetch,loading } = useQuery(getUserAndPrefferencesGql, {
     variables: { Id: userId },
   });
   useEffect(() => {
     refetch();
   }, [refetch]);
-
+if(loading){
+  return <Logo/>
+}
   const userData = data?.getUserData as UserAndPrefferncesType;
   userVar(userData);
 
