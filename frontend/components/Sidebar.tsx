@@ -47,8 +47,8 @@ export function Sidebar() {
       border-t-2
        
       max-xl:w-[180px]
-      max-[850px]:w-[70px] 
-      max-[850px]:pl-0
+      max-lg:w-[70px] 
+      max-lg:pl-0
 
       max-[500px]:space-y-0
       max-[500px]:flex-row 
@@ -63,7 +63,7 @@ export function Sidebar() {
           className="  h-10  pt-8 pb-8 cursor-pointer "
           onClick={() => router.push("/")}
         >
-          <div className=" max-[850px]:hidden">
+          <div className=" max-lg:hidden ">
             <Image
               className=" block "
               src="/bglogo.png"
@@ -72,7 +72,7 @@ export function Sidebar() {
               height={60}
             />
           </div>
-          <div className=" hidden max-[850px]:flex    max-[500px]:hidden justify-center   ">
+          <div className=" hidden max-lg:flex    max-[500px]:hidden justify-center   ">
             <Image
               className=" block "
               src="/small-logo.png"

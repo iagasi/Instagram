@@ -12,11 +12,13 @@ import {
   useUnreadMessagesGet,
 } from "@/hooks/chat";
 import FindUsers from "./FindUsers";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useReactiveVar } from "@apollo/client";
 import { Mutation } from "@/__generated__/graphql";
 import { Modal } from "../Modal";
 import { Settings } from "../profile/Settings";
 import { BsFillTrashFill } from "react-icons/bs";
+import { connectedUsersVar } from "@/reactive/user";
+import IsOnline from "../IsOnline";
 const deleteChatGql = gql(`
 mutation DeleteChat($input: deleteChatInput) {
     deleteChat(input: $input) 
@@ -42,6 +44,8 @@ function Chats({
   const [showDel, setShowDel] = useState<string | null>(null);
   const [deleteFn, { data }] = useMutation<Mutation>(deleteChatGql);
   const [deleteModal, setDeleteModal] = useState(false);
+  const connectedUsers=useReactiveVar(connectedUsersVar)
+console.log(connectedUsers);
 
   useEffect(() => {
     setChats(initialChats);
@@ -109,7 +113,8 @@ function Chats({
             onMouseOver={() => setShowDel(chat.chat._id)}
             onMouseLeave={() => setShowDel(null)}
           >
-            <UserPreview user={chat.chatWithInfo} dissabled={true} />
+            <IsOnline  user={chat.chatWithInfo} connectedUsers={connectedUsers} dissabled={true}/>
+            {/* <UserPreview user={chat.chatWithInfo} dissabled={true} /> */}
             <Unread unreadData={unreadData.data} chatId={chat.chat._id} />
             {showDel === chat.chat._id && (
               <button

@@ -10,6 +10,7 @@ import { LStorage } from "@/helpers/user";
 import { Sidebar } from "./Sidebar";
 import { useLogginedUserdata } from "@/hooks/user";
 import Logo from "./Logo";
+import OnlineFriends from "./OnlineFriends";
 
 export function Main() {
   const userId = LStorage.getUser()?._id;
@@ -36,6 +37,7 @@ if(loading){
         <div className=" w-full flex justify-center">
           {data?.getUserData && <Posts />}
         </div>
+        <OnlineFriends/>
       </>
     </div>
   );

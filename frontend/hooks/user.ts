@@ -52,7 +52,10 @@ export function usePageFriendsQuery(visitedUserId:string, skip:boolean){
     ); 
     
     
-    const friends=friendsData?.getUserFriends
+    const friends=friendsData?.getUserFriends as {
+        followings:UserType[]
+        followers:UserType[]
+    }
    
     return{
         refetch,

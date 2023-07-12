@@ -112,7 +112,6 @@ function v() {
   });
 
   io.on("connection", (socket: io.Socket) => {
-    // console.log("New user is connect")
     socket.on("setUser", (user: UserType) => {
       const isExist = connected.find((conUser) => conUser._id === user._id);
       if (!isExist && user) {
@@ -126,11 +125,22 @@ function v() {
         isExist.socketId = socket.id;
       }
       socket.emit("setUserId", isExist?.socketId);
+      
+      socket.broadcast.emit("check-connection")
     });
-
+socket.on("connectedUsers",(idies:string[])=>{
+const users:any[]=[]
+idies.forEach(id=>{
+  const found=connected.find(user=>user._id.toString()===id.toString())
+  if(found){
+    users.push(found)
+  }
+  })
+socket.emit("connectedUsers",users)
+})
     socket.on("getSocketId", (user: UserType & { from: string }) => {
       const candidate = connected.find((conUser) => conUser._id === user._id);
-      console.log(candidate);
+
 
       io.to(user.from).emit("getSocketId", candidate?.socketId);
     });
@@ -141,7 +151,6 @@ function v() {
           " call to socket id undefned//////////////////////////////////////////////////////////////////"
         );
       }
-      console.log("///////////////////////////");
 
       io.to(data.to).emit("call", data);
     });
@@ -155,16 +164,14 @@ function v() {
 
       io.to(data.to).emit("answer", data);
     });
-    socket.on("disconnect", (id) => {});
+    socket.on("disconnect", () => {
+    connected=  connected.filter(c=>c.socketId!==socket.id)
+      socket.broadcast.emit("check-connection")
 
-    socket.on("deleteUser", (socketId: string) => {
-      console.log("..................");
-
-      console.log(socketId);
-      console.log("..................");
-
-      connected = connected.filter((conUser) => conUser.socketId !== socketId);
+      
     });
+
+
   });
   httpServer.listen(2000, () => {
     console.log("ws serwer");
