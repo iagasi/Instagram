@@ -46,14 +46,14 @@ export function ProfileActions({ data }: { data: UserAndPrefferncesType }) {
         {checked == 0 &&
           data &&
           data?.prefferences?.posts?.map((postId) => (
-            <ProfilePost key={postId} postId={postId} />
+            <ProfilePost key={postId} postId={postId} profileId={router.query.id}  canDelete={true}/>
           ))}
 
 
         {checked == 1 &&
           data &&
           data.prefferences.saved.map((savedPostId) => (
-            <ProfilePost key={savedPostId} postId={savedPostId} />
+            <ProfilePost key={savedPostId} postId={savedPostId} profileId={router.query.id}  canDelete={false}/>
           ))}
       </div>
       

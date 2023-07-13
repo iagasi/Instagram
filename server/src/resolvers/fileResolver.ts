@@ -50,14 +50,15 @@ router.delete("/user-photo/:id",  async (req, res) => {
 router.put("/upload-post/:id",upload.single("File"),(req,res)=>{
 
     const userId = req.params.id as string;
-res.send(postService.uploadPostImage(userId,req.file))
+postService.uploadPostImage(userId,req.file)
+res.send("ok")
 })
 
-router.delete("/upload-post/:id",async(req,res)=>{
+router.delete("/upload-post/:id/:userId",async(req,res)=>{
     const postId = req.params.id as string;
-const status=await postService.deletePost(postId)
-console.log(status);
+   const userId= req.params.userId
+const status=await postService.deletePost( userId ,postId)
 
-return status
+res.send("ok")
 })
 export const fileRouter = router;

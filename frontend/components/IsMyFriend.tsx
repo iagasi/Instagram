@@ -1,5 +1,6 @@
 import { UserAndPrefferncesType, UserType } from "@/../types/userType";
 import React from "react";
+import SubscribeBthHandler from "./SubscribeBthHandler";
 type propsType = {
   loggedPerson: UserAndPrefferncesType;
   candidate: UserType;
@@ -21,9 +22,13 @@ function IsMyFriend(props: propsType) {
           You subscribed
         </button>
       ) : (
-        <button className=" bg-blue-500  hover:bg-blue-600 p-2 rounded-md">
-          Subscribe
-        </button>
+       
+                 <SubscribeBthHandler candidate={props.candidate} buttonName="Subscribe"/>
+ 
+    
+        // <button className=" bg-blue-500  hover:bg-blue-600 p-2 rounded-md">
+        //   Subscribe
+        // </button>
       )}
     </div>
   );

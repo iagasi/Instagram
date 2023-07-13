@@ -1,6 +1,6 @@
 import { WithModal } from "@/Hoc/WithModal";
 import { UPLOAD_POST_IMAGE_URL } from "@/helpers/constants";
-import { useLogginedUserdata } from "@/hooks/user";
+import { useLogginedUserdata, useVisitedPageUser } from "@/hooks/user";
 import { withModalType } from "@/types/modalTypes";
 import axios from "axios";
 import React, { useState } from "react";
@@ -15,11 +15,13 @@ function SharePosts(props: withModalType) {
         onClick={() => props.setModal()}
       />
 
-      <div className=" text-2xl">ShrePosts</div>
+      <div className=" text-2xl">Share-Posts</div>
     </div>
   );
 }
 export function SharePostsModalData(props: withModalType) {
+  const {data:visitedPageData,refetch:refetchPageData,loading:visLoading}=useVisitedPageUser()
+
   const [loading, setLoading] = useState(false);
   const { data: user, refetch } = useLogginedUserdata();
   const uploadHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +36,8 @@ export function SharePostsModalData(props: withModalType) {
     try {
       await axios.put(UPLOAD_POST_IMAGE_URL + "/" + user.user._id, formData);
       refetch();
-      setLoading(false);
+      refetchPageData()
+     setLoading(false);
     } finally {
       // props.setModal()
     }

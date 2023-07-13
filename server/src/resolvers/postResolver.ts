@@ -58,6 +58,12 @@ return await postService.interestingPosts(args.id)
         args.input.message
       );
     },
+
+    deletePost: (paretn: any, args: ILikePostInput) => {
+     
+      
+      return postService.deletePost( args.input.personId,args.input.postId)
+    },
   },
 };
 
@@ -110,6 +116,6 @@ input commentPostInput{
 type Mutation{
   likePost(input:likePostInput):postType
   commentPost(input:commentPostInput):String
-
+deletePost(input:likePostInput):String
 }
   `;

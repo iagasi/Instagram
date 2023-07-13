@@ -44,6 +44,10 @@ function SubscribeBthHandler(props: {
     profileOwner?.user?._id || "",
     true
   );
+  const { refetch: refetchMyFriends } = usePageFriendsQuery(
+    loggedUser?.user._id || "",
+   true
+  );
   const { data: logginedUser, refetch } = useLogginedUserdata();
   const { data: visitedPage, refetch: visitedPageRefetch } =
     useVisitedPageUser();
@@ -52,7 +56,8 @@ function SubscribeBthHandler(props: {
     refetch();
     visitedPageRefetch();
     refetchFriends();
-  }, [data, refetchFriends, refetch, visitedPageRefetch]);
+    refetchMyFriends()
+  }, [data, refetchFriends, refetch, visitedPageRefetch, refetchMyFriends]);
 
   function subscribeHandler() {
     mutateFunction({
@@ -63,7 +68,7 @@ function SubscribeBthHandler(props: {
     });
   }
   return (
-    <button onClick={subscribeHandler} className="  text-blue-700 font-bold">
+    <button onClick={subscribeHandler} className="bg-blue-500  hover:bg-blue-600 p-2 rounded-md text-white">
       {loading ? (
         <Loading />
       ) : props.buttonName ? (

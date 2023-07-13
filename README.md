@@ -3,7 +3,7 @@
 
 
 
-- GraphQl(Appole Client ,Appolo Server,Graph Ql Subscriptions)
+- GraphQl(Applo Client ,Appolo Server,Graph Ql Subscriptions)
 - Websockets
 - Mongo DB
 - WEB RTC
