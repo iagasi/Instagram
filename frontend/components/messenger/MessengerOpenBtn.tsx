@@ -22,6 +22,7 @@ function MessengerOpenBtn() {
   const { data } = useSubscribeUnreadMessages(loggedUserData?.user?._id);
   useEffect(() => {
     refetch();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return (

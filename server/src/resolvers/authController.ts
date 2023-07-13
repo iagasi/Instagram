@@ -22,7 +22,7 @@ try{
         password: req.body.password,
       });
       const cookieOptions: CookieOptions = {
-        //httpOnly: true,
+        httpOnly: true,
         maxAge: 1 * 60 * 60 * 24 * 1000,
         secure: true,
       };
@@ -34,8 +34,10 @@ try{
       });
 
 }
-  catch(e){
-    res.json(e)
+  catch(e :any){
+    console.log(e.message);
+    
+    res.json(e.message)
   } 
  
 })

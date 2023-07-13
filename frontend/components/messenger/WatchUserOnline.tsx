@@ -3,7 +3,6 @@ import { socket } from './socket';
 import { mySocketIdVar } from './messengerState';
 import { connectedUsersVar } from '@/reactive/user';
 import { useLogginedUserdata } from '@/hooks/user';
-import { UserType } from '../../../types/userType';
 
 function WatchUserOnline({watchAdditionalUsers=[]}:{watchAdditionalUsers?:string[]|[]}) {
     const [refetch, setRefetch] = useState(false);

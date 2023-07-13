@@ -70,8 +70,8 @@ export class UserService {
     const user = await UserDb.findOne({ email: email.trim() });
 
     if (!user) {
-      console.log("You don t registered to Login");
-      return;
+      throw  new Error("Email or Password incorrect");
+    
     }
 
     return new Promise((resolve, rej) => {
@@ -80,7 +80,7 @@ export class UserService {
           console.log("compare error");
         }
         if (!result) {
-          rej("Email or Password incorrect");
+          rej(new Error("Email or Password incorrect"));
         } else {
           console.log(password);
 

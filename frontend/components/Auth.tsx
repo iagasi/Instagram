@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { LStorage } from "@/helpers/user";
 import { useRouter } from "next/router";
+import Description from "./Description";
 const LOGIN_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 const input =
   " p-1 w-full border  border-gray-300  rounded-md mt-9 focus:outline-0 focus:border-green-700";
@@ -55,7 +56,8 @@ class AuthBoundary extends React.Component<{ children: JSX.Element }> {
   }
 }
 function Auth() {
-  const  router=useRouter()
+  const router = useRouter();
+  const [serverError, setServerError] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [logData, setLogdata] = useState<{
@@ -72,77 +74,113 @@ function Auth() {
   //
 
   const onSubmit = async (data: { email: string; password: string }) => {
+    setServerError("");
     if (logData && LOGIN_URL) {
       setLoading(true);
-      console.log(data);
 
       const res = await axios.post(
         LOGIN_URL + "/login",
         { email: data.email, password: data.password },
         { withCredentials: true }
       );
-      console.log(res.data);
+      if (typeof res.data === "string") {
+        setServerError(res.data);
+        setLoading(false);
+        return;
+      }
+
       LStorage.setUser(res.data);
       setLoading(false);
-      router.push("/")
+      router.push("/");
     }
   };
   return (
-    <div className=" flex justify-center h-screen items-center">
-      <div className=" border relative border-zinc-300 w-[300px] p-10 rounded-lg">
-        <Image
-          className=" absolute left-0 right-0 top-2 block mx-auto"
-          src="/bglogo.png"
-          alt="logo"
-          width={150}
-          height={60}
-        />
-        <div className=" text-red-500 h-5">
-          <div> {errors.email && errors.email.message?.toString()}</div>
-          <div> {errors.password && errors.password.message?.toString()}</div>
-         
+    <div className=" flex bg-slate-100  justify-around h-screen items-center">
+          <Description/>
 
+      <div className=" space-y-4   flex flex-col items-center ">
+        <div className=" p-3 border space-y-2 rounded-lg">
+          <h3 className=" font-bold">
+            {" "}
+            You can register Or use (demo Users{" "}
+            <small className=" font-medium">recomended-</small>
+            <br></br>{" "}
+            <small className=" font-medium">
+              because there is ALREADY many subscriptions to other peoples
+            </small>{" "}
+            )
+          </h3>
+          <div className=" border rounded-md p-2">
+            <div>
+              Email : <span className=" font-bold">user1@gmail.com</span>
+            </div>
+            <div>
+              Password :<span className=" font-bold">123456</span>
+            </div>
+          </div>
 
+          <div className=" border rounded-md p-2">
+            <div>
+              Email : <span className=" font-bold">user2@gmail.com</span>
+            </div>
+            <div>
+              Password :<span className=" font-bold">123456</span>
+            </div>
+          </div>
         </div>
-
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <input
-            className={input}
-            {...register("email", {
-              required: " * Email Required",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: " * Invalid email address",
-              },
-            })}
-            placeholder="Email"
-            type="text"
+        <div className="  shadow-xl  relative border-zinc-300 w-[300px] p-10 rounded-lg">
+          <Image
+            className=" absolute left-0 right-0 top-2 block mx-auto"
+            src="/bglogo.png"
+            alt="logo"
+            width={150}
+            height={50}
           />
+          <div className=" text-red-500 h-5">
+            <div> {errors.email && errors.email.message?.toString()}</div>
+            <div> {errors.password && errors.password.message?.toString()}</div>
+            {serverError.toString()}
+          </div>
 
-          <input
-            className={input}
-            placeholder="Password"
-            type="password"
-            {...register("password", {
-              validate: (value) => {
-                const { password } = getValues();
-                if (!password.length) {
-                  return "* Password required";
-                }
-                if (password.length < 6) {
-                  return "* Passwords length min 6!";
-                }
-              },
-            })}
-          />
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <input
+              className={input}
+              {...register("email", {
+                required: " * Email Required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: " * Invalid email address",
+                },
+              })}
+              placeholder="Email"
+              type="text"
+            />
 
-          <button className=" mt-5 text-white text-lg bg-blue-400 p-1 w-full rounded-lg">
-            {!loading ? "Login" : "Loading"}
-          </button>
-        </form>
+            <input
+              className={input}
+              placeholder="Password"
+              type="password"
+              {...register("password", {
+                validate: (value) => {
+                  const { password } = getValues();
+                  if (!password.length) {
+                    return "* Password required";
+                  }
+                  if (password.length < 6) {
+                    return "* Passwords length min 6!";
+                  }
+                },
+              })}
+            />
 
-        <h3 className=" text-center">OR</h3>
-        <WithRegister />
+            <button className=" mt-5 text-white text-lg bg-blue-400 p-1 w-full rounded-lg">
+              {!loading ? "Login" : "Loading"}
+            </button>
+          </form>
+
+          <h3 className=" text-center">OR</h3>
+          <WithRegister />
+        </div>
       </div>
     </div>
   );
@@ -164,7 +202,7 @@ function RegisterPage(props: withModalType) {
   const {
     handleSubmit,
     register: registerHook,
-    formState: { errors},
+    formState: { errors },
     getValues,
   } = useForm();
   const onSubmit = async (data: {
@@ -174,7 +212,7 @@ function RegisterPage(props: withModalType) {
     surname: string;
   }) => {
     console.log(errors);
-    
+
     setLoading(true);
     const res = await axios.post(LOGIN_URL + "/register", {
       email: data.email,
@@ -186,7 +224,6 @@ function RegisterPage(props: withModalType) {
     setResData(res.data);
   };
 
-
   return (
     <div className=" flex flex-col  ">
       <div className=" w-fit self-center pt-3">
@@ -194,8 +231,8 @@ function RegisterPage(props: withModalType) {
           className=""
           src="/bglogo.png"
           alt="logo"
-          width={200}
-          height={60}
+          width={150}
+          height={40}
         />
       </div>
       <div className=" p-20 pt-0">
@@ -229,17 +266,23 @@ function RegisterPage(props: withModalType) {
               },
             })}
           />
-          <input className={input} placeholder="name" type="text"
+          <input
+            className={input}
+            placeholder="name"
+            type="text"
             {...registerHook("name", {
               validate: (value) => {
                 const { name } = getValues();
                 if (!name.length) {
                   return "* Name required";
                 }
-           
               },
-            })} />
-          <input className={input} placeholder="surname" type="text"
+            })}
+          />
+          <input
+            className={input}
+            placeholder="surname"
+            type="text"
             {...registerHook("surname", {
               validate: (value) => {
                 const { surname } = getValues();
@@ -250,7 +293,8 @@ function RegisterPage(props: withModalType) {
                   return "* Surname min 2 characters!";
                 }
               },
-            })} />
+            })}
+          />
           <button
             className=" text-blue-400  font-bold block mx-auto  bg-slate-200 p-2 rounded-md mt-5"
             type="submit"
