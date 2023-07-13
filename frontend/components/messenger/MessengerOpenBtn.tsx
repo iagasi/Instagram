@@ -19,7 +19,7 @@ function MessengerOpenBtn() {
     subscribeToMore,
     refetch,
   } = useUnreadMessagesGet(loggedUserData?.user?._id);
-  const { data } = useSubscribeUnreadMessages(loggedUserData.user._id);
+  const { data } = useSubscribeUnreadMessages(loggedUserData?.user?._id);
   useEffect(() => {
     refetch();
   }, [data]);

@@ -90,6 +90,7 @@ export class UserService {
             const refreshToken = await TokenDb.findOne({ userId: user._id });
             if (refreshToken) {
               refreshToken.refreshToken = res.refreshToken;
+             await refreshToken.save()
             } else {
               const newToken = new TokenDb({
                 userId: user._id,

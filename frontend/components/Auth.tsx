@@ -8,6 +8,7 @@ import Loading from "./Loading";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { LStorage } from "@/helpers/user";
+import { useRouter } from "next/router";
 const LOGIN_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 const input =
   " p-1 w-full border  border-gray-300  rounded-md mt-9 focus:outline-0 focus:border-green-700";
@@ -54,6 +55,8 @@ class AuthBoundary extends React.Component<{ children: JSX.Element }> {
   }
 }
 function Auth() {
+  const  router=useRouter()
+
   const [loading, setLoading] = useState(false);
   const [logData, setLogdata] = useState<{
     email: string | null;
@@ -81,6 +84,7 @@ function Auth() {
       console.log(res.data);
       LStorage.setUser(res.data);
       setLoading(false);
+      router.push("/")
     }
   };
   return (

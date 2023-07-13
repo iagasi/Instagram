@@ -11,7 +11,7 @@ const{posts,refetch}=useGetFriendsPosts()
 const {data:loggedUser}=useLogginedUserdata()
 useEffect(()=>{refetch()},[refetch])
  
-if(!loggedUser.prefferences.followings.length){
+if(!loggedUser?.prefferences.followings.length){
   return <div className="  pt-20 text-3xl text-gray-400">
     Go to Search  find people and Add to friends to see their activity 
   </div>
