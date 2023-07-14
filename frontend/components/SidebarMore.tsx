@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
+import LogOutBtn from "./LogOutBtn";
 
 export function SidebarMore() {
   const [moreOpen, setMoreOpen] = useState(false);
   return (
-    <div className=" items-stretch   space-x-2 cursor-pointer relative  max-[500px]:hidden 
+    <div
+      className=" items-stretch   space-x-2 cursor-pointer relative  max-[500px]:hidden 
     "
-    
-  >
+    >
       <div
         className="  flex sidebar-elem items-stretch "
         onClick={() => setMoreOpen(!moreOpen)}
@@ -25,8 +26,11 @@ export function SidebarMore() {
             setMoreOpen(!open);
           }}
         >
-          <div className="absolute bottom-20  bg-white border- p-4  shadow-2xl border-gray-500 rounded-md  h-60  text-xl">
-            <div className=" sidebar-elem p-1">Log-out</div>
+          <div className="absolute bottom-20  bg-white border- p-4  shadow-2xl border-gray-700 rounded-md  h-60  text-xl">
+            <div className="sidebar-elem bg-slate-300 p-1">
+              {" "}
+              <LogOutBtn />
+            </div>
           </div>
         </div>
       )}

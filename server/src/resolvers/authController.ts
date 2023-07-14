@@ -4,7 +4,13 @@ import { UserService } from "../services/userService";
 import { cookieName } from "../../../constants";
 const router = r.Router();
 
-
+router.get("/log-out",(req,res)=>{
+//  res.cookie(cookieName,"",{    expires: new Date('2016-10-05'),
+//       })
+      
+     res.clearCookie(cookieName)
+  res.send("logout")
+})
 
 router.post("/login",async (req,res)=>{
 

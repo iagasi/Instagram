@@ -20,7 +20,11 @@ function SharePosts(props: withModalType) {
   );
 }
 export function SharePostsModalData(props: withModalType) {
-  const {data:visitedPageData,refetch:refetchPageData,loading:visLoading}=useVisitedPageUser()
+  const {
+    data: visitedPageData,
+    refetch: refetchPageData,
+    loading: visLoading,
+  } = useVisitedPageUser();
 
   const [loading, setLoading] = useState(false);
   const { data: user, refetch } = useLogginedUserdata();
@@ -34,10 +38,15 @@ export function SharePostsModalData(props: withModalType) {
     formData.append("File", selectedFile);
     setLoading(true);
     try {
-      await axios.put(UPLOAD_POST_IMAGE_URL + "/" + user.user._id, formData);
+      const res = await axios.put(
+        UPLOAD_POST_IMAGE_URL + "/" + user.user._id,
+        formData
+      );
+      console.log(res);
+      
       refetch();
-      refetchPageData()
-     setLoading(false);
+      refetchPageData();
+      setLoading(false);
     } finally {
       // props.setModal()
     }

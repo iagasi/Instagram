@@ -18,7 +18,7 @@ function OnlineFriends() {
   const connectedUsers=useReactiveVar(connectedUsersVar)
  
   return (
-    <div className=" pt-20 shadow-lg">
+    <div className=" sticky top-0 pt-20 shadow-lg   w-[300px] h-screen overflow-y-scroll">
       <h3 className=" font-bold text-lg text-gray-500"> Friends</h3>
 
       <div>

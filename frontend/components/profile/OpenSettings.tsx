@@ -3,24 +3,33 @@ import React from "react";
 import { Settings } from "./Settings";
 import { SlSettings } from "react-icons/sl";
 import { withModalType } from "@/types/modalTypes";
-
+import LogOutBtn from "../LogOutBtn";
 
 function OpenSettings({ modal, setModal }: withModalType) {
   return (
     <div className="">
-      <SlSettings className=" w-8 h-8 cursor-pointer" onClick={() => setModal()} />
+      <SlSettings
+        className=" w-8 h-8 cursor-pointer"
+        onClick={() => setModal()}
+      />
     </div>
   );
 }
-function OpenedSettings( {setModal}: {setModal: ()=>void}){
-return <>
+function OpenedSettings({ setModal }: { setModal: () => void }) {
+  return (
+    <>
+      <Settings>
+        <LogOutBtn />
 
- <Settings>
-
-<div className=" text-red-500"  onClick={()=>setModal()}> Cancel</div>
-<div onClick={()=>setModal()}> Log Out</div>
-  </Settings>
-</>
- 
+        <div
+          className=" text-blue-500  w-[200px] "
+          onClick={() => setModal()}
+        >
+       
+          Cancel
+        </div>
+      </Settings>
+    </>
+  );
 }
 export default WithModal(OpenSettings, OpenedSettings);
