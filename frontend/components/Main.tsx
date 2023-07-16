@@ -32,6 +32,7 @@ if(loading){
   return (
     <div className="flex justify-between  w-full
     max-[500px]:block">
+      
       <>
         <Sidebar />
         <div className=" w-full flex justify-center">

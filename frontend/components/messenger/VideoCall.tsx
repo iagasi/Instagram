@@ -12,8 +12,11 @@ import { useLogginedUserdata } from "@/hooks/user";
 import { connectType } from "../../../types/messengerType";
 import UserPreview from "../UserPreview";
 import Video from "./Video";
+import IsOnline from "../IsOnline";
+import IsOnlineColor from "../profile/IsOnlineColor";
 function VideoCall() {
-  const audio=new Audio("./music/make-call.wav")
+  const audio = new Audio("./music/make-call.wav");
+  const [outcomCall, setOutcomall] = useState(false);
 
   const [stream, setStream] = useState<MediaStream | undefined>();
   const mySocketId = useReactiveVar(mySocketIdVar);
@@ -24,35 +27,38 @@ function VideoCall() {
 
   const connectionRef = useRef<Peer.Instance | null>(null);
   const [makeCall, setMakeCall] = useState(false);
-  
+
   function record(): Promise<MediaStream> {
     return new Promise((res, rej) => {
       navigator.mediaDevices.getUserMedia({ video: true }).then((st) => {
-      setStream(st);
+        setStream(st);
         res(st);
       });
     });
   }
-  useEffect(()=>{
-if(makeCall){
-  audio.loop = true
-  audio.volume=0.3
-  audio.play()
-}
-if(!makeCall){
-  audio.pause()
-}
-return()=>{
-  audio.pause()
 
-  stream?.getTracks().forEach((track) => {
-   console.log(track);
-   
+  console.log(outcomCall);
+  
+  useEffect(() => {
+    if (outcomCall) {
+      audio.loop = true;
+      audio.volume = 0.3;
+      audio.play();
+    }
+    if (!outcomCall) {
+      audio.pause();
+      //socket.off("answer");
+    }
+    return () => {
+      audio.pause();
+     // socket.off("answer");
+      stream?.getTracks().forEach((track) => {
+        console.log(track);
+
         track.stop();
-});
-
-}
-  },[makeCall])
+      });
+    };
+  }, [outcomCall]);
 
   if (stream && myVideo.current) {
     myVideo.current.srcObject! = stream;
@@ -62,7 +68,7 @@ return()=>{
       console.log("No My socketId");
       return;
     }
-    
+    setOutcomall(true);
     setMakeCall(true);
     record();
     socket.emit("getSocketId", { ...IAmMessagingWith, from: mySocketId });
@@ -84,7 +90,7 @@ return()=>{
         trickle: false,
         stream: MYVIDEO,
       });
-      setStream(MYVIDEO)
+      setStream(MYVIDEO);
 
       peer.on("signal", (signal) => {
         const callto: connectType = {
@@ -97,7 +103,7 @@ return()=>{
       });
       peer.on("stream", (stream) => {
         if (resVideo.current) {
-          console.log();
+        
           console.log("stream p1/////////////////////////");
 
           resVideo.current.srcObject = stream;
@@ -110,9 +116,14 @@ return()=>{
       socket.on("answer", (data: Omit<connectType, "user" | "from">) => {
         console.log(data.signal);
         peer.signal(data.signal);
+    setOutcomall(false);
       });
 
-      peer.on('close', () => { console.log('peer closed'); socket.off("answer"); });
+      peer.on("close", () => {
+        console.log("peer closed");
+        socket.off("answer");
+        setOutcomall(false);
+      });
       connectionRef.current = peer;
     }
   }
@@ -125,14 +136,15 @@ return()=>{
         }}
       />
 
-
-
       {makeCall && (
         <div className="">
           <Video
             myVideo={myVideo}
             resVideo={resVideo}
-            close={() => setMakeCall(false)}
+            close={() =>{ 
+              setMakeCall(false)
+            connectionRef.current?.destroy()
+            }}
             connectionRef={connectionRef}
             videoStream={stream}
           >
@@ -140,6 +152,7 @@ return()=>{
               {/* <h1> Calling...</h1> */}
 
               <UserPreview user={IAmMessagingWith} />
+              <IsOnlineColor candidateId={IAmMessagingWith?._id}/>
             </div>
           </Video>
         </div>

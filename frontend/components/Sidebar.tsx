@@ -127,13 +127,13 @@ export function Sidebar() {
                 <div className="sidebar__active"></div>
               )}
             </div>
-            <div className="sidebar-elem" onClick={() => router.push("/like")}>
+            {/* <div className="sidebar-elem" onClick={() => router.push("/like")}>
               <AiOutlineHeart />
               <span className=" text-lg sidebar-descr-hide">Like</span>
               {router.pathname == "/like" && (
                 <div className="sidebar__active"></div>
               )}
-            </div>
+            </div> */}
             <SidebarCreate />
             <MessengerOpenBtn />
 

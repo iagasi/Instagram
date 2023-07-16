@@ -45,7 +45,7 @@ export function Post({
 
   return (
     <div className="  pb-4 w-[460px]  mt-10 border-t-2 p-2 
-    
+     shadow-md
     max-[550px]:w-[390px]
     max-[400px]:w-[300px]
 

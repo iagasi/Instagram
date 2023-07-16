@@ -21,7 +21,7 @@ import { UPLOAD_POST_IMAGE_URL } from "@/helpers/constants";
 function ProfilePost({ postId,profileId,canDelete }: { postId: string ,profileId:string | string[] | undefined,canDelete:boolean}) {
   const { data: loggedUser } = useLogginedUserdata();
   const {loading,data:visitedPageData,refetch:refetchPageData}=useVisitedPageUser()
-console.log(visitedPageData);
+// console.log(visitedPageData);
 
   const [hov, setHov] = useState(false);
   const [modal, setModal] = useState(false);

@@ -64,7 +64,6 @@ export async function refreshAcessToken(Token: string) {
       } else {
         if (refreshFoundToken) {
           try {
-            console.log(refreshFoundToken.refreshToken);
 
             jwt.verify(refreshFoundToken.refreshToken, REFRESH_TOKEN_KEY);
           } catch (e) {

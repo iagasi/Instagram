@@ -10,11 +10,10 @@ import React, { useEffect, useState } from "react";
 import UserPreview from "../UserPreview";
 import { useReactiveVar, useSubscription } from "@apollo/client";
 import { chatIdVar, iAmMessagingWithVar } from "./messengerState";
-import TimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
+import { timeAgo } from "@/common";
 
-TimeAgo.addDefaultLocale(en);
-const timeAgo = new TimeAgo("en-US");
+
+
 
 function MessagesList() {
   const chatId = useReactiveVar(chatIdVar) as string;
@@ -108,14 +107,20 @@ function Message({ message }: { message: messageType }) {
 
   const isMyMessage = message.userId === loggedUserInfo?.user._id;
   const sender = isMyMessage ? loggedUserInfo?.user : IAmMessagingWith;
+console.log((Number(message.timeStamp)));
 
   const style =
     sender?._id == loggedUserInfo?.user._id
       ? ` ml-auto  bg-blue-300`
       : " bg-gray-300";
   return (
-    <div className={" relative rounded-lg w-fit  max-w-[200px] overflow-hidden" + style}>
-      <UserPreview user={sender} />
+    <div className={" relative rounded-lg w-fit  max-w-[200px] " + style}>
+      {/* <div className=" relative h-20 w-[200px]"> */}
+
+              <div className=" w-fit text-sm  pr-2">      <UserPreview user={sender} /></div>
+
+      {/* </div> */}
+
       <div className=" break-words overflow-hidden ">{message.message}</div>
       <div className=" absolute -bottom-5 right-0 font-bold text-slate-400 ">
         {timeAgo.format(new Date(Number(message.timeStamp)))}

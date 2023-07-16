@@ -6,8 +6,11 @@ import { callerVar } from "./messengerState";
 import { useReactiveVar } from "@apollo/client";
 import Peer from "simple-peer";
 import Video from "./Video";
+import IsOnlineColor from "../profile/IsOnlineColor";
 
 function AnswerCall() {
+  const audio = new Audio("./music/receive-call.mp3");
+  const [incomCall, setIncomCall] = useState(false);
   const caller = useReactiveVar(callerVar);
   const [stream, setStream] = useState<MediaStream | undefined>();
   const [answer, setAswer] = useState<boolean>(false);
@@ -17,9 +20,22 @@ function AnswerCall() {
   useEffect(() => {
     socket.on("call", (caller) => {
       callerVar(caller);
+      setIncomCall(true)
     });
   }, []);
-
+  useEffect(() => {
+    if (incomCall) {
+      audio.loop = true;
+      audio.volume = 0.3;
+      audio.play();
+    }
+    if (!incomCall) {
+      audio.pause();
+    }
+    return () => {
+      audio.pause();
+    };
+  }, [incomCall]);
   function record(): Promise<MediaStream> {
     return new Promise((res, rej) => {
       navigator.mediaDevices.getUserMedia({ video: true }).then((st) => {
@@ -51,8 +67,7 @@ function AnswerCall() {
     });
     peer.on("stream", (stream) => {
       console.log("stream p answer      //////////////////////////");
-     
-      
+
       if (resVideo.current) {
         resVideo.current.srcObject = stream;
       }
@@ -60,7 +75,9 @@ function AnswerCall() {
     peer.on("connect", () => {
       console.log("connected answer");
 
-   if( myVideo.current){myVideo.current.srcObject=MYVIDEO as MediaStream}
+      if (myVideo.current) {
+        myVideo.current.srcObject = MYVIDEO as MediaStream;
+      }
     });
     console.log(caller?.signal);
 
@@ -76,13 +93,20 @@ function AnswerCall() {
           <div className=" flex justify-between">
             <button
               className=" bg-green-600 p-3 rounded-md"
-              onClick={answerHandler}
+              onClick={() => {
+                answerHandler();
+                setIncomCall(false);
+              }}
             >
               Answer
             </button>
             <button
               className=" bg-red-600  p-3 rounded-md"
-              onClick={() => callerVar(null)}
+              onClick={() => {
+                callerVar(null);
+                setIncomCall(false);
+                connectionRef.current?.destroy()
+              }}
             >
               Decline
             </button>
@@ -96,10 +120,18 @@ function AnswerCall() {
           connectionRef={connectionRef}
           close={() => {
             setAswer(false);
-            callerVar(null)
+            callerVar(null);
           }}
           videoStream={stream}
-        />
+        >
+           
+            <div className=" text-center flex flex-col items-center">
+              {/* <h1> Calling...</h1> */}
+
+              <UserPreview user={caller?.user} />
+              <IsOnlineColor candidateId={caller?.user._id}/>
+            </div>
+          </Video>
       )}
     </div>
   );

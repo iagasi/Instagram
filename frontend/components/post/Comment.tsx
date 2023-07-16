@@ -1,11 +1,8 @@
 import React from 'react'
 import UserPreview from '../UserPreview'
 import { combinedUserAndCommentType } from '@/../types/postType'
-import TimeAgo from 'javascript-time-ago';
-import en from "javascript-time-ago/locale/en";
+import { timeAgo } from '@/common';
 
-TimeAgo.addDefaultLocale(en);
-const timeAgo = new TimeAgo("en-US");
  export function Comment({commentMaker,comment}:combinedUserAndCommentType) {
   return (
     <div className=' flex mb-2   text-small relative pb-2'>

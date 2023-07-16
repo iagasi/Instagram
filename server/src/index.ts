@@ -35,7 +35,7 @@ async function start() {
   const schema = makeExecutableSchema({ typeDefs, resolvers });
 
   const app = express();
-connectDb()
+  connectDb();
   app.use(express.json());
   app.use(
     cors({
@@ -90,7 +90,7 @@ connectDb()
 
         return { req, res };
       },
-    })                        
+    })
   );
 
   httpServer.listen({ port: 4000 }, () =>
@@ -125,22 +125,36 @@ function v() {
         isExist.socketId = socket.id;
       }
       socket.emit("setUserId", isExist?.socketId);
-      
-      socket.broadcast.emit("check-connection")
+
+      socket.broadcast.emit("check-connection");
     });
-socket.on("connectedUsers",(idies:string[])=>{
-const users:any[]=[]
-idies.forEach(id=>{
-  const found=connected.find(user=>user._id.toString()===id.toString())
-  if(found){
-    users.push(found)
-  }
-  })
-socket.emit("connectedUsers",users)
-})
+    socket.on("connectedUsers", (idies: string[]) => {
+      const users: any[] = [];
+      idies.forEach((id) => {
+        const found = connected.find(
+          (user) => user._id.toString() === id.toString()
+        );
+        if (found) {
+          users.push(found);
+        }
+      });
+      socket.emit("connectedUsers", users);
+    });
+
+    socket.on("isOnline", (userId: string) => {
+      const found = connected.find(
+        (user) => user._id.toString() === userId.toString()
+      );
+      console.log(
+        " //////////////////////////////////////////////////////////////////"
+      );
+     console.log(found);
+     
+        socket.emit("isOnline",!!found )
+      
+    });
     socket.on("getSocketId", (user: UserType & { from: string }) => {
       const candidate = connected.find((conUser) => conUser._id === user._id);
-
 
       io.to(user.from).emit("getSocketId", candidate?.socketId);
     });
@@ -165,13 +179,9 @@ socket.emit("connectedUsers",users)
       io.to(data.to).emit("answer", data);
     });
     socket.on("disconnect", () => {
-    connected=  connected.filter(c=>c.socketId!==socket.id)
-      socket.broadcast.emit("check-connection")
-
-      
+      connected = connected.filter((c) => c.socketId !== socket.id);
+      socket.broadcast.emit("check-connection");
     });
-
-
   });
   httpServer.listen(2000, () => {
     console.log("ws serwer");

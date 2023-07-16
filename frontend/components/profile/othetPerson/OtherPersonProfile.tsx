@@ -50,7 +50,7 @@ export function OtherPersonProfile({ profileOwner }: propsType) {
           </CreateChat>
 
 
-      <ProfileParameters />
+      {/* <ProfileParameters /> */}
     </div>
   );
 }

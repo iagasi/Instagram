@@ -27,7 +27,7 @@ export function SidebarMore() {
           }}
         >
           <div className="absolute bottom-20  bg-white border- p-4  shadow-2xl border-gray-700 rounded-md  h-60  text-xl">
-            <div className="sidebar-elem bg-slate-300 p-1">
+            <div className="sidebar-elem bg-slate-300 p-1 text-red-500 text-lg font-bold">
               {" "}
               <LogOutBtn />
             </div>

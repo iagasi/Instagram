@@ -25,9 +25,12 @@ return tokenAndId.acessToken
 const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
   if (graphQLErrors) {
     for (let err of graphQLErrors) {
+      console.log(err.extensions.code);
+
       switch (err.extensions.code) {
         // Apollo Server sets code to UNAUTHENTICATED
         // when an AuthenticationError is thrown in a resolver
+        
         case "UNAUTHENTICATED":
           // Modify the operation context with a new token
           const oldHeaders = operation.getContext().headers;
