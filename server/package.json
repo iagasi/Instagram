@@ -6,7 +6,7 @@
   "module": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "nodemon:run": " nodemon src/index.ts",
+    "nodemon:run": " nodemon  src/index.ts  ",
     "compile": "tsc"
   },
   "author": "",

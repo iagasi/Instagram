@@ -1,3 +1,4 @@
 import io from 'socket.io-client';
+const WEBSOCKET_URL=process.env.NEXT_PUBLIC_WEBSOCKET_URL||""
 
- export const socket = io("http://localhost:2000");
+ export const socket = io(WEBSOCKET_URL);

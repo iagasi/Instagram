@@ -41,7 +41,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) 
             },
           });
 
-          console.log(7888);
+          console.log("UNAUTHENTICATED");
           
           // Retry the request, returning the new observable
          return forward(operation);

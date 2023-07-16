@@ -1,4 +1,3 @@
-import io from "socket.io";
 import cookieParser from "cookie-parser";
 
 import { ApolloServer } from "@apollo/server";
@@ -28,10 +27,16 @@ export interface IsloggedRequest extends express.Request {
 import { refreshTokensApi } from "./resolvers/refreshTokenController";
 import { authApi } from "./resolvers/authController";
 import { connectDb } from "./db";
+import { FRONTEND_URL, SERVER_URL, WS_URL } from "../serverConstants";
+import { ws } from "./ws";
 
 const resolvers = mergeResolvers([userResolvers, postResolvers, chatResolver]);
 const typeDefs = mergeTypeDefs([userTypeDefs, postTypeDefs, chatTypeDefs]);
 async function start() {
+  if(!FRONTEND_URL ||!SERVER_URL){
+    console.log("frontend or server url ERROR");
+    
+    return}
   const schema = makeExecutableSchema({ typeDefs, resolvers });
 
   const app = express();
@@ -39,7 +44,7 @@ async function start() {
   app.use(express.json());
   app.use(
     cors({
-      origin: ["http://localhost:3000", "http://localhost:4000"],
+      origin: [FRONTEND_URL, SERVER_URL],
       credentials: true,
     })
   );
@@ -80,7 +85,7 @@ async function start() {
   app.use(
     "/graphql",
     cors<cors.CorsRequest>({
-      origin: ["http://localhost:3000", "http://localhost:4000"],
+      origin: [FRONTEND_URL, SERVER_URL],
       credentials: true,
     }),
     bodyParser.json(),
@@ -94,97 +99,10 @@ async function start() {
   );
 
   httpServer.listen({ port: 4000 }, () =>
-    console.log(`🚀 Server ready at http://localhost:4000/graphql`)
+    console.log(`🚀 Server ready at ${SERVER_URL}/graphql`)
   );
 }
 
 start();
 
-function v() {
-  let connected: connectedUserType[] = [];
-  const app = express();
-  const httpServer = createServer(app);
-
-  const io: io.Socket = require("socket.io")(httpServer, {
-    cors: {
-      origin: "http://localhost:3000",
-    },
-  });
-
-  io.on("connection", (socket: io.Socket) => {
-    socket.on("setUser", (user: UserType) => {
-      const isExist = connected.find((conUser) => conUser._id === user._id);
-      if (!isExist && user) {
-        connected.push({
-          ...user,
-          socketId: socket.id,
-        });
-      }
-
-      if (isExist) {
-        isExist.socketId = socket.id;
-      }
-      socket.emit("setUserId", isExist?.socketId);
-
-      socket.broadcast.emit("check-connection");
-    });
-    socket.on("connectedUsers", (idies: string[]) => {
-      const users: any[] = [];
-      idies.forEach((id) => {
-        const found = connected.find(
-          (user) => user._id.toString() === id.toString()
-        );
-        if (found) {
-          users.push(found);
-        }
-      });
-      socket.emit("connectedUsers", users);
-    });
-
-    socket.on("isOnline", (userId: string) => {
-      const found = connected.find(
-        (user) => user._id.toString() === userId.toString()
-      );
-      console.log(
-        " //////////////////////////////////////////////////////////////////"
-      );
-     console.log(found);
-     
-        socket.emit("isOnline",!!found )
-      
-    });
-    socket.on("getSocketId", (user: UserType & { from: string }) => {
-      const candidate = connected.find((conUser) => conUser._id === user._id);
-
-      io.to(user.from).emit("getSocketId", candidate?.socketId);
-    });
-
-    socket.on("call", (data: connectType) => {
-      if (!data.to) {
-        console.log(
-          " call to socket id undefned//////////////////////////////////////////////////////////////////"
-        );
-      }
-
-      io.to(data.to).emit("call", data);
-    });
-
-    socket.on("answer", (data: Omit<connectType, "user" | "from">) => {
-      if (!data.to) {
-        console.log(
-          " answer to socket id undefned//////////////////////////////////////////////////////////////////"
-        );
-      }
-
-      io.to(data.to).emit("answer", data);
-    });
-    socket.on("disconnect", () => {
-      connected = connected.filter((c) => c.socketId !== socket.id);
-      socket.broadcast.emit("check-connection");
-    });
-  });
-  httpServer.listen(2000, () => {
-    console.log("ws serwer");
-  });
-}
-v();
+ws()
