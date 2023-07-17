@@ -4,3 +4,4 @@ server/public
 server/.env
 frontend/.env.local
 server/dist
+ws/dist

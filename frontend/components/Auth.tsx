@@ -13,6 +13,10 @@ import Description from "./Description";
 const LOGIN_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 const input =
   " p-1 w-full border  border-gray-300  rounded-md mt-9 focus:outline-0 focus:border-green-700";
+  type FormValues = {
+    email: string;    password: string
+  }
+
 
 class AuthBoundary extends React.Component<{ children: JSX.Element }> {
   state: {
@@ -69,10 +73,11 @@ function Auth() {
     register,
     formState: { errors },
     getValues,
-  } = useForm();
+  } = useForm<FormValues>();
 
   //
-
+ 
+  
   const onSubmit = async (data: { email: string; password: string }) => {
     setServerError("");
     if (logData && LOGIN_URL) {
@@ -185,6 +190,9 @@ function Auth() {
     </div>
   );
 }
+type RegisterFormType={
+  email: string;    password: string;    name: string;    surname: string;
+}
 
 function Register(props: withModalType) {
   return (
@@ -204,7 +212,7 @@ function RegisterPage(props: withModalType) {
     register: registerHook,
     formState: { errors },
     getValues,
-  } = useForm();
+  } = useForm<RegisterFormType>();
   const onSubmit = async (data: {
     email: string;
     password: string;

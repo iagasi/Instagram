@@ -45,7 +45,7 @@ export function Sidebar() {
       pb-10 w-[250px]
       h-screen
       border-t-2
-       
+      items-center
       max-xl:w-[180px]
       max-lg:w-[70px] 
       max-lg:pl-0
@@ -54,7 +54,6 @@ export function Sidebar() {
       max-[500px]:flex-row 
       max-[500px]:h-[50px]
       max-[500px]:w-full
-      max-[500px]:items-center
       max-[500px]:pt-2
       max-[500px]:justify-start
       max-[500px]:fixed

@@ -3,12 +3,18 @@ import { connectType, connectedUserType } from "../types/messengerType";
 import { UserType } from "../types/userType";
 import express from "express";
 import io from "socket.io";
-import { FRONTEND_URL, WS_URL } from "./cosnstants";
+import { FRONTEND_URL, PORT,  } from "./cosnstants";
+import cors from "cors";
+console.log(PORT);
+
  export function ws() {
     let connected: connectedUserType[] = [];
     const app = express();
     const httpServer = createServer(app);
-  
+  app.use( cors({
+    origin: [FRONTEND_URL||""],
+    credentials: true,
+  }))
     const io: io.Socket = require("socket.io")(httpServer, {
       cors: {
         origin: FRONTEND_URL,
@@ -87,8 +93,8 @@ import { FRONTEND_URL, WS_URL } from "./cosnstants";
         socket.broadcast.emit("check-connection");
       });
     });
-    httpServer.listen(WS_URL, () => {
-      console.log("ws serwer");
+    httpServer.listen(PORT, () => {
+      console.log("ws serwer" +PORT);
     });
   }
 

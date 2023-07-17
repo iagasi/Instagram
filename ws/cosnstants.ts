@@ -1,2 +1,5 @@
-export const WS_URL=process.env.WS_URL
+import 'dotenv/config'
+
+
+export const PORT=process.env.PORT
 export const FRONTEND_URL=process.env.FRONTEND_URL
