@@ -27,8 +27,7 @@ export interface IsloggedRequest extends express.Request {
 import { refreshTokensApi } from "./resolvers/refreshTokenController";
 import { authApi } from "./resolvers/authController";
 import { connectDb } from "./db";
-import { FRONTEND_URL, SERVER_URL, WS_URL } from "../serverConstants";
-import { ws } from "./ws";
+import { FRONTEND_URL, SERVER_URL, WS_URL } from "./serverConstants";
 
 const resolvers = mergeResolvers([userResolvers, postResolvers, chatResolver]);
 const typeDefs = mergeTypeDefs([userTypeDefs, postTypeDefs, chatTypeDefs]);
@@ -105,4 +104,3 @@ async function start() {
 
 start();
 
-ws()

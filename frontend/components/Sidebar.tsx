@@ -54,9 +54,11 @@ export function Sidebar() {
       max-[500px]:flex-row 
       max-[500px]:h-[50px]
       max-[500px]:w-full
-      max-[500px]: items-center
-      max-[500px]: pt-2
+      max-[500px]:items-center
+      max-[500px]:pt-2
       max-[500px]:justify-start
+      max-[500px]:fixed
+
       "
       >
         <div

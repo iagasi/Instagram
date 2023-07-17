@@ -1,14 +1,14 @@
 import { GraphQLError } from "graphql";
 import jwt from "jsonwebtoken";
-const ACCESS_TOKEN_KEY = "sfsdsdfsd";
-const REFRESH_TOKEN_KEY = "sfsdsdfsd";
+const ACCESS_TOKEN_KEY = "secretFromEnvFile";
+const REFRESH_TOKEN_KEY = "secretFromEnvFile";
 import express from "express";
 import { UserService } from "./userService";
 import { TokenDb } from "../db/schemas/TokenDb";
 
 export function generateTokens(payload: object) {
   var acessToken = jwt.sign(payload, ACCESS_TOKEN_KEY, {
-    expiresIn: "15m",
+    expiresIn: "20m",
   });
   var refreshToken = jwt.sign(payload, REFRESH_TOKEN_KEY, {
     expiresIn: "10d",

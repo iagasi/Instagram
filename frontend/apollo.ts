@@ -15,7 +15,6 @@ const SERVER_URL=process.env.NEXT_PUBLIC_SERVER_URL
  async function getNewToken(){
 const res=await axios.post(SERVER_URL+"/refresTokens",{},{withCredentials:true})
 const tokenAndId=res.data as LocalStorageUserType
-console.log(tokenAndId);
 
 LStorage.setUser(tokenAndId)
 

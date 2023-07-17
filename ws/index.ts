@@ -1,10 +1,9 @@
 import { createServer } from "http";
-import { connectType, connectedUserType } from "../../types/messengerType";
-import { UserType } from "../../types/userType";
-import { FRONTEND_URL, WS_URL } from "../serverConstants";
+import { connectType, connectedUserType } from "../types/messengerType";
+import { UserType } from "../types/userType";
 import express from "express";
 import io from "socket.io";
-
+import { FRONTEND_URL, WS_URL } from "./cosnstants";
  export function ws() {
     let connected: connectedUserType[] = [];
     const app = express();
@@ -93,4 +92,4 @@ import io from "socket.io";
     });
   }
 
-  
+ws()

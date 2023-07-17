@@ -1,7 +1,7 @@
 
 import { log } from "console"
 import mongoose from "mongoose"
-import { MONGO_URI } from "../../serverConstants";
+import { MONGO_URI } from "../serverConstants";
 
 export async function connectDb(){
     if(!MONGO_URI) { console.log("Connection url Undefined");

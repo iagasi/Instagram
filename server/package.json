@@ -5,6 +5,7 @@
   "main": "index.ts",
   "module": "commonjs",
   "scripts": {
+    "start":" node dist/server/src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "nodemon:run": " nodemon  src/index.ts  ",
     "compile": "tsc"

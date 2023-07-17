@@ -5,9 +5,8 @@ import {
   postType,
 } from "../../../types/postType";
 import { PostError } from "../errors";
+import { PostDto} from "../../../dto/postDto";
 
-import { CommentDto } from "../../../dto/commentDto";
-import { PostDto } from "../../../dto/postDto";
 
 import { UserType } from "../../../types/userType";
 import { UserService } from "./userService";
@@ -18,113 +17,7 @@ import { CommentsDb } from "../db/schemas/Comments";
 import { UserDb } from "../db/schemas/User";
 import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
-const images = [
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/1",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/1",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/2",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/1",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/1",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/2",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/1",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/1",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/1",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/2",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/1",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/1",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/2",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/1",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/1",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/1",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/2",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/1",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/1",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/2",
-  },
-  {
-    image:
-      "http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A4000%2Fimages%2Fdd1fb4bf-1a00-441f-ad50-17c5a99f33b2image-2023-02-28%2019_11_25.jpg&w=640&q=75",
-    aspect: "1/1",
-  },
-];
+
 export class postService {
   static async getFriendsPosts(userId: string) {
     const preffer = await PrefferenceDb.findOne({ userId });
@@ -293,6 +186,9 @@ export class postService {
     }
   }
   static async interestingPosts(id: string) {
-    return images;
+  const interesting=  await PostsDb.find({likes:{$gt:1}})
+    console.log(interesting);
+    return interesting
+    
   }
 }

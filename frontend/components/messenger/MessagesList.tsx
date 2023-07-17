@@ -114,10 +114,10 @@ console.log((Number(message.timeStamp)));
       ? ` ml-auto  bg-blue-300`
       : " bg-gray-300";
   return (
-    <div className={" relative rounded-lg w-fit  max-w-[200px] " + style}>
+    <div className={" relative rounded-lg w-fit  max-w-[200px] overflow-hidden " + style}>
       {/* <div className=" relative h-20 w-[200px]"> */}
 
-              <div className=" w-fit text-sm  pr-2">      <UserPreview user={sender} /></div>
+              <div className="  text-sm   overflow-hidden w-fit">      <UserPreview user={sender} /></div>
 
       {/* </div> */}
 

@@ -10,6 +10,7 @@ import IsMyFriend from "../IsMyFriend";
 import { UserType } from "@/../types/userType";
 import UserPreview from "../UserPreview";
 import Loading from "../Loading";
+import { useLogginedUserdata } from "@/hooks/user";
 type openLikeType = {
   postData: postType;
 };
@@ -26,7 +27,7 @@ query getPostLikedPersons($id:String){
 `);
 
 function OpenLikes(props: openLikeType) {
-  const loggedPerson = useReactiveVar(userVar);
+  const {data:loggedPerson} = useLogginedUserdata()
   const { data } = useQuery(getPostUsers, {
     variables: { id: props.postData._id },
     pollInterval:100
