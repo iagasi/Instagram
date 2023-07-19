@@ -9,7 +9,7 @@ import Video from "./Video";
 import IsOnlineColor from "../profile/IsOnlineColor";
 
 function AnswerCall() {
-  const audio = new Audio("./music/receive-call.mp3");
+  const audio = new Audio("/music/receive-call.mp3");
   const [incomCall, setIncomCall] = useState(false);
   const caller = useReactiveVar(callerVar);
   const [stream, setStream] = useState<MediaStream | undefined>();

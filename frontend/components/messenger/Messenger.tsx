@@ -37,7 +37,7 @@ function Messenger() {
         {chats && (
             <ChatHoc
               MainComponent={() => (
-                <Chats logginedUser={data.user} chats={chats} />
+                <Chats logginedUser={data?.user} chats={chats} />
               )}
            
             />
