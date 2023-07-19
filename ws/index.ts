@@ -37,6 +37,8 @@ console.log(PORT);
         socket.emit("setUserId", isExist?.socketId);
   
         socket.broadcast.emit("check-connection");
+        console.log("connected");
+        
       });
       socket.on("connectedUsers", (idies: string[]) => {
         const users: any[] = [];

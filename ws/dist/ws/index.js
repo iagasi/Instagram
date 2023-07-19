@@ -33,6 +33,7 @@ function ws() {
             }
             socket.emit("setUserId", isExist === null || isExist === void 0 ? void 0 : isExist.socketId);
             socket.broadcast.emit("check-connection");
+            console.log("connected");
         });
         socket.on("connectedUsers", (idies) => {
             const users = [];
