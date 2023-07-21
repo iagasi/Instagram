@@ -37,7 +37,7 @@ function CreateChat(props: { user: UserType }) {
 
   if (chatExist) {
     return (
-      <div className=" flex justify-between items-center  pr-2 ">
+      <div className=" flex justify-between items-center  pr-2  z-50">
         <UserPreview user={props.user} dissabled={false} />
 
         <p className=" font-bold text-blue-500">Chat exists</p>
@@ -47,7 +47,7 @@ function CreateChat(props: { user: UserType }) {
 
   return (
     <button
-      className=" hover:text-blue-400  w-full"
+      className=" hover:text-blue-400  w-full  z-50"
       onClick={(e) => createChatHandler(e)}
       disabled={!!chatExist}
     >

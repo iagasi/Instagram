@@ -187,8 +187,7 @@ export class postService {
     }
   }
   static async interestingPosts(id: string) {
-  const interesting=  await PostsDb.find({likes:{$gt:1}})
-    console.log(interesting);
+  const interesting=  await PostsDb.find().sort({_id:-1}).limit(50)
     return interesting
     
   }

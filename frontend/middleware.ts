@@ -6,7 +6,9 @@ export function middleware(request: NextRequest) {
  // return NextResponse.redirect(new URL('/home', request.url))
  //console.log(request.cookies.get("Instagram_Cookie"))
 
- if(request.cookies.get("Instagram_Cookie")==="undefined"
+ if(
+  request.cookies.get("Instagram_Cookie")==="undefined"||
+  !request.cookies.get("Instagram_Cookie")
  ){
     console.log("hete");
     

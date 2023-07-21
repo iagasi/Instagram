@@ -6,20 +6,21 @@ import { userVar, visitedPersonVar } from "@/reactive/user";
 import { LStorage } from "@/helpers/user";
 import UnsubscribeBtnHandler from "./UnsubscribeBtnHandler";
 import SubscribeBthHandler from "./SubscribeBthHandler";
-import { useLogginedUserdata, usePageFriendsQuery, useVisitedPageUser } from "@/hooks/user";
+import {
+  useLogginedUserdata,
+  usePageFriendsQuery,
+  useVisitedPageUser,
+} from "@/hooks/user";
 import { log } from "console";
 function isHeFollowsMe(user1: UserAndPrefferncesType, user2: UserType) {
   return user1.prefferences.followers.includes(user2._id);
 }
 function isIfollowHim(user1: UserAndPrefferncesType, user2: UserType) {
+  user1.prefferences.followings
+  console.log(user2._id);
+  
   return user1.prefferences.followings.includes(user2._id);
 }
-
-
-
-
-
-
 
 export function DeleteOrAddToFriends({
   friends,
@@ -30,14 +31,18 @@ export function DeleteOrAddToFriends({
   buttonName: "Delete" | "Unsubscribe";
 }) {
   const visitedPerson = useReactiveVar(visitedPersonVar);
-const  logginedUserData = useReactiveVar(userVar)
+  const logginedUserData = useReactiveVar(userVar);
 
-
-   const itIsMyProfile=logginedUserData?.user?._id === visitedPerson?.user?._id
-  if (!logginedUserData) {return <> Error No logged person</>}
-  if (!friends) {return <> Error No Friends</>}
-console.log("deloete or add");
-console.log(friends);
+  const itIsMyProfile =
+    logginedUserData?.user?._id === visitedPerson?.user?._id;
+  if (!logginedUserData) {
+    return <> Error No logged person</>;
+  }
+  if (!friends) {
+    return <> Error No Friends</>;
+  }
+  console.log("deloete or add");
+  console.log(friends);
 
   return (
     <div className=" p-3 flex flex-col  items-start">
@@ -45,53 +50,27 @@ console.log(friends);
         if (person._id === logginedUserData?.user?._id) {
           return <UserPreview key={person._id} user={person} />;
         }
-        if (itIsMyProfile) {
-          return (
-            <div
-              key={person._id}
-              className=" flex justify-between items-center w-full">
-              <UserPreview user={person} />
-              {!isIfollowHim(logginedUserData, person) && (
-                <div className=" flex space-x-1">
-                  <SubscribeBthHandler candidate={person} />
-                  <UnsubscribeBtnHandler
-                    deletingUser={person}
-                    deletingFriendId={person._id}
-                    buttonName={buttonName}
-                  />
-                </div>
-              )}
-              {isIfollowHim(logginedUserData, person) && (
-                <div className=" flex space-x-1">
-                  <UnsubscribeBtnHandler
-                    deletingUser={person}
-                    deletingFriendId={person._id}
-                    buttonName={buttonName}
-                  />
-                </div>
-              )}
-            </div>
-          );
-        }
+ 
 
-        return(
+        return (
           <div
-          key={person._id}
-          className=" flex justify-between items-center w-full"
-        >
-          <UserPreview user={person} />
-          {}
-          {!isIfollowHim(logginedUserData, person) && (
-            <div className=" flex space-x-1">
-              <SubscribeBthHandler candidate={person} />
+            key={person._id}
+            className=" flex justify-between items-center w-full"
+          >
+            <UserPreview user={person} />
 
-            </div>
-          )}
-          {isIfollowHim(logginedUserData, person) && (
-             <div className="  text-blue-500">You follow him</div>
-          )}
-        </div>
-        )
+            {!isIfollowHim(logginedUserData, person)?(
+              <div className="  text-blue-500">
+                <SubscribeBthHandler candidate={person} />
+              </div>
+           
+            )
+            :    <div className="  text-red-500">
+            <UnsubscribeBtnHandler deletingUser={person} deletingFriendId={person._id} buttonName="Unsubscribe" />
+          </div>
+          }
+          </div>
+        );
       })}
     </div>
   );

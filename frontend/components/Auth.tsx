@@ -103,15 +103,15 @@ function Auth() {
     <div className=" flex bg-slate-100  justify-around h-screen items-center">
           <Description/>
 
-      <div className=" space-y-4   flex flex-col items-center ">
+      <div className="    flex flex-col items-center h-full   space-y-9">
         <div className=" p-3 border space-y-2 rounded-lg">
           <h3 className=" font-bold">
             {" "}
-            You can register Or use (demo Users{" "}
+            You can register Or use (precreated Users{" "}
             <small className=" font-medium">recomended-</small>
             <br></br>{" "}
             <small className=" font-medium">
-              because there is ALREADY many subscriptions to other peoples
+              because Profile Filled and there are ALREADY many subscriptions to other peoples
             </small>{" "}
             )
           </h3>
@@ -134,13 +134,16 @@ function Auth() {
           </div>
         </div>
         <div className="  shadow-xl  relative border-zinc-300 w-[300px] p-10 rounded-lg">
-          <Image
+          <div className=" w-full flex justify-center">
+             <Image
             className=" absolute left-0 right-0 top-2 block mx-auto"
             src="/bglogo.png"
             alt="logo"
             width={150}
             height={50}
-          />
+          /> 
+          </div>
+        
           <div className=" text-red-500 h-5">
             <div> {errors.email && errors.email.message?.toString()}</div>
             <div> {errors.password && errors.password.message?.toString()}</div>
@@ -240,7 +243,7 @@ function RegisterPage(props: withModalType) {
           src="/bglogo.png"
           alt="logo"
           width={150}
-          height={40}
+          height={50}
         />
       </div>
       <div className=" p-20 pt-0">
