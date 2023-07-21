@@ -5,7 +5,7 @@ const nextConfig = {
     SERVER_URL:process.env.SEVER_URL
   },
   images:{
-    domains: ["localhost"],
+    domains: ["localhost","res.cloudinary.com"],
   }
 }
 

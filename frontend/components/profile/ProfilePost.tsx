@@ -57,7 +57,7 @@ console.log(res);
 
   return (
     <div
-      className=" relative h-52 w-52 cursor-pointer"
+      className=" relative h-52 w-52 cursor-pointer border-2"
       onClick={(e) => {
         openPostHandler(e);
       }}

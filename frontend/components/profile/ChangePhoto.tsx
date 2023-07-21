@@ -8,6 +8,7 @@ import { PROFILE_IMAGE_UPLOAD } from "@/helpers/constants";
 import { log } from "console";
 import { UserType } from "@/../types/userType";
 import { useLogginedUserdata } from "@/hooks/user";
+import Loading from "../Loading";
 type propsType = withModalType & { user: UserType };
 function ChangePhoto(props: propsType) {
   return (
@@ -24,7 +25,7 @@ export default WithModal(ChangePhoto, OpenOptions);
 function OpenOptions(props: propsType) {
   const [del, setDel] = useState(false);
   const { data: logginedUser, refetch } = useLogginedUserdata();
-
+ const [uploading,setUploading]=useState(false)
   async function uploadHadler(e: any) {
     const url = process.env.NEXT_PUBLIC_SERVER_URL;
     const selectedFile = e.target?.files && e.target?.files[0];
@@ -33,21 +34,28 @@ function OpenOptions(props: propsType) {
     }
     const formData = new FormData();
     formData.append("File", selectedFile);
-
+setUploading(true)
 
     await axios.put(PROFILE_IMAGE_UPLOAD + "/" + props.user._id, formData);
+   
     props.setModal()
     refetch();
+    setUploading(false)
   }
 
   async function deletePhoto(){
+    setUploading(true)
     await axios.delete(PROFILE_IMAGE_UPLOAD + "/" + props.user._id,);
-    props.setModal()
+
+    setUploading(false)
     setDel(!del)
     refetch();
+    props.setModal()
   }
   return (
     <div className="  space-y-5 w-[300px]">
+    {uploading&& <div className=" w-full flex justify-center"><Loading size="40"/></div>}
+
       <Settings>
         <label className=" text-blue-600 w-full block">
           Upload New Photo
@@ -62,6 +70,7 @@ function OpenOptions(props: propsType) {
         </div>
         {del && (
           <Modal modal={del} setModal={setDel}>
+            {uploading&& <div className=" w-full flex justify-center"><Loading size="40"/></div>}
             <div>
               <Settings>
                 <div
