@@ -6,6 +6,7 @@ const router = r.Router();
 const cookieOptions: CookieOptions = {
   httpOnly: true,
   maxAge: 1 * 60 * 60 * 24 * 1000,
+  sameSite:false,
   secure: true,
 };
 

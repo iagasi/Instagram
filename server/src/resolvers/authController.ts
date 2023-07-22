@@ -29,7 +29,8 @@ try{
       });
       const cookieOptions: CookieOptions = {
         httpOnly: false,
-        maxAge: 1 * 60 * 60 * 24 * 1000,
+        maxAge: 1 ,
+        sameSite:false,
         secure: true,
       };
       res.cookie(cookieName, resUser?.refreshToken, cookieOptions);
