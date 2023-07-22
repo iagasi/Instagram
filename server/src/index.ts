@@ -42,21 +42,27 @@ async function start() {
   const app = express();
   connectDb();
   app.use(express.json());
-  app.use(
-    cors({
-      origin: [FRONTEND_URL, SERVER_URL,"http://localhost:3000"],
-      credentials: true,
-   allowedHeaders:[
-     'Access-Control-Allow-Origin',
-    'Content-Type',
-    'Authorization',
+  // app.use(
+  //   cors({
+  //     origin: [FRONTEND_URL, SERVER_URL,"http://localhost:3000"],
+  //     credentials: true,
+  //  allowedHeaders:[
+  //    'Access-Control-Allow-Origin',
+  //   'Content-Type',
+  //   'Authorization',
     
 
-   ]
+  //  ]
    
    
-    })
-  );
+  //   })
+  // );
+
+  app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', FRONTEND_URL);
+    res.header('Access-Control-Allow-Credentials', 'true');
+    next();
+  });
   app.use(cookieParser());
 
   app.use("/", authApi);
