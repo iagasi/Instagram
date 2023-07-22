@@ -78,22 +78,15 @@ function start() {
                     app = (0, express_1.default)();
                     (0, db_1.connectDb)();
                     app.use(express_1.default.json());
-                    // app.use(
-                    //   cors({
-                    //     origin: [FRONTEND_URL, SERVER_URL,"http://localhost:3000"],
-                    //     credentials: true,
-                    //  allowedHeaders:[
-                    //    'Access-Control-Allow-Origin',
-                    //   'Content-Type',
-                    //   'Authorization',
-                    //  ]
-                    //   })
-                    // );
-                    app.use(function (req, res, next) {
-                        res.header('Access-Control-Allow-Origin', serverConstants_1.FRONTEND_URL);
-                        res.header('Access-Control-Allow-Credentials', 'true');
-                        next();
-                    });
+                    app.use((0, cors_1.default)({
+                        origin: [serverConstants_1.FRONTEND_URL, "http://localhost:3000"],
+                        credentials: true,
+                        allowedHeaders: [
+                            'Access-Control-Allow-Origin',
+                            'Content-Type',
+                            'Authorization',
+                        ]
+                    }));
                     app.use((0, cookie_parser_1.default)());
                     app.use("/", authController_1.authApi);
                     app.use("/", refreshTokenController_1.refreshTokensApi);
