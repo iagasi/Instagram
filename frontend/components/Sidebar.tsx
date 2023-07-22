@@ -153,7 +153,7 @@ export function Sidebar() {
               />
 
               <span className="  text-lg sidebar-descr-hide">
-                <strong>{currLoggedUser?.user?.name}</strong>
+                <strong>{currLoggedUser?.user?.name.slice(0,10)}</strong>
               </span>
               {router.pathname.split("/").includes("profile") && (
                 <div className="sidebar__active"></div>

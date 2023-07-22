@@ -287,6 +287,9 @@ function RegisterPage(props: withModalType) {
                 if (!name.length) {
                   return "* Name required";
                 }
+                if (name.length>15) {
+                  return "* Name must be less than 15 char";
+                }
               },
             })}
           />
@@ -302,6 +305,9 @@ function RegisterPage(props: withModalType) {
                 }
                 if (surname.length < 2) {
                   return "* Surname min 2 characters!";
+                }
+                if (surname.length>20) {
+                  return "* Surname must be less than 20 char";
                 }
               },
             })}
