@@ -42,8 +42,8 @@ console.log("log-here");
        domain:"instagram-urgy.onrender.com",
        secure:true,
       };
-     res.cookie(cookieName, resUser?.refreshToken, cookieOptions);
-      res.set('set-cookie', 'a=sdsdfsdfsfsdfsdf;SameSite=None;Secure');
+    // res.cookie(cookieName, resUser?.refreshToken, cookieOptions);
+      res.set('set-cookie', cookieName+"="+resUser?.refreshToken+'=; path=/; expires=Sat, 22-Jul-23 18:12:28 GMT; domain=.onrender.com; HttpOnly; Secure; SameSite=None');
       res.set('zzz', 'text/plcxzain');
       res.set('xxx', 'text/plcxzain');
 
