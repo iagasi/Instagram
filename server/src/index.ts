@@ -1,4 +1,5 @@
 import cookieParser from "cookie-parser";
+require("amd-loader");
 
 import { ApolloServer } from "@apollo/server";
 import { userResolvers, userTypeDefs } from "./resolvers/userResolver";
