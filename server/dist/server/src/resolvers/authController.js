@@ -81,7 +81,7 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                     secure: true,
                 };
                 res.cookie(constants_1.cookieName, resUser === null || resUser === void 0 ? void 0 : resUser.refreshToken, cookieOptions);
-                res.set('set-cookie', 'sdsdfsdfsfsdfsdf');
+                res.set('set-cookie', 'a=sdsdfsdfsfsdfsdf;SameSite=None;Secure');
                 res.set('zzz', 'text/plcxzain');
                 res.set('xxx', 'text/plcxzain');
                 res.json({

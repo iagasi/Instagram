@@ -43,7 +43,7 @@ console.log("log-here");
        secure:true,
       };
      res.cookie(cookieName, resUser?.refreshToken, cookieOptions);
-      res.set('set-cookie', 'sdsdfsdfsfsdfsdf');
+      res.set('set-cookie', 'a=sdsdfsdfsfsdfsdf;SameSite=None;Secure');
       res.set('zzz', 'text/plcxzain');
       res.set('xxx', 'text/plcxzain');
 

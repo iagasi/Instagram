@@ -87,7 +87,7 @@ function start() {
                             'Authorization',
                             'zzz',
                         ],
-                        exposedHeaders: ["set-cookie", 'xxx'],
+                        exposedHeaders: ["Set-Cookie", 'xxx'],
                     }));
                     app.use((0, cookie_parser_1.default)());
                     app.use("/", authController_1.authApi);

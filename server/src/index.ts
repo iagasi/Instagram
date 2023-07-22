@@ -56,7 +56,7 @@ async function start() {
 
    ]
    ,
-   exposedHeaders: ["set-cookie", 'xxx'],
+   exposedHeaders: ["Set-Cookie", 'xxx'],
    
     })
   );
