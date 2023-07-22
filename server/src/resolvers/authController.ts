@@ -31,8 +31,7 @@ try{
       const cookieOptions: CookieOptions = {
         httpOnly: false,
         maxAge: 1 ,
-        domain:FRONTEND_URL,
-        secure: true,
+       sameSite:"none"
       };
       res.cookie(cookieName, resUser?.refreshToken, cookieOptions);
 
