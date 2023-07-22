@@ -85,7 +85,8 @@ function start() {
                             'Access-Control-Allow-Origin',
                             'Content-Type',
                             'Authorization',
-                        ]
+                        ],
+                        exposedHeaders: ["set-cookie"],
                     }));
                     app.use((0, cookie_parser_1.default)());
                     app.use("/", authController_1.authApi);
