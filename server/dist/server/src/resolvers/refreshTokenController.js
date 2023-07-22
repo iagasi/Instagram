@@ -43,10 +43,12 @@ exports.refreshTokensApi = void 0;
 var express_1 = __importDefault(require("express"));
 var tokenservice_1 = require("../services/tokenservice");
 var constants_1 = require("../../../constants");
+var serverConstants_1 = require("../serverConstants");
 var router = express_1.default.Router();
 var cookieOptions = {
-    httpOnly: false,
+    httpOnly: true,
     maxAge: 1 * 60 * 60 * 24 * 1000,
+    domain: serverConstants_1.FRONTEND_URL,
     secure: true,
 };
 router.post("/refresTokens", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
