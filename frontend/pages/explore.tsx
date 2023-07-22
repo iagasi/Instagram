@@ -33,7 +33,7 @@ function explore() {
 
 function ExploreItem({post}:{post:postType}){
   return <div  
-  className={` relative bg-gray-500  h-0 pb-[100%] cursor-pointer  `}>
+  className={` relative   h-0 pb-[100%] cursor-pointer  `}>
     <Image
     // 
       //  className=" h-[200px] w-[200px] bg-slate-600 relative"
@@ -51,7 +51,7 @@ function ExploreItem({post}:{post:postType}){
 const WithExplore=WithPost(ExploreItem)
 function Exolore(){
   const{data:loggedUser}=useLogginedUserdata()
-const {data}=useQuery(GetInterestingPostsGQL,{variables:{id:loggedUser?.user._id}})
+const {data}=useQuery(GetInterestingPostsGQL,{variables:{id:loggedUser?.user._id},skip:!loggedUser?.user._id})
 const posts:postType[]|undefined=data?.getInterestingPosts
 console.log(data);
 

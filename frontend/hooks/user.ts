@@ -6,6 +6,7 @@ import { userVar, visitedPersonFriendsVar, visitedPersonVar } from "@/reactive/u
 import { useQuery, useReactiveVar } from "@apollo/client";
 import { log } from "console";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export function useLogginedUserdata(){
 

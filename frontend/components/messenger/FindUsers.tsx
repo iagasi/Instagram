@@ -53,8 +53,8 @@ function FindUsers() {
         )}
       </div>
       {users && (
-        <div>
-          <div className=" absolute bg-white  max-w-500px h-screen   rounded-lg  shadow-lg z-30 p-2  max-[970px]:text-sm ">
+        <div className=" bg-white  max-w-500px h-screen   rounded-lg  shadow-lg z-30 p-2  max-[970px]:text-sm ">
+          <div className=" ">
             {!users.length && (
               <div className=" flex  flex-col justify-center items-center  border-b-2 ">
                 <h2 className=" font-bold pb-5">User not found!!</h2>

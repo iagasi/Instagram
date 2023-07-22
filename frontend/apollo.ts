@@ -35,7 +35,7 @@ const errorLink = onError(
           // when an AuthenticationError is thrown in a resolver
 
           case "UNAUTHENTICATED":
-            return fromPromise(
+            fromPromise(
               getNewToken().then((token) => {
                 const oldHeaders = operation.getContext().headers;
                 operation.setContext({
@@ -52,17 +52,9 @@ const errorLink = onError(
               })
             );
         }
-        if (networkError) {
-          console.log(`[Network error]: ${networkError}`);
-          // if you would also like to retry automatically on
-          // network errors, we recommend that you use
-          // apollo-link-retry
-        //  return forward(operation);
-
-        }
-    
       }
     }
+    return undefined
   }
 );
 

@@ -10,13 +10,13 @@ import { PostDto} from "../../../dto/postDto";
 
 import { UserType } from "../../../types/userType";
 import { UserService } from "./userService";
-import { fileService } from "./fileService";
 import { PrefferenceDb } from "../db/schemas/Prefferences";
 import { PostsDb } from "../db/schemas/Post";
 import { CommentsDb } from "../db/schemas/Comments";
 import { UserDb } from "../db/schemas/User";
 import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
+import { cloudinaryService } from "./clousdinaryService";
 
 export class postService {
   static async getFriendsPosts(userId: string) {
@@ -150,16 +150,17 @@ export class postService {
       return;
     }
     try {
-      const filename = fileService.uploadFile(userId, "images", file);
+      const filename =  await cloudinaryService.uploadFile(userId, "images", file);
       if (filename) {
         const post = new PostDto(userId, filename);
         const newPost = await new PostsDb({ ...post }).save();
-        console.log(userPrefferences);
 
         userPrefferences.posts.push(newPost._id);
         await userPrefferences.save();
-        return "ok";
-      }
+        console.log(newPost);
+        
+        return "uploaded";
+     }
     } catch (e) {
       console.log(e);
     }
@@ -172,7 +173,7 @@ export class postService {
         userId.toString()
       );
       if (userPrefferences) {
-        fileService.removeFile(post.image);
+        cloudinaryService.removeFile(post.image);
 
         const filteredPrefferences = userPrefferences?.posts.filter(
           (id) => id.toString() !== postId
@@ -186,8 +187,7 @@ export class postService {
     }
   }
   static async interestingPosts(id: string) {
-  const interesting=  await PostsDb.find({likes:{$gt:1}})
-    console.log(interesting);
+  const interesting=  await PostsDb.find().sort({_id:-1}).limit(50)
     return interesting
     
   }

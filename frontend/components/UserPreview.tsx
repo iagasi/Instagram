@@ -9,7 +9,9 @@ type propsType = {
   dissabled?:boolean
 };
 function UserPreview({ user ,dissabled }: propsType) {
-  const surname=user?.surname?.slice(0,13)
+  const surname=user?.surname?.slice(0,12)
+  const name=user?.name?.slice(0,10)
+
   const router=useRouter()
   function routeHandler(){
    !dissabled&& router.push(`/profile/${user?._id}`)
@@ -30,7 +32,7 @@ function UserPreview({ user ,dissabled }: propsType) {
       />
       <div>
         <div className=" flex space-x-2 cursor-pointer font-bold">
-          <h3 className=" text-md">{user?.name}</h3>
+          <h3 className=" text-md">{name}</h3>
           <h3 className=" text-md">{surname}</h3>
         </div>
         {/* <p className=" text-sm">abu-dhabi-united-arab-emirates</p> */}

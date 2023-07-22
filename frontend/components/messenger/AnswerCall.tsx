@@ -38,7 +38,7 @@ function AnswerCall() {
   }, [incomCall]);
   function record(): Promise<MediaStream> {
     return new Promise((res, rej) => {
-      navigator.mediaDevices.getUserMedia({ video: true }).then((st) => {
+      navigator.mediaDevices.getUserMedia({ video: true,audio:true }).then((st) => {
         setStream(st);
         res(st);
       });
@@ -123,6 +123,7 @@ function AnswerCall() {
             callerVar(null);
           }}
           videoStream={stream}
+          
         >
            
             <div className=" text-center flex flex-col items-center">

@@ -30,7 +30,7 @@ function VideoCall() {
 
   function record(): Promise<MediaStream> {
     return new Promise((res, rej) => {
-      navigator.mediaDevices.getUserMedia({ video: true }).then((st) => {
+      navigator.mediaDevices.getUserMedia({ video: true,audio:true }).then((st) => {
         setStream(st);
         res(st);
       });
