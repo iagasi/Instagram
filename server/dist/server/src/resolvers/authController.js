@@ -77,7 +77,7 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                     httpOnly: false,
                     maxAge: 1,
                     sameSite: "none",
-                    domain: serverConstants_1.FRONTEND_URL,
+                    domain: "https://instagram-urgy.onrender.com",
                     secure: true,
                 };
                 res.cookie(constants_1.cookieName, resUser === null || resUser === void 0 ? void 0 : resUser.refreshToken, cookieOptions);

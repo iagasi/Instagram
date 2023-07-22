@@ -46,6 +46,7 @@ async function start() {
     cors({
       origin: [FRONTEND_URL, SERVER_URL,"http://localhost:3000"],
       credentials: true,
+   
     })
   );
   app.use(cookieParser());
