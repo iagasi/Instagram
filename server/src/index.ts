@@ -53,7 +53,8 @@ async function start() {
     
 
    ]
-   
+   ,
+   exposedHeaders: ["set-cookie"],
    
     })
   );
