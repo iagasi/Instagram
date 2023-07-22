@@ -39,10 +39,12 @@ console.log("log-here");
         httpOnly: false,
         maxAge: 1 ,
        sameSite:"none",
-       domain:".onrender.com",
+       domain:"instagram-urgy.onrender.com",
        secure:true,
       };
-      res.cookie(cookieName, resUser?.refreshToken, cookieOptions);
+     res.cookie(cookieName, resUser?.refreshToken, cookieOptions);
+      res.set('set-cookie', 'sdsdfsdfsfsdfsdf');
+      res.set('xx', 'text/plcxzain');
 
      res.json({
         acessToken: resUser?.acessToken,
