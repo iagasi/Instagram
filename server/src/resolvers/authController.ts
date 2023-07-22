@@ -17,17 +17,22 @@ router.post("/login",async (req,res)=>{
 
     
    if(!req.body) {
+    console.log("no req body");
+    
      res.send("No Body")
    return
    }
  
 try{
+console.log("log-here");
 
 
  const resUser = await UserService.login({
         email: req.body.email,
         password: req.body.password,
       });
+      console.log("url");
+
       console.log(FRONTEND_URL);
       
       const cookieOptions: CookieOptions = {
