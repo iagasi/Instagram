@@ -2,6 +2,7 @@ import r, { CookieOptions } from "express";
 import { refreshAcessToken } from "../services/tokenservice";
 import { UserService } from "../services/userService";
 import { cookieName } from "../../../constants";
+import { FRONTEND_URL } from "../serverConstants";
 const router = r.Router();
 
 router.get("/log-out",(req,res)=>{
@@ -30,7 +31,7 @@ try{
       const cookieOptions: CookieOptions = {
         httpOnly: false,
         maxAge: 1 ,
-        sameSite:false,
+        domain:FRONTEND_URL,
         secure: true,
       };
       res.cookie(cookieName, resUser?.refreshToken, cookieOptions);
