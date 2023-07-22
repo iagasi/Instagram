@@ -43,6 +43,7 @@ exports.authApi = void 0;
 var express_1 = __importDefault(require("express"));
 var userService_1 = require("../services/userService");
 var constants_1 = require("../../../constants");
+var serverConstants_1 = require("../serverConstants");
 var router = express_1.default.Router();
 router.get("/log-out", function (req, res) {
     //  res.cookie(cookieName,"",{    expires: new Date('2016-10-05'),
@@ -68,10 +69,13 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                     })];
             case 2:
                 resUser = _a.sent();
+                console.log(serverConstants_1.FRONTEND_URL);
                 cookieOptions = {
                     httpOnly: false,
                     maxAge: 1,
-                    sameSite: "none"
+                    sameSite: "none",
+                    domain: serverConstants_1.FRONTEND_URL,
+                    secure: true,
                 };
                 res.cookie(constants_1.cookieName, resUser === null || resUser === void 0 ? void 0 : resUser.refreshToken, cookieOptions);
                 res.json({

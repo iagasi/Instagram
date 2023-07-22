@@ -85,8 +85,10 @@ function Auth() {
 
       const res = await axios.post(
         LOGIN_URL + "/login",
+        
         { email: data.email, password: data.password },
-        { withCredentials: true }
+        { withCredentials: true,
+         }
       );
       if (typeof res.data === "string") {
         setServerError(res.data);

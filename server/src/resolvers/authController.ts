@@ -28,10 +28,14 @@ try{
         email: req.body.email,
         password: req.body.password,
       });
+      console.log(FRONTEND_URL);
+      
       const cookieOptions: CookieOptions = {
         httpOnly: false,
         maxAge: 1 ,
-       sameSite:"none"
+       sameSite:"none",
+       domain:FRONTEND_URL,
+       secure:true,
       };
       res.cookie(cookieName, resUser?.refreshToken, cookieOptions);
 
