@@ -44,7 +44,8 @@ console.log("log-here");
       };
      res.cookie(cookieName, resUser?.refreshToken, cookieOptions);
       res.set('set-cookie', 'sdsdfsdfsfsdfsdf');
-      res.set('xx', 'text/plcxzain');
+      res.set('zzz', 'text/plcxzain');
+      res.set('xxx', 'text/plcxzain');
 
      res.json({
         acessToken: resUser?.acessToken,

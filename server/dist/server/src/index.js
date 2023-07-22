@@ -81,8 +81,13 @@ function start() {
                     app.use((0, cors_1.default)({
                         origin: [serverConstants_1.FRONTEND_URL, "http://localhost:3000"],
                         credentials: true,
-                        allowedHeaders: "*",
-                        exposedHeaders: ["set-cookie"],
+                        allowedHeaders: [
+                            'Access-Control-Allow-Origin',
+                            'Content-Type',
+                            'Authorization',
+                            'zzz',
+                        ],
+                        exposedHeaders: ["set-cookie", 'xxx'],
                     }));
                     app.use((0, cookie_parser_1.default)());
                     app.use("/", authController_1.authApi);

@@ -46,9 +46,17 @@ async function start() {
     cors({
       origin: [FRONTEND_URL,"http://localhost:3000"],
       credentials: true,
-   allowedHeaders:"*"
+   allowedHeaders:[
+     'Access-Control-Allow-Origin',
+    'Content-Type',
+    'Authorization',
+    'zzz',
+  
+    
+
+   ]
    ,
-   exposedHeaders: ["set-cookie"],
+   exposedHeaders: ["set-cookie", 'xxx'],
    
     })
   );
