@@ -44,7 +44,7 @@ async function start() {
   app.use(express.json());
   app.use(
     cors({
-      origin: [FRONTEND_URL, SERVER_URL],
+      origin: [FRONTEND_URL, SERVER_URL,"http://localhost:3000"],
       credentials: true,
     })
   );
@@ -85,7 +85,7 @@ async function start() {
   app.use(
     "/graphql",
     cors<cors.CorsRequest>({
-      origin: [FRONTEND_URL, SERVER_URL],
+      origin: [FRONTEND_URL, SERVER_URL,"http://localhost:3000"],
       credentials: true,
     }),
     bodyParser.json(),
