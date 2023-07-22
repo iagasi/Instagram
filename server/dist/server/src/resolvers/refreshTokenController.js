@@ -45,7 +45,7 @@ var tokenservice_1 = require("../services/tokenservice");
 var constants_1 = require("../../../constants");
 var router = express_1.default.Router();
 var cookieOptions = {
-    httpOnly: true,
+    httpOnly: false,
     maxAge: 1 * 60 * 60 * 24 * 1000,
     secure: true,
 };

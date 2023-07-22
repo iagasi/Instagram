@@ -69,7 +69,7 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
             case 2:
                 resUser = _a.sent();
                 cookieOptions = {
-                    httpOnly: true,
+                    httpOnly: false,
                     maxAge: 1 * 60 * 60 * 24 * 1000,
                     secure: true,
                 };

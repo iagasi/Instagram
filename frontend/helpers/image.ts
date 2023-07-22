@@ -6,7 +6,7 @@ export function profileImage(url:string|undefined){
     
 
 
-    return `${url||process.env.NEXT_PUBLIC_SERVER_URL+"/defaultUser.png"}`
+   return ``
 }
 
 export function postImage(url:string|undefined){
