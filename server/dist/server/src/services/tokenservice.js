@@ -60,7 +60,7 @@ var TokenDb_1 = require("../db/schemas/TokenDb");
 var util_1 = require("util");
 function generateTokens(payload) {
     var acessToken = jsonwebtoken_1.default.sign(payload, ACCESS_TOKEN_KEY, {
-        expiresIn: "10000",
+        expiresIn: "10m",
     });
     var refreshToken = jsonwebtoken_1.default.sign(payload, REFRESH_TOKEN_KEY, {
         expiresIn: "10d",

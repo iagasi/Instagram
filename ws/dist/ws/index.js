@@ -14,7 +14,7 @@ function ws() {
     const app = (0, express_1.default)();
     const httpServer = (0, http_1.createServer)(app);
     app.use((0, cors_1.default)({
-        origin: [cosnstants_1.FRONTEND_URL || ""],
+        origin: [cosnstants_1.FRONTEND_URL || "", "http://localhost:3000"],
         credentials: true,
     }));
     const io = require("socket.io")(httpServer, {

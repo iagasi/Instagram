@@ -12,7 +12,7 @@ console.log(PORT);
     const app = express();
     const httpServer = createServer(app);
   app.use( cors({
-    origin: [FRONTEND_URL||""],
+    origin: [FRONTEND_URL||"","http://localhost:3000"],
     credentials: true,
   }))
     const io: io.Socket = require("socket.io")(httpServer, {

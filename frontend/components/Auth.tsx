@@ -124,7 +124,7 @@ function Auth() {
               Email : <span className=" font-bold">user1@gmail.com</span>
             </div>
             <div>
-              Password :<span className=" font-bold">123456</span>
+              Password :<span className=" font-bold">qwerty123456</span>
             </div>
           </div>
 
@@ -133,7 +133,7 @@ function Auth() {
               Email : <span className=" font-bold">user2@gmail.com</span>
             </div>
             <div>
-              Password :<span className=" font-bold">123456</span>
+              Password :<span className=" font-bold">qwerty123456</span>
             </div>
           </div>
         </div>
