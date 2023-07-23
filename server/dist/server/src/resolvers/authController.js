@@ -64,15 +64,12 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                console.log("log-here");
                 return [4 /*yield*/, userService_1.UserService.login({
                         email: req.body.email,
                         password: req.body.password,
                     })];
             case 2:
                 resUser = _a.sent();
-                console.log("url");
-                console.log(req.cookies);
                 console.log(serverConstants_1.FRONTEND_URL);
                 cookieOptions = {
                     httpOnly: false,

@@ -24,15 +24,12 @@ router.post("/login",async (req,res)=>{
    }
  
 try{
-console.log("log-here");
 
 
  const resUser = await UserService.login({
         email: req.body.email,
         password: req.body.password,
       });
-      console.log("url");
-console.log(req.cookies);
 
       console.log(FRONTEND_URL);
       

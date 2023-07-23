@@ -25,7 +25,9 @@ export function validateAcessToken(req: express.Request) {
   let token = req.headers.authorization?.split("Bearer")[1];
   console.log("cookies");
   
-console.log(req.cookies);
+console.log(req.headers.cookie);
+console.log(req.headers);
+
 console.log("cookies");
 
   let verify = null;

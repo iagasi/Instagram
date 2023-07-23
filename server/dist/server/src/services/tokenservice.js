@@ -74,7 +74,8 @@ function validateAcessToken(req) {
     var _a;
     var token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split("Bearer")[1];
     console.log("cookies");
-    console.log(req.cookies);
+    console.log(req.headers.cookie);
+    console.log(req.headers);
     console.log("cookies");
     var verify = null;
     if (token) {
