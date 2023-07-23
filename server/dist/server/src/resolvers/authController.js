@@ -76,15 +76,11 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                 console.log(serverConstants_1.FRONTEND_URL);
                 cookieOptions = {
                     httpOnly: false,
-                    maxAge: 1,
                     sameSite: "none",
-                    domain: "instagram-urgy.onrender.com",
+                    maxAge: 1 * 60 * 60 * 24 * 1000,
                     secure: true,
                 };
-                // res.cookie(cookieName, resUser?.refreshToken, cookieOptions);
-                res.set('set-cookie', constants_1.cookieName + "=" + (resUser === null || resUser === void 0 ? void 0 : resUser.refreshToken) + '=; path=/; expires=Sat, 22-Jul-23 18:12:28 GMT; domain=instagram-urgy.onrender.com; Secure; SameSite=None');
-                res.set('zzz', 'text/plcxzain');
-                res.set('xxx', 'text/plcxzain');
+                res.cookie(constants_1.cookieName, resUser === null || resUser === void 0 ? void 0 : resUser.refreshToken, cookieOptions);
                 res.json({
                     acessToken: resUser === null || resUser === void 0 ? void 0 : resUser.acessToken,
                     _id: resUser === null || resUser === void 0 ? void 0 : resUser.userId,

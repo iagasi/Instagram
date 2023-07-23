@@ -29,6 +29,7 @@ import { refreshTokensApi } from "./resolvers/refreshTokenController";
 import { authApi } from "./resolvers/authController";
 import { connectDb } from "./db";
 import { FRONTEND_URL, SERVER_URL, WS_URL } from "./serverConstants";
+import { hostname } from "os";
 
 const resolvers = mergeResolvers([userResolvers, postResolvers, chatResolver]);
 const typeDefs = mergeTypeDefs([userTypeDefs, postTypeDefs, chatTypeDefs]);
@@ -111,8 +112,10 @@ async function start() {
     })
   );
 
-  httpServer.listen({ port: 4000 }, () =>
+  httpServer.listen({ port: 4000 }, () =>{
     console.log(`🚀 Server ready at ${SERVER_URL}/graphql`)
+   }
+    
   );
 }
 

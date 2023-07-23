@@ -85,9 +85,8 @@ function start() {
                             'Access-Control-Allow-Origin',
                             'Content-Type',
                             'Authorization',
-                            'zzz',
                         ],
-                        exposedHeaders: ["Set-Cookie", 'xxx'],
+                        exposedHeaders: ["Set-Cookie",],
                     }));
                     app.use((0, cookie_parser_1.default)());
                     app.use("/", authController_1.authApi);
@@ -147,7 +146,7 @@ function start() {
                         },
                     }));
                     httpServer.listen({ port: 4000 }, function () {
-                        return console.log("\uD83D\uDE80 Server ready at ".concat(serverConstants_1.SERVER_URL, "/graphql"));
+                        console.log("\uD83D\uDE80 Server ready at ".concat(serverConstants_1.SERVER_URL, "/graphql"));
                     });
                     return [2 /*return*/];
             }
