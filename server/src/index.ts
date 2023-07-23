@@ -51,7 +51,8 @@ async function start() {
      'Access-Control-Allow-Origin',
     'Content-Type',
     'Authorization',
-  
+  'Access-Control-Allow-Credentials'
+    
     
 
    ]
@@ -101,6 +102,7 @@ async function start() {
     cors<cors.CorsRequest>({
       origin: [FRONTEND_URL, SERVER_URL,"http://localhost:3000"],
       credentials: true,
+      allowedHeaders:["Access-Control-Allow-Credentials"]
     }),
     bodyParser.json(),
     expressMiddleware(server, {

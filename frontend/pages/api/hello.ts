@@ -23,7 +23,7 @@ LOGIN_URL+"/login",
     const cookie=resp?.headers['set-cookie']
     if(cookie){
 
-          res.setHeader('Set-Cookie',"Instagram_Cookie=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGEzMDdlZDlmMmU0ZWEzMTg5NzNmNjAiLCJuYW1lIjoiTGluZGEiLCJpYXQiOjE2OTAwNTgxMjIsImV4cCI6MTY5MDkyMjEyMn0.01_RllEzq4i0D1vp49My1LG8D9cSMnY_S0G3FSJHle4=; path=/;  Secure; SameSite=None")
+          res.setHeader('Set-Cookie',cookie[0])
 
     }
    console.log(resp?.headers['set-cookie']);

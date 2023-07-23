@@ -85,6 +85,7 @@ function start() {
                             'Access-Control-Allow-Origin',
                             'Content-Type',
                             'Authorization',
+                            'Access-Control-Allow-Credentials'
                         ],
                         exposedHeaders: ["Set-Cookie",],
                     }));
@@ -133,6 +134,7 @@ function start() {
                     app.use("/graphql", (0, cors_1.default)({
                         origin: [serverConstants_1.FRONTEND_URL, serverConstants_1.SERVER_URL, "http://localhost:3000"],
                         credentials: true,
+                        allowedHeaders: ["Access-Control-Allow-Credentials"]
                     }), body_parser_1.default.json(), (0, express4_1.expressMiddleware)(server, {
                         context: function (_a) {
                             var req = _a.req, res = _a.res;
