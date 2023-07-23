@@ -57,9 +57,10 @@ var ACCESS_TOKEN_KEY = "secretFromEnvFile";
 var REFRESH_TOKEN_KEY = "secretFromEnvFile";
 var userService_1 = require("./userService");
 var TokenDb_1 = require("../db/schemas/TokenDb");
+var util_1 = require("util");
 function generateTokens(payload) {
     var acessToken = jsonwebtoken_1.default.sign(payload, ACCESS_TOKEN_KEY, {
-        expiresIn: "20m",
+        expiresIn: "10000",
     });
     var refreshToken = jsonwebtoken_1.default.sign(payload, REFRESH_TOKEN_KEY, {
         expiresIn: "10d",
@@ -73,10 +74,7 @@ exports.generateTokens = generateTokens;
 function validateAcessToken(req) {
     var _a;
     var token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split("Bearer")[1];
-    console.log("cookies");
-    console.log(req.headers.cookie);
-    console.log(req.headers);
-    console.log("cookies");
+    // console.log(req.headers.instacookie);
     var verify = null;
     if (token) {
         try {
@@ -97,20 +95,25 @@ function validateAcessToken(req) {
     return { token: token };
 }
 exports.validateAcessToken = validateAcessToken;
-function refreshAcessToken(Token) {
+function refreshAcessToken(req) {
     return __awaiter(this, void 0, void 0, function () {
-        var token, verify, decoded, refreshFoundToken, user, tokens, e_1;
+        var token, plainToken, decoded, refreshFoundToken, user, tokens, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    token = Token;
-                    console.log("refreshing acess");
-                    verify = null;
-                    if (!token) return [3 /*break*/, 5];
+                    token = req.headers.instacookie;
+                    plainToken = null;
+                    if (typeof token === "string") {
+                        plainToken = token;
+                    }
+                    else if ((0, util_1.isArray)(token)) {
+                        plainToken = token[0];
+                    }
+                    if (!(token && plainToken)) return [3 /*break*/, 5];
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 4, , 5]);
-                    decoded = jsonwebtoken_1.default.decode(token);
+                    decoded = jsonwebtoken_1.default.decode(plainToken);
                     if (!decoded) {
                         console.log("decoding error");
                         return [2 /*return*/];
@@ -127,7 +130,10 @@ function refreshAcessToken(Token) {
                     else {
                         if (refreshFoundToken) {
                             try {
-                                jsonwebtoken_1.default.verify(refreshFoundToken.refreshToken, REFRESH_TOKEN_KEY);
+                                if (refreshFoundToken.refreshToken !== plainToken) {
+                                    console.log("refreshFoundToken.refreshToken!==plainToken");
+                                    return [2 /*return*/];
+                                }
                             }
                             catch (e) {
                                 console.log("refresh token INVALID");
@@ -139,6 +145,7 @@ function refreshAcessToken(Token) {
                 case 3:
                     user = _a.sent();
                     if (!user) {
+                        console.log("!user");
                         return [2 /*return*/];
                         throw new Error("refreshToken user IsnFound");
                     }

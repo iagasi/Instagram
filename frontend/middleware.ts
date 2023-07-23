@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { cookieName } from '../constants';
  
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
@@ -7,8 +8,8 @@ export function middleware(request: NextRequest) {
  //console.log(request.cookies.get("Instagram_Cookie"))
 
  if(
-  request.cookies.get("Instagram_Cookie")==="undefined"||
-  !request.cookies.get("Instagram_Cookie")
+  request.cookies.get(cookieName)==="undefined"||
+  !request.cookies.get(cookieName)
  ){
     console.log("hete");
     

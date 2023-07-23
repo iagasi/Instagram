@@ -12,15 +12,16 @@ sameSite:"none"
 
 router.post("/refresTokens", async (req, res) => {
   try {
-    const tokens = await refreshAcessToken(req.cookies[cookieName]);
+    const tokens = await refreshAcessToken(req);
 
     if (!tokens) {
-      res.clearCookie(cookieName);
+   res.clearCookie(cookieName);
       //// res.cookie(cookieName,{    expires: new Date('2016-10-05'),
       //})
     }
 
-    res.cookie(cookieName, tokens?.refreshToken, cookieOptions);
+
+   /// res.cookie(cookieName, tokens?.refreshToken, cookieOptions);
     res.send({ acessToken: tokens?.acessToken, _id: tokens?.user._id });
     return;
   } catch (e) {

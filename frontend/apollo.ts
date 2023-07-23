@@ -9,16 +9,18 @@ import { LStorage } from "./helpers/user";
 import { onError } from "@apollo/client/link/error";
 import axios from "axios";
 import { LocalStorageUserType } from "../types/userType";
+import {cookieName}from "../constants"
+import { log } from "console";
 ///////////////////////////////////
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 async function getNewToken() {
   const res = await axios.post(
-    SERVER_URL + "/refresTokens",
-    {},
-    { withCredentials: true }
+     "api/refreshtokens",{},
+ {withCredentials:true}
   );
   const tokenAndId = res.data as LocalStorageUserType;
+;
 
   LStorage.setUser(tokenAndId);
 
@@ -61,6 +63,7 @@ const errorLink = onError(
 ////////////////////////////////////
 const authLink = setContext((_, { headers }) => {
   const token = LStorage.getUser()?.acessToken;
+
 
   return {
     headers: {

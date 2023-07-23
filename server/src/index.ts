@@ -34,10 +34,11 @@ import { hostname } from "os";
 const resolvers = mergeResolvers([userResolvers, postResolvers, chatResolver]);
 const typeDefs = mergeTypeDefs([userTypeDefs, postTypeDefs, chatTypeDefs]);
 async function start() {
-  if(!FRONTEND_URL ||!SERVER_URL){
+  if (!FRONTEND_URL || !SERVER_URL) {
     console.log("frontend or server url ERROR");
-    
-    return}
+
+    return;
+  }
   const schema = makeExecutableSchema({ typeDefs, resolvers });
 
   const app = express();
@@ -45,24 +46,17 @@ async function start() {
   app.use(express.json());
   app.use(
     cors({
-      origin: [FRONTEND_URL,"http://localhost:3000"],
+      origin: [FRONTEND_URL, "http://localhost:3000"],
       credentials: true,
-   allowedHeaders:[
-     'Access-Control-Allow-Origin',
-    'Content-Type',
-    'Authorization',
-  'Access-Control-Allow-Credentials',
-  
-    
-    
-
-   ]
-   ,
-   exposedHeaders: ["Set-Cookie", ],
-   
+      allowedHeaders: [
+        "Access-Control-Allow-Origin",
+        "Content-Type",
+        "Authorization",
+        "instacookie",
+      ],
+      exposedHeaders: ["Set-Cookie"],
     })
   );
-
 
   app.use(cookieParser());
 
@@ -101,9 +95,9 @@ async function start() {
   app.use(
     "/graphql",
     cors<cors.CorsRequest>({
-      origin: [FRONTEND_URL, SERVER_URL,"http://localhost:3000"],
+      origin: [FRONTEND_URL, SERVER_URL, "http://localhost:3000"],
       credentials: true,
-      allowedHeaders:["Access-Control-Allow-Credentials"," instacookies"]
+      allowedHeaders: ["Access-Control-Allow-Credentials", "instacookie"],
     }),
     bodyParser.json(),
     expressMiddleware(server, {
@@ -115,12 +109,9 @@ async function start() {
     })
   );
 
-  httpServer.listen({ port: 4000 }, () =>{
-    console.log(`🚀 Server ready at ${SERVER_URL}/graphql`)
-   }
-    
-  );
+  httpServer.listen({ port: 4000 }, () => {
+    console.log(`🚀 Server ready at ${SERVER_URL}/graphql`);
+  });
 }
 
 start();
-

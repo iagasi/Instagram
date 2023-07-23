@@ -6,10 +6,12 @@ import express from "express";
 import { UserService } from "./userService";
 import { TokenDb } from "../db/schemas/TokenDb";
 import { log } from "console";
+import { isArray } from "util";
+import { cookieName } from "../../../constants";
 
 export function generateTokens(payload: object) {
   var acessToken = jwt.sign(payload, ACCESS_TOKEN_KEY, {
-    expiresIn: "20m",
+    expiresIn: "10000",
   });
   var refreshToken = jwt.sign(payload, REFRESH_TOKEN_KEY, {
     expiresIn: "10d",
@@ -23,12 +25,8 @@ export function generateTokens(payload: object) {
 
 export function validateAcessToken(req: express.Request) {
   let token = req.headers.authorization?.split("Bearer")[1];
-  console.log("cookies");
-  
-console.log(req.headers.cookie);
-console.log(req.headers);
 
-console.log("cookies");
+  // console.log(req.headers.instacookie);
 
   let verify = null;
   if (token) {
@@ -49,32 +47,38 @@ console.log("cookies");
   }
   return { token };
 }
-export async function refreshAcessToken(Token: string) {
-  const token = Token;
-  console.log("refreshing acess");
-
-  let verify = null;
-  if (token) {
+export async function refreshAcessToken(req: express.Request) {
+  let token = req.headers.instacookie;
+  let plainToken = null;
+  if (typeof token === "string") {
+    plainToken = token
+  } else if (isArray(token)) {
+    plainToken = token[0];
+  }
+ 
+  if (token && plainToken) {
     try {
-      const decoded = jwt.decode(token) as { _id: string } | null;
+      const decoded = jwt.decode(plainToken) as { _id: string } | null;
+
       if (!decoded) {
         console.log("decoding error");
-       return
+        return;
         throw new Error("token decoding Error");
       }
       const refreshFoundToken = await TokenDb.findOne({ userId: decoded._id });
 
       if (!refreshFoundToken) {
         console.log("Token in db not Exists");
-        return
+        return;
         throw new Error("Token in db not Exists");
       } else {
         if (refreshFoundToken) {
           try {
-
-            jwt.verify(refreshFoundToken.refreshToken, REFRESH_TOKEN_KEY);
+            if (refreshFoundToken.refreshToken !== plainToken) {
+              console.log("refreshFoundToken.refreshToken!==plainToken");
+              return;
+            }
           } catch (e) {
-          
             console.log("refresh token INVALID");
             return;
           }
@@ -82,7 +86,9 @@ export async function refreshAcessToken(Token: string) {
       }
       const user = await UserService.getSingleUser(decoded._id);
       if (!user) {
-        return
+        console.log("!user");
+        
+        return;
         throw new Error("refreshToken user IsnFound");
       }
       const tokens = generateTokens({ _id: user?._id, name: user?.name });

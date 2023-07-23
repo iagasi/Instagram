@@ -55,7 +55,7 @@ router.post("/refresTokens", function (req, res) { return __awaiter(void 0, void
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, (0, tokenservice_1.refreshAcessToken)(req.cookies[constants_1.cookieName])];
+                return [4 /*yield*/, (0, tokenservice_1.refreshAcessToken)(req)];
             case 1:
                 tokens = _a.sent();
                 if (!tokens) {
@@ -63,7 +63,7 @@ router.post("/refresTokens", function (req, res) { return __awaiter(void 0, void
                     //// res.cookie(cookieName,{    expires: new Date('2016-10-05'),
                     //})
                 }
-                res.cookie(constants_1.cookieName, tokens === null || tokens === void 0 ? void 0 : tokens.refreshToken, cookieOptions);
+                /// res.cookie(cookieName, tokens?.refreshToken, cookieOptions);
                 res.send({ acessToken: tokens === null || tokens === void 0 ? void 0 : tokens.acessToken, _id: tokens === null || tokens === void 0 ? void 0 : tokens.user._id });
                 return [2 /*return*/];
             case 2:
