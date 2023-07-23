@@ -47,11 +47,11 @@ export function SharePostsModalData(props: withModalType) {
       );
       console.log(res);
       
-      refetch();
-      refetchPageData();
+      await refetch();
+     await  refetchPageData();
       setLoading(false);
     } finally {
-      // props.setModal()
+      props.setModal()
     }
   };
   return (

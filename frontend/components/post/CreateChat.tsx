@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { TbMessageCircle2 } from "react-icons/tb";
 import { UserType } from "../../../types/userType";
 import { useCreateChat } from "../messenger/hooks";
@@ -19,20 +19,26 @@ function CreateChat({
   const { data: chats, refetch: refetchChats } = useGetChats(
     loggineUserData.user._id
   );
+  const chatExist = chats?.find((chat) =>
+  chat?.chat?.users.includes(postCreator?._id)
+);
+useEffect(()=>{
+  refetchChats();
 
+},[data])
+const[c,setC]=useState(false)
   const router = useRouter();
+if(c&&chatExist){
+  router.push("/messenger");
 
+}
   function chatHandler() {
-    const chatExist = chats?.find((chat) =>
-      chat.chat.users.includes(postCreator._id)
-    );
-    console.log(chatExist);
 
     if (!chatExist) {
       createChat();
-      refetchChats();
     }
-    router.push("/messenger");
+    setC(true)
+
   //  iAmMessagingWithVar(postCreator);
     if (chatExist?.chat._id) {
     }

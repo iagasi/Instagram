@@ -1,7 +1,7 @@
 import { WithModal } from "@/Hoc/WithModal";
 import { withModalType } from "@/types/modalTypes";
 import { Settings } from "./Settings";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Modal } from "../Modal";
 import axios from "axios";
 import { PROFILE_IMAGE_UPLOAD } from "@/helpers/constants";
@@ -26,6 +26,7 @@ function OpenOptions(props: propsType) {
   const [del, setDel] = useState(false);
   const { data: logginedUser, refetch } = useLogginedUserdata();
  const [uploading,setUploading]=useState(false)
+
   async function uploadHadler(e: any) {
     const url = process.env.NEXT_PUBLIC_SERVER_URL;
     const selectedFile = e.target?.files && e.target?.files[0];
@@ -38,11 +39,17 @@ setUploading(true)
 
     await axios.put(PROFILE_IMAGE_UPLOAD + "/" + props.user._id, formData);
    
-    props.setModal()
-    refetch();
     setUploading(false)
+    refetch();
+    props.setModal()
+   
   }
-
+// useEffect(()=>{
+//   if(logginedUser){
+//     setUploading(false)
+//     "refetching"
+//   }
+// },[logginedUser])
   async function deletePhoto(){
     setUploading(true)
     await axios.delete(PROFILE_IMAGE_UPLOAD + "/" + props.user._id,);

@@ -11,7 +11,7 @@ import { cookieName } from "../../../constants";
 
 export function generateTokens(payload: object) {
   var acessToken = jwt.sign(payload, ACCESS_TOKEN_KEY, {
-    expiresIn: "10m",
+    expiresIn: "5m",
   });
   var refreshToken = jwt.sign(payload, REFRESH_TOKEN_KEY, {
     expiresIn: "10d",
@@ -87,6 +87,7 @@ export async function refreshAcessToken(req: express.Request) {
       const user = await UserService.getSingleUser(decoded._id);
       if (!user) {
         console.log("!user");
+        console.log("no user");
         
         return;
         throw new Error("refreshToken user IsnFound");

@@ -8,7 +8,7 @@ export default function LogOutBtn({ width = "fit" }: { width?: string }) {
   const router = useRouter();
   async function logoutandler() {
     if (SERVER_URL) {
-      const res = await axios.get("api/logout", { withCredentials: true });
+      const res = await axios.get("/api/logout", { withCredentials: true });
       LStorage.setUser({ _id: "", acessToken: "" });
       router.push("/auth");
     }

@@ -122,7 +122,7 @@ console.log((Number(message.timeStamp)));
       {/* </div> */}
 
       <div className=" break-words overflow-hidden ">{message.message}</div>
-      <div className=" absolute -bottom-5 right-0 font-bold text-slate-400 ">
+      <div className=" sticky -bottom-5 right-0 font-bold text-sm text-slate-500  bg-white ">
         {timeAgo.format(new Date(Number(message.timeStamp)))}
       </div>
     </div>

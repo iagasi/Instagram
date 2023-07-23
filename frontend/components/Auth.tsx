@@ -84,7 +84,7 @@ function Auth() {
       setLoading(true);
 
       const res = await axios.post(
-    "api/login",
+    "/api/login",
         
         { email: data.email, password: data.password },
         { withCredentials: true,

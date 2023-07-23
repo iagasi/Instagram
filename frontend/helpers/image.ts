@@ -6,7 +6,7 @@ export function profileImage(url:string|undefined){
     
 
 
-   return ``
+   return `${url||""}`
 }
 
 export function postImage(url:string|undefined){

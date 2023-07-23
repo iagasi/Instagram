@@ -16,7 +16,7 @@ const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 async function getNewToken() {
   const res = await axios.post(
-     "api/refreshtokens",{},
+     "/api/refreshtokens",{},
  {withCredentials:true}
   );
   const tokenAndId = res.data as LocalStorageUserType;
