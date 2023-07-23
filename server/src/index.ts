@@ -50,13 +50,12 @@ async function start() {
      'Access-Control-Allow-Origin',
     'Content-Type',
     'Authorization',
-    'zzz',
   
     
 
    ]
    ,
-   exposedHeaders: ["Set-Cookie", 'xxx'],
+   exposedHeaders: ["Set-Cookie", ],
    
     })
   );

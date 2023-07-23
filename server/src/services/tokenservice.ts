@@ -5,6 +5,7 @@ const REFRESH_TOKEN_KEY = "secretFromEnvFile";
 import express from "express";
 import { UserService } from "./userService";
 import { TokenDb } from "../db/schemas/TokenDb";
+import { log } from "console";
 
 export function generateTokens(payload: object) {
   var acessToken = jwt.sign(payload, ACCESS_TOKEN_KEY, {
@@ -22,6 +23,7 @@ export function generateTokens(payload: object) {
 
 export function validateAcessToken(req: express.Request) {
   let token = req.headers.authorization?.split("Bearer")[1];
+console.log(req.cookies);
 
   let verify = null;
   if (token) {

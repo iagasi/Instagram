@@ -9,7 +9,7 @@ router.get("/log-out",(req,res)=>{
 //  res.cookie(cookieName,"",{    expires: new Date('2016-10-05'),
 //       })
       
-     res.clearCookie(cookieName)
+  res.clearCookie(cookieName)
   res.send("logout")
 })
 
@@ -38,15 +38,12 @@ console.log(req.cookies);
       
       const cookieOptions: CookieOptions = {
         httpOnly: false,
-        maxAge: 1 ,
        sameSite:"none",
-       domain:"instagram-urgy.onrender.com",
+       maxAge: 1 * 60 * 60 * 24 * 1000,
        secure:true,
       };
-    // res.cookie(cookieName, resUser?.refreshToken, cookieOptions);
-      res.set('set-cookie', cookieName+"="+resUser?.refreshToken+'=; path=/; expires=Sat, 22-Jul-23 18:12:28 GMT; domain=instagram-urgy.onrender.com; Secure; SameSite=None');
-      res.set('zzz', 'text/plcxzain');
-      res.set('xxx', 'text/plcxzain');
+    res.cookie(cookieName, resUser?.refreshToken, cookieOptions);
+ 
 
      res.json({
         acessToken: resUser?.acessToken,
