@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
 import Peer from "simple-peer";
 
@@ -11,6 +12,7 @@ type propsType={
     children?:JSX.Element
 }
 function Video({myVideo,connectionRef,close,videoStream,resVideo ,children}:propsType) {
+  const router=useRouter()
   useEffect(()=>{
     return()=>{
      
@@ -44,7 +46,7 @@ function Video({myVideo,connectionRef,close,videoStream,resVideo ,children}:prop
                 // myVideo.current.src=''
                 // resVideo.current.src=""
                 videoStream?.getTracks().forEach(track => track.stop());
-  
+  router.reload()
                close();
               }}
             >

@@ -32,7 +32,6 @@ function ChatHoc(props: propsType) {
       setMain(true);
     }
   }, [windowSize]);
-  console.log(windowSize);
 
   return (
     <div className="h-full relative ">

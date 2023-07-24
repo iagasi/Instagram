@@ -30,15 +30,17 @@ function VideoCall() {
 
   function record(): Promise<MediaStream> {
     return new Promise((res, rej) => {
-      navigator.mediaDevices.getUserMedia({ video: true,audio:true }).then((st) => {
-        setStream(st);
-        res(st);
-      });
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((st) => {
+          setStream(st);
+          res(st);
+        });
     });
   }
 
   console.log(outcomCall);
-  
+
   useEffect(() => {
     if (outcomCall) {
       audio.loop = true;
@@ -51,7 +53,7 @@ function VideoCall() {
     }
     return () => {
       audio.pause();
-     // socket.off("answer");
+      // socket.off("answer");
       stream?.getTracks().forEach((track) => {
         console.log(track);
 
@@ -103,7 +105,6 @@ function VideoCall() {
       });
       peer.on("stream", (stream) => {
         if (resVideo.current) {
-        
           console.log("stream p1/////////////////////////");
 
           resVideo.current.srcObject = stream;
@@ -116,7 +117,7 @@ function VideoCall() {
       socket.on("answer", (data: Omit<connectType, "user" | "from">) => {
         console.log(data.signal);
         peer.signal(data.signal);
-    setOutcomall(false);
+        setOutcomall(false);
       });
 
       peer.on("close", () => {
@@ -141,9 +142,9 @@ function VideoCall() {
           <Video
             myVideo={myVideo}
             resVideo={resVideo}
-            close={() =>{ 
-              setMakeCall(false)
-            connectionRef.current?.destroy()
+            close={() => {
+              setMakeCall(false);
+              connectionRef.current?.destroy();
             }}
             connectionRef={connectionRef}
             videoStream={stream}
@@ -152,7 +153,7 @@ function VideoCall() {
               {/* <h1> Calling...</h1> */}
 
               <UserPreview user={IAmMessagingWith} />
-              <IsOnlineColor candidateId={IAmMessagingWith?._id}/>
+              <IsOnlineColor candidateId={IAmMessagingWith?._id} />
             </div>
           </Video>
         </div>

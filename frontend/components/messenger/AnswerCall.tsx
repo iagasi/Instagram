@@ -7,6 +7,7 @@ import { useReactiveVar } from "@apollo/client";
 import Peer from "simple-peer";
 import Video from "./Video";
 import IsOnlineColor from "../profile/IsOnlineColor";
+import { useRouter } from "next/router";
 
 function AnswerCall() {
   const audio = new Audio("/music/receive-call.mp3");
@@ -17,10 +18,14 @@ function AnswerCall() {
   const connectionRef = useRef<Peer.Instance | null>(null);
   const myVideo = useRef<HTMLVideoElement | null>(null);
   const resVideo = useRef<HTMLVideoElement | null>(null);
+  const router=useRouter()
   useEffect(() => {
     socket.on("call", (caller) => {
+      router.push("/messenger")
+
       callerVar(caller);
       setIncomCall(true)
+      
     });
   }, []);
   useEffect(() => {
@@ -113,7 +118,7 @@ function AnswerCall() {
           </div>
         </div>
       )}
-      {answer && (
+      {(answer &&myVideo&&resVideo&&connectionRef&&stream)&& (
         <Video
           myVideo={myVideo}
           resVideo={resVideo}

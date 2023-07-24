@@ -11,7 +11,7 @@ import { cookieName } from "../../../constants";
 
 export function generateTokens(payload: object) {
   var acessToken = jwt.sign(payload, ACCESS_TOKEN_KEY, {
-    expiresIn: "5m",
+    expiresIn: "15m",
   });
   var refreshToken = jwt.sign(payload, REFRESH_TOKEN_KEY, {
     expiresIn: "10d",
