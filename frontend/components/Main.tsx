@@ -14,7 +14,6 @@ import OnlineFriends from "./OnlineFriends";
 
 export function Main() {
   const userId = LStorage.getUser()?._id;
-  console.log(userId);
 
   const { data: loggedUser } = useLogginedUserdata();
   const { data, refetch,loading } = useQuery(getUserAndPrefferencesGql, {

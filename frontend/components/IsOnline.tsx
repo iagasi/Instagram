@@ -9,7 +9,6 @@ function IsOnline({ user ,connectedUsers,dissabled}: { user: UserType,connectedU
 
 const isOnline=!!connectedUsers.find(c=>c._id==user._id)
 
-console.log(isOnline);
 
 // return <div></div>
   return (

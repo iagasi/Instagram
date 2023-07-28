@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "compile": "graphql-codegen",
-    "watch": "graphql-codegen -w"
+    "watch": "graphql-codegen -w",
+    "production": "npm ci &&next build&& npm run pm",
+    "pm":"pm2 start ecosystem.config.js"
   },
   "dependencies": {
     "@apollo/client": "^3.7.17",
@@ -22,6 +24,7 @@
     "emoji-picker-react": "^4.4.9",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.4",
+    "frontend": "file:",
     "graphql": "^16.7.1",
     "graphql-ws": "^5.13.1",
     "javascript-time-ago": "^2.5.9",

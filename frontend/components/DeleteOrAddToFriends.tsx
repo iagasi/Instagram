@@ -17,7 +17,6 @@ function isHeFollowsMe(user1: UserAndPrefferncesType, user2: UserType) {
 }
 function isIfollowHim(user1: UserAndPrefferncesType, user2: UserType) {
   user1.prefferences.followings
-  console.log(user2._id);
   
   return user1.prefferences.followings.includes(user2._id);
 }
@@ -41,8 +40,6 @@ export function DeleteOrAddToFriends({
   if (!friends) {
     return <> Error No Friends</>;
   }
-  console.log("deloete or add");
-  console.log(friends);
 
   return (
     <div className=" p-3 flex flex-col  items-start">

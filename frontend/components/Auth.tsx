@@ -90,7 +90,6 @@ function Auth() {
         { withCredentials: true,
          }
       );
-      console.log(res);
       
       if (typeof res.data === "string") {
         setServerError(res.data);

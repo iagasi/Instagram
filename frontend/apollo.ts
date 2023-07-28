@@ -30,7 +30,6 @@ const errorLink = onError(
   ({ graphQLErrors, networkError, operation, forward }) => {
     if (graphQLErrors) {
       for (let err of graphQLErrors) {
-        console.log(err.extensions.code);
 
         switch (err.extensions.code) {
           // Apollo Server sets code to UNAUTHENTICATED
@@ -47,7 +46,6 @@ const errorLink = onError(
                   },
                 });
 
-                console.log("UNAUTHENTICATED");
 
                 // Retry the request, returning the new observable
                 return forward(operation);

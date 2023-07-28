@@ -61,7 +61,6 @@ function AnswerCall() {
 
     peer.on("signal", (signal) => {
       if (!caller?.from) {
-        console.log("caller Id undefuned");
         return;
       }
       const answer: Omit<connectType, "user" | "from"> = {

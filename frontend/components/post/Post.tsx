@@ -42,14 +42,17 @@ export function Post({
   const [modal, setModal] = useState(false);
 
   const postPublisher = data?.findUser as UserType;
-
+if(!cardData?.image){<></>}
   return (
-    <div className="  pb-4 w-[460px]  mt-10 border-t-2 p-2 
+    
+    <div
+      className="  pb-4 w-[460px]  mt-10 border-t-2 p-2 
      shadow-md
     max-[550px]:w-[390px]
     max-[400px]:w-[300px]
 
-    ">
+    "
+    >
       <div className=" flex justify-between ">
         <UserPreview user={postPublisher} />
         <PostSettings post={post} postMaker={postPublisher} />
@@ -65,18 +68,18 @@ export function Post({
           width={460}
           height={526}
           objectFit="cover"
+        priority={true}
         />
       </div>
-<div className=" flex">
-  <LikePost postData={cardData} currUser={currUser} refetch={refetch} />
-      <CreateChat postCreator={postPublisher}>
-        <div>
-          <TbMessageCircle2 size={30} />
-        </div>
-      </CreateChat>
+      <div className=" flex">
+        <LikePost postData={cardData} currUser={currUser} refetch={refetch} />
+        <CreateChat postCreator={postPublisher}>
+          <div>
+            <TbMessageCircle2 size={30} />
+          </div>
+        </CreateChat>
+      </div>
 
-</div>
-    
       <div className=" space-y-1" onClick={() => setModal(!modal)}>
         <CommentPost
           postData={cardData}

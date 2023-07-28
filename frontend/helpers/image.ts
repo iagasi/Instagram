@@ -6,13 +6,12 @@ export function profileImage(url:string|undefined){
     
 
 
-   return `${url||""}`
+   return `${url||"/defaultUser.png"}`
 }
 
 export function postImage(url:string|undefined){
-    console.log(url);
     
     if(url?.search("cloudinary.com")==-1){return ""}
 
-    return `${url||""}`
+    return `${url||"/loading-img.png"}`
 }
