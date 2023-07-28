@@ -60,7 +60,7 @@ var TokenDb_1 = require("../db/schemas/TokenDb");
 var util_1 = require("util");
 function generateTokens(payload) {
     var acessToken = jsonwebtoken_1.default.sign(payload, ACCESS_TOKEN_KEY, {
-        expiresIn: "10m",
+        expiresIn: "15m",
     });
     var refreshToken = jsonwebtoken_1.default.sign(payload, REFRESH_TOKEN_KEY, {
         expiresIn: "10d",
@@ -146,6 +146,7 @@ function refreshAcessToken(req) {
                     user = _a.sent();
                     if (!user) {
                         console.log("!user");
+                        console.log("no user");
                         return [2 /*return*/];
                         throw new Error("refreshToken user IsnFound");
                     }

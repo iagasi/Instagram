@@ -46,7 +46,7 @@ async function start() {
   app.use(express.json());
   app.use(
     cors({
-      origin: [FRONTEND_URL, "http://localhost:3000"],
+      origin: [FRONTEND_URL,SERVER_URL, "http://localhost:3000",],
       credentials: true,
       allowedHeaders: [
         "Access-Control-Allow-Origin",
@@ -97,12 +97,15 @@ async function start() {
     cors<cors.CorsRequest>({
       origin: [FRONTEND_URL, SERVER_URL, "http://localhost:3000"],
       credentials: true,
-      allowedHeaders: ["Access-Control-Allow-Credentials", "instacookie"],
+      allowedHeaders: ["Access-Control-Allow-Credentials", "instacookie", "Access-Control-Allow-Origin",
+    ],
     }),
     bodyParser.json(),
     expressMiddleware(server, {
       context: async ({ req, res }) => {
+
         const isValid = validateAcessToken(req);
+console.log(isValid);
 
         return { req, res };
       },
@@ -111,6 +114,7 @@ async function start() {
 
   httpServer.listen({ port: 4000 }, () => {
     console.log(`🚀 Server ready at ${SERVER_URL}/graphql`);
+    console.log("11111")
   });
 }
 

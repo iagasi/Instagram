@@ -19,7 +19,7 @@ interface ICommentPostInput {
 export const postResolvers = {
   Query: {
     getInterestingPosts:async(parrent: UserType, args: QueryUserArgs)=>{
-      console.log(args);
+  
       
 return await postService.interestingPosts(args.id)
     },
@@ -48,7 +48,7 @@ return await postService.interestingPosts(args.id)
   },
   Mutation: {
     likePost: (paretn: any, args: ILikePostInput) => {
-      console.log(1);
+    
       
       return postService.likePost(args.input.postId, args.input.personId);
     },

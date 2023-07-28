@@ -82,7 +82,6 @@ export class UserService {
         if (!result) {
           rej(new Error("Email or Password incorrect"));
         } else {
-          console.log(password);
 
           const res = generateTokens({ _id: user._id, name: user.name });
 
@@ -170,7 +169,6 @@ export class UserService {
     console.log("here");
 
     const iAmUser = await this.getSingleUser(myId);
-    console.log(myId);
 
     if (iAmUser) {
       const userConfig = await PrefferenceDb.findOne({ userId: myId });

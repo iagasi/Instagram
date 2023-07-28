@@ -3,7 +3,7 @@ import { connectType, connectedUserType } from "../types/messengerType";
 import { UserType } from "../types/userType";
 import express from "express";
 import io from "socket.io";
-import { FRONTEND_URL, PORT,  } from "./cosnstants";
+import { FRONTEND_URL, PORT,  } from "./constants";
 import cors from "cors";
 console.log(PORT);
 
@@ -14,6 +14,8 @@ console.log(PORT);
   app.use( cors({
     origin: [FRONTEND_URL||"","http://localhost:3000"],
     credentials: true,
+    allowedHeaders: ["Access-Control-Allow-Credentials", "instacookie", "Access-Control-Allow-Origin"],
+
   }))
     const io: io.Socket = require("socket.io")(httpServer, {
       cors: {

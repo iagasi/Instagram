@@ -37,12 +37,16 @@ export const userResolvers = {
    
   
     findUser: async (parrent: UserType, args: QueryUserArgs) => {
+      console.log("find user");
+      
       return  await UserService.getSingleUser(args.id);
     },
    findByNameSurname: async (parrent: UserType, args: { name: string }) => {
       return await UserService.findPersonsByNameAndSurname(args.name);
     },
    getUserPrefferences: async(parrent: UserType, args: QueryUserArgs) => {
+    console.log("prefferences");
+    
       return await UserService.userPrefferences(args.id);
     },
    async getUserData(parrent: UserPrefferencesType, args: QueryUserArgs) {

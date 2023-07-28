@@ -29,7 +29,6 @@ class FileService {
 
   removeFile(filePath: string) {
     const p = path.join(__dirname, "../../public", filePath);
-    console.log(p);
 
     if (fs.existsSync(p)&&filePath) {
       fs.unlink(p, (err) => {

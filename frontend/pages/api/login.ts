@@ -5,7 +5,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 type Data = {
   name: string
 }
-const LOGIN_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+const LOGIN_URL = process.env.NEXT_PUBLIC_SERVER_API_URL;
 
 export default async function handler(
   req: NextApiRequest,

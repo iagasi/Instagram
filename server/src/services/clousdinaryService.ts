@@ -43,13 +43,11 @@ return new Promise((res,rej)=>{
    
   }
  async removeFile(filePath: string){
-    console.log(filePath);
     const arr=filePath.split("/")
     const publicId=arr[arr.length-1].split(".")[0]
-    console.log(publicId);
+   
     if(!publicId)return
    const res=  await cloudinary.uploader.destroy(publicId,{resource_type:"image",});
-   console.log(res);
    
    return res
   }

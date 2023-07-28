@@ -49,7 +49,6 @@ try{
 
 }
   catch(e :any){
-    console.log(e.message);
     
     res.json(e.message)
   } 
@@ -58,7 +57,6 @@ try{
 
 router.post("/register",async (req,res)=>{
 const answer= await UserService.register({email:req.body.email,password:req.body.password,name:req.body.name,surname:req.body.surname})
-console.log(answer);
 res.send(answer)
 
 })

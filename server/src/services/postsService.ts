@@ -157,7 +157,6 @@ export class postService {
 
         userPrefferences.posts.push(newPost._id);
         await userPrefferences.save();
-        console.log(newPost);
         
         return "uploaded";
      }
