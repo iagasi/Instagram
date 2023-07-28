@@ -110,7 +110,6 @@ var UserService = /** @class */ (function () {
                         return [3 /*break*/, 3];
                     case 2:
                         e_1 = _b.sent();
-                        console.log("Registracion error");
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -137,13 +136,11 @@ var UserService = /** @class */ (function () {
                                             switch (_a.label) {
                                                 case 0:
                                                     if (err) {
-                                                        console.log("compare error");
                                                     }
                                                     if (!!result) return [3 /*break*/, 1];
                                                     rej(new Error("Email or Password incorrect"));
                                                     return [3 /*break*/, 7];
                                                 case 1:
-                                                    console.log(password);
                                                     res = (0, tokenservice_1.generateTokens)({ _id: user._id, name: user.name });
                                                     return [4 /*yield*/, TokenDb_1.TokenDb.findOne({ userId: user._id })];
                                                 case 2:
@@ -201,47 +198,43 @@ var UserService = /** @class */ (function () {
                         res = [];
                         _e.label = 1;
                     case 1:
-                        _e.trys.push([1, 9, 10, 15]);
+                        _e.trys.push([1, 7, 8, 13]);
                         _a = true, userIds_1 = __asyncValues(userIds);
                         _e.label = 2;
                     case 2: return [4 /*yield*/, userIds_1.next()];
                     case 3:
-                        if (!(userIds_1_1 = _e.sent(), _b = userIds_1_1.done, !_b)) return [3 /*break*/, 8];
+                        if (!(userIds_1_1 = _e.sent(), _b = userIds_1_1.done, !_b)) return [3 /*break*/, 6];
                         _d = userIds_1_1.value;
                         _a = false;
-                        _e.label = 4;
-                    case 4:
-                        _e.trys.push([4, , 6, 7]);
                         id = _d;
                         return [4 /*yield*/, this.getSingleUser(id)];
-                    case 5:
+                    case 4:
                         candidate = _e.sent();
                         if (candidate) {
                             res.push(candidate);
                         }
-                        return [3 /*break*/, 7];
-                    case 6:
+                        _e.label = 5;
+                    case 5:
                         _a = true;
-                        return [7 /*endfinally*/];
-                    case 7: return [3 /*break*/, 2];
-                    case 8: return [3 /*break*/, 15];
-                    case 9:
+                        return [3 /*break*/, 2];
+                    case 6: return [3 /*break*/, 13];
+                    case 7:
                         e_2_1 = _e.sent();
                         e_2 = { error: e_2_1 };
-                        return [3 /*break*/, 15];
-                    case 10:
-                        _e.trys.push([10, , 13, 14]);
-                        if (!(!_a && !_b && (_c = userIds_1.return))) return [3 /*break*/, 12];
+                        return [3 /*break*/, 13];
+                    case 8:
+                        _e.trys.push([8, , 11, 12]);
+                        if (!(!_a && !_b && (_c = userIds_1.return))) return [3 /*break*/, 10];
                         return [4 /*yield*/, _c.call(userIds_1)];
-                    case 11:
+                    case 9:
                         _e.sent();
-                        _e.label = 12;
-                    case 12: return [3 /*break*/, 14];
-                    case 13:
+                        _e.label = 10;
+                    case 10: return [3 /*break*/, 12];
+                    case 11:
                         if (e_2) throw e_2.error;
                         return [7 /*endfinally*/];
-                    case 14: return [7 /*endfinally*/];
-                    case 15: return [2 /*return*/, res];
+                    case 12: return [7 /*endfinally*/];
+                    case 13: return [2 /*return*/, res];
                 }
             });
         });
@@ -322,12 +315,9 @@ var UserService = /** @class */ (function () {
             var iAmUser, userConfig, unfollowMeFromConfig;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        console.log("here");
-                        return [4 /*yield*/, this.getSingleUser(myId)];
+                    case 0: return [4 /*yield*/, this.getSingleUser(myId)];
                     case 1:
                         iAmUser = _a.sent();
-                        console.log(myId);
                         if (!iAmUser) return [3 /*break*/, 6];
                         return [4 /*yield*/, Prefferences_1.PrefferenceDb.findOne({ userId: myId })];
                     case 2:
@@ -363,7 +353,6 @@ var UserService = /** @class */ (function () {
                         return [4 /*yield*/, this.getSingleUser(candidateId)];
                     case 2:
                         candidate = _a.sent();
-                        console.log("Here myst not be");
                         if (!iAmUser) return [3 /*break*/, 8];
                         return [4 /*yield*/, Prefferences_1.PrefferenceDb.findOne({ userId: iAmUser._id })];
                     case 3:
@@ -404,7 +393,6 @@ var UserService = /** @class */ (function () {
                         return [4 /*yield*/, this.getSingleUser(candidateId)];
                     case 2:
                         subscribeTo = _a.sent();
-                        console.log("subscribe");
                         if (!(iAmUser && subscribeTo)) return [3 /*break*/, 7];
                         return [4 /*yield*/, Prefferences_1.PrefferenceDb.findOne({ userId: iAmUser._id })];
                     case 3:

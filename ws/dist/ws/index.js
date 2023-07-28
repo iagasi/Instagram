@@ -6,20 +6,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ws = void 0;
 const http_1 = require("http");
 const express_1 = __importDefault(require("express"));
-const cosnstants_1 = require("./cosnstants");
+const constants_1 = require("./constants");
 const cors_1 = __importDefault(require("cors"));
-console.log(cosnstants_1.PORT);
+console.log(constants_1.PORT);
 function ws() {
     let connected = [];
     const app = (0, express_1.default)();
     const httpServer = (0, http_1.createServer)(app);
     app.use((0, cors_1.default)({
-        origin: [cosnstants_1.FRONTEND_URL || "", "http://localhost:3000"],
+        origin: [constants_1.FRONTEND_URL || "", "http://localhost:3000"],
         credentials: true,
+        allowedHeaders: ["Access-Control-Allow-Credentials", "instacookie", "Access-Control-Allow-Origin"],
     }));
     const io = require("socket.io")(httpServer, {
         cors: {
-            origin: cosnstants_1.FRONTEND_URL,
+            origin: constants_1.FRONTEND_URL,
         },
     });
     io.on("connection", (socket) => {
@@ -72,8 +73,8 @@ function ws() {
             socket.broadcast.emit("check-connection");
         });
     });
-    httpServer.listen(cosnstants_1.PORT, () => {
-        console.log("ws serwer" + cosnstants_1.PORT);
+    httpServer.listen(constants_1.PORT, () => {
+        console.log("ws serwer" + constants_1.PORT);
     });
 }
 exports.ws = ws;

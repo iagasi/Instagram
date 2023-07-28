@@ -26,7 +26,6 @@ export function generateTokens(payload: object) {
 export function validateAcessToken(req: express.Request) {
   let token = req.headers.authorization?.split("Bearer")[1];
 
-  // console.log(req.headers.instacookie);
 
   let verify = null;
   if (token) {
@@ -86,8 +85,7 @@ export async function refreshAcessToken(req: express.Request) {
       }
       const user = await UserService.getSingleUser(decoded._id);
       if (!user) {
-        console.log("!user");
-        console.log("no user");
+     
         
         return;
         throw new Error("refreshToken user IsnFound");

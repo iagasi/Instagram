@@ -5,10 +5,11 @@
   "main": "index.ts",
   "module": "commonjs",
   "scripts": {
-    "start": " node dist/server/src/index.js",
+    "start": " pm2 start dist/server/src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "nodemon:run": " nodemon  src/index.ts  ",
-    "compile": "tsc"
+    "compile": "tsc",
+    "production": "npm ci&&npm run compile&&npm run start"
   },
   "author": "",
   "license": "ISC",
@@ -33,6 +34,7 @@
     "mongoose": "^7.3.1",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^2.0.22",
+    "server": "file:",
     "socket.io": "^4.6.2",
     "ts-node": "^10.9.1",
     "typed-graphql-subscriptions": "^0.0.1",

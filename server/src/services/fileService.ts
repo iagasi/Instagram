@@ -33,11 +33,9 @@ class FileService {
     if (fs.existsSync(p)&&filePath) {
       fs.unlink(p, (err) => {
         if (err) {
-          console.log(err);
         }
       });
     } else {
-      console.log("file not exists");
     }
   }
 }

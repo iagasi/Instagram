@@ -48,14 +48,12 @@ export class postService {
   }
 
   static async likePost(postId: string, personId: string) {
-    console.log("here");
 
     const foundUserPreffetences = await UserService.userPrefferences(personId);
     const targetPost = await PostsDb.findById(postId);
     if (!targetPost) {
       return;
     }
-    // console.log(typeof postId);
 
     // if (targetPost.userId == personId) {
     //   throw new PostError("You cannot like yout own Post");
@@ -161,7 +159,6 @@ export class postService {
         return "uploaded";
      }
     } catch (e) {
-      console.log(e);
     }
   }
 
@@ -182,7 +179,6 @@ export class postService {
         await PostsDb.deleteOne({ _id: postId });
       }
     } catch (e) {
-      console.log(e);
     }
   }
   static async interestingPosts(id: string) {

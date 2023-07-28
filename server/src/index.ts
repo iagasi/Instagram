@@ -105,7 +105,6 @@ async function start() {
       context: async ({ req, res }) => {
 
         const isValid = validateAcessToken(req);
-console.log(isValid);
 
         return { req, res };
       },
@@ -114,7 +113,6 @@ console.log(isValid);
 
   httpServer.listen({ port: 4000 }, () => {
     console.log(`🚀 Server ready at ${SERVER_URL}/graphql`);
-    console.log("11111")
   });
 }
 

@@ -20,7 +20,6 @@ router.post("/refresTokens", async (req, res) => {
       //})
     }
 
-console.log(tokens);
 
    /// res.cookie(cookieName, tokens?.refreshToken, cookieOptions);
     res.send({ acessToken: tokens?.acessToken, _id: tokens?.user._id });

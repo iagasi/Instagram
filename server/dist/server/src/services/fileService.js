@@ -25,16 +25,13 @@ var FileService = /** @class */ (function () {
     };
     FileService.prototype.removeFile = function (filePath) {
         var p = path_1.default.join(__dirname, "../../public", filePath);
-        console.log(p);
         if (fs_1.default.existsSync(p) && filePath) {
             fs_1.default.unlink(p, function (err) {
                 if (err) {
-                    console.log(err);
                 }
             });
         }
         else {
-            console.log("file not exists");
         }
     };
     return FileService;

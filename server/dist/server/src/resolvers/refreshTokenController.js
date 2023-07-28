@@ -63,7 +63,6 @@ router.post("/refresTokens", function (req, res) { return __awaiter(void 0, void
                     //// res.cookie(cookieName,{    expires: new Date('2016-10-05'),
                     //})
                 }
-                console.log(tokens);
                 /// res.cookie(cookieName, tokens?.refreshToken, cookieOptions);
                 res.send({ acessToken: tokens === null || tokens === void 0 ? void 0 : tokens.acessToken, _id: tokens === null || tokens === void 0 ? void 0 : tokens.user._id });
                 return [2 /*return*/];

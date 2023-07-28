@@ -85,7 +85,6 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                 return [3 /*break*/, 4];
             case 3:
                 e_1 = _a.sent();
-                console.log(e_1.message);
                 res.json(e_1.message);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
@@ -99,7 +98,6 @@ router.post("/register", function (req, res) { return __awaiter(void 0, void 0, 
             case 0: return [4 /*yield*/, userService_1.UserService.register({ email: req.body.email, password: req.body.password, name: req.body.name, surname: req.body.surname })];
             case 1:
                 answer = _a.sent();
-                console.log(answer);
                 res.send(answer);
                 return [2 /*return*/];
         }

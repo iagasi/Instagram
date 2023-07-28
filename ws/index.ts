@@ -5,7 +5,6 @@ import express from "express";
 import io from "socket.io";
 import { FRONTEND_URL, PORT,  } from "./constants";
 import cors from "cors";
-console.log(PORT);
 
  export function ws() {
     let connected: connectedUserType[] = [];
@@ -39,7 +38,6 @@ console.log(PORT);
         socket.emit("setUserId", isExist?.socketId);
   
         socket.broadcast.emit("check-connection");
-        console.log("connected");
         
       });
       socket.on("connectedUsers", (idies: string[]) => {
@@ -59,11 +57,7 @@ console.log(PORT);
         const found = connected.find(
           (user) => user._id.toString() === userId.toString()
         );
-        console.log(
-          " //////////////////////////////////////////////////////////////////"
-        );
-       console.log(found);
-       
+     
           socket.emit("isOnline",!!found )
         
       });
@@ -75,9 +69,7 @@ console.log(PORT);
   
       socket.on("call", (data: connectType) => {
         if (!data.to) {
-          console.log(
-            " call to socket id undefned//////////////////////////////////////////////////////////////////"
-          );
+     
         }
   
         io.to(data.to).emit("call", data);
@@ -85,9 +77,7 @@ console.log(PORT);
   
       socket.on("answer", (data: Omit<connectType, "user" | "from">) => {
         if (!data.to) {
-          console.log(
-            " answer to socket id undefned//////////////////////////////////////////////////////////////////"
-          );
+      
         }
   
         io.to(data.to).emit("answer", data);

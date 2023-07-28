@@ -74,7 +74,6 @@ exports.generateTokens = generateTokens;
 function validateAcessToken(req) {
     var _a;
     var token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split("Bearer")[1];
-    // console.log(req.headers.instacookie);
     var verify = null;
     if (token) {
         try {
@@ -145,8 +144,6 @@ function refreshAcessToken(req) {
                 case 3:
                     user = _a.sent();
                     if (!user) {
-                        console.log("!user");
-                        console.log("no user");
                         return [2 /*return*/];
                         throw new Error("refreshToken user IsnFound");
                     }

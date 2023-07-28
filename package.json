@@ -1,0 +1,16 @@
+{
+  "name": "final-task",
+  "version": "1.0.0",
+  "description": "- GraphQl(Applo Client ,Appolo Server,Graph Ql Subscriptions)\r - Websockets\r - TS\r - Mongo DB\r - WEB RTC\r - JWT Tokens (refresh acess)\r - TailWind CSS\r - Express JS\r - Next js\r - React-form-hook",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "frontend":"npm --prefix ./frontend run production ",
+    "frontend-buld":"npm --prefix ./frontend run build ",
+    "server":"npm --prefix ./server run production ",
+    "ws":"npm --prefix ./ws run production ",
+    "production:new":"(npm run frontend)||(  npm run server) || (npm run ws)"
+  },
+  "author": "",
+  "license": "ISC"
+}

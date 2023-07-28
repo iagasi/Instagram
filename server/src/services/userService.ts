@@ -49,7 +49,6 @@ export class UserService {
         return "This Email Already  registered";
       }
     } catch (e) {
-      console.log("Registracion error");
     }
   }
   static async login({
@@ -77,7 +76,6 @@ export class UserService {
     return new Promise((resolve, rej) => {
       bcrypt.compare(password, user.password, async function (err, result) {
         if (err) {
-          console.log("compare error");
         }
         if (!result) {
           rej(new Error("Email or Password incorrect"));
@@ -166,7 +164,6 @@ export class UserService {
     myId: string,
     candidateId: string
   ): Promise<UserAndPrefferncesType | null> {
-    console.log("here");
 
     const iAmUser = await this.getSingleUser(myId);
 
@@ -198,7 +195,6 @@ await unfollowMeFromConfig.save()
   ): Promise<UserAndPrefferncesType | null> {
     const iAmUser = await this.getSingleUser(myId);
     const candidate = await this.getSingleUser(candidateId);
-    console.log("Here myst not be");
 
     if (iAmUser) {
       await PrefferenceDb.findOne({ userId: iAmUser._id });
@@ -230,7 +226,6 @@ await unfollowMeFromConfig.save()
   ): Promise<UserAndPrefferncesType | null> {
     const iAmUser = await this.getSingleUser(myId);
     const subscribeTo = await this.getSingleUser(candidateId);
-    console.log("subscribe");
 
     if (iAmUser && subscribeTo) {
       const userConfig = await PrefferenceDb.findOne({ userId: iAmUser._id });

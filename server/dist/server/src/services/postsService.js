@@ -123,9 +123,7 @@ var postService = /** @class */ (function () {
             var foundUserPreffetences, targetPost, index, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        console.log("here");
-                        return [4 /*yield*/, userService_1.UserService.userPrefferences(personId)];
+                    case 0: return [4 /*yield*/, userService_1.UserService.userPrefferences(personId)];
                     case 1:
                         foundUserPreffetences = _a.sent();
                         return [4 /*yield*/, Post_1.PostsDb.findById(postId)];
@@ -134,7 +132,6 @@ var postService = /** @class */ (function () {
                         if (!targetPost) {
                             return [2 /*return*/];
                         }
-                        // console.log(typeof postId);
                         // if (targetPost.userId == personId) {
                         //   throw new PostError("You cannot like yout own Post");
                         // }
@@ -210,26 +207,23 @@ var postService = /** @class */ (function () {
                         commentsArray = [];
                         _g.label = 2;
                     case 2:
-                        _g.trys.push([2, 11, 12, 17]);
+                        _g.trys.push([2, 9, 10, 15]);
                         _d = true, _e = __asyncValues(post.comments);
                         _g.label = 3;
                     case 3: return [4 /*yield*/, _e.next()];
                     case 4:
-                        if (!(_f = _g.sent(), _a = _f.done, !_a)) return [3 /*break*/, 10];
+                        if (!(_f = _g.sent(), _a = _f.done, !_a)) return [3 /*break*/, 8];
                         _c = _f.value;
                         _d = false;
-                        _g.label = 5;
-                    case 5:
-                        _g.trys.push([5, , 8, 9]);
                         commetId = _c;
                         return [4 /*yield*/, Comments_1.CommentsDb.findById(commetId)];
-                    case 6:
+                    case 5:
                         comment = (_g.sent());
                         if (!comment) {
                             throw new Error("comment not found");
                         }
                         return [4 /*yield*/, User_1.UserDb.findById(comment.personId)];
-                    case 7:
+                    case 6:
                         user = (_g.sent());
                         if (!user) {
                             throw new Error("user not found");
@@ -239,29 +233,28 @@ var postService = /** @class */ (function () {
                             comment: comment,
                         };
                         commentsArray.push(commentAndItMaker);
-                        return [3 /*break*/, 9];
-                    case 8:
+                        _g.label = 7;
+                    case 7:
                         _d = true;
-                        return [7 /*endfinally*/];
-                    case 9: return [3 /*break*/, 3];
-                    case 10: return [3 /*break*/, 17];
-                    case 11:
+                        return [3 /*break*/, 3];
+                    case 8: return [3 /*break*/, 15];
+                    case 9:
                         e_2_1 = _g.sent();
                         e_2 = { error: e_2_1 };
-                        return [3 /*break*/, 17];
-                    case 12:
-                        _g.trys.push([12, , 15, 16]);
-                        if (!(!_d && !_a && (_b = _e.return))) return [3 /*break*/, 14];
+                        return [3 /*break*/, 15];
+                    case 10:
+                        _g.trys.push([10, , 13, 14]);
+                        if (!(!_d && !_a && (_b = _e.return))) return [3 /*break*/, 12];
                         return [4 /*yield*/, _b.call(_e)];
-                    case 13:
+                    case 11:
                         _g.sent();
-                        _g.label = 14;
-                    case 14: return [3 /*break*/, 16];
-                    case 15:
+                        _g.label = 12;
+                    case 12: return [3 /*break*/, 14];
+                    case 13:
                         if (e_2) throw e_2.error;
                         return [7 /*endfinally*/];
-                    case 16: return [7 /*endfinally*/];
-                    case 17: return [2 /*return*/, commentsArray];
+                    case 14: return [7 /*endfinally*/];
+                    case 15: return [2 /*return*/, commentsArray];
                 }
             });
         });
@@ -278,47 +271,43 @@ var postService = /** @class */ (function () {
                         users = [];
                         _g.label = 2;
                     case 2:
-                        _g.trys.push([2, 10, 11, 16]);
+                        _g.trys.push([2, 8, 9, 14]);
                         _d = true, _e = __asyncValues(post.likes);
                         _g.label = 3;
                     case 3: return [4 /*yield*/, _e.next()];
                     case 4:
-                        if (!(_f = _g.sent(), _a = _f.done, !_a)) return [3 /*break*/, 9];
+                        if (!(_f = _g.sent(), _a = _f.done, !_a)) return [3 /*break*/, 7];
                         _c = _f.value;
                         _d = false;
-                        _g.label = 5;
-                    case 5:
-                        _g.trys.push([5, , 7, 8]);
                         userId = _c;
                         return [4 /*yield*/, userService_1.UserService.getSingleUser(userId)];
-                    case 6:
+                    case 5:
                         user = _g.sent();
                         if (user) {
                             users.push(user);
                         }
-                        return [3 /*break*/, 8];
-                    case 7:
+                        _g.label = 6;
+                    case 6:
                         _d = true;
-                        return [7 /*endfinally*/];
-                    case 8: return [3 /*break*/, 3];
-                    case 9: return [3 /*break*/, 16];
-                    case 10:
+                        return [3 /*break*/, 3];
+                    case 7: return [3 /*break*/, 14];
+                    case 8:
                         e_3_1 = _g.sent();
                         e_3 = { error: e_3_1 };
-                        return [3 /*break*/, 16];
-                    case 11:
-                        _g.trys.push([11, , 14, 15]);
-                        if (!(!_d && !_a && (_b = _e.return))) return [3 /*break*/, 13];
+                        return [3 /*break*/, 14];
+                    case 9:
+                        _g.trys.push([9, , 12, 13]);
+                        if (!(!_d && !_a && (_b = _e.return))) return [3 /*break*/, 11];
                         return [4 /*yield*/, _b.call(_e)];
-                    case 12:
+                    case 10:
                         _g.sent();
-                        _g.label = 13;
-                    case 13: return [3 /*break*/, 15];
-                    case 14:
+                        _g.label = 11;
+                    case 11: return [3 /*break*/, 13];
+                    case 12:
                         if (e_3) throw e_3.error;
                         return [7 /*endfinally*/];
-                    case 15: return [7 /*endfinally*/];
-                    case 16: return [2 /*return*/, users];
+                    case 13: return [7 /*endfinally*/];
+                    case 14: return [2 /*return*/, users];
                 }
             });
         });
@@ -352,12 +341,10 @@ var postService = /** @class */ (function () {
                         return [4 /*yield*/, userPrefferences.save()];
                     case 5:
                         _a.sent();
-                        console.log(newPost);
                         return [2 /*return*/, "uploaded"];
                     case 6: return [3 /*break*/, 8];
                     case 7:
                         e_4 = _a.sent();
-                        console.log(e_4);
                         return [3 /*break*/, 8];
                     case 8: return [2 /*return*/];
                 }
@@ -391,7 +378,6 @@ var postService = /** @class */ (function () {
                     case 5: return [3 /*break*/, 7];
                     case 6:
                         e_5 = _a.sent();
-                        console.log(e_5);
                         return [3 /*break*/, 7];
                     case 7: return [2 /*return*/];
                 }

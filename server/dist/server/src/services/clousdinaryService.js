@@ -74,16 +74,13 @@ var CloudinaruService = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        console.log(filePath);
                         arr = filePath.split("/");
                         publicId = arr[arr.length - 1].split(".")[0];
-                        console.log(publicId);
                         if (!publicId)
                             return [2 /*return*/];
                         return [4 /*yield*/, cloudinary_1.v2.uploader.destroy(publicId, { resource_type: "image", })];
                     case 1:
                         res = _a.sent();
-                        console.log(res);
                         return [2 /*return*/, res];
                 }
             });
