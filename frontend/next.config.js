@@ -6,7 +6,9 @@ const nextConfig = {
   },
   images:{
     domains: ["localhost","res.cloudinary.com","https://server-pc0e.onrender.com"],
-  }
+  },
+
+  
 }
 
 module.exports = nextConfig

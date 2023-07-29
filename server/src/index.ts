@@ -12,7 +12,7 @@ import { fileRouter } from "./resolvers/fileResolver";
 import { WebSocketServer } from "ws";
 import { useServer } from "graphql-ws/lib/use/ws";
 import { makeExecutableSchema } from "@graphql-tools/schema";
-import { createServer } from "http";
+import http from "http";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import bodyParser from "body-parser";
 import { expressMiddleware } from "@apollo/server/express4";
@@ -28,7 +28,7 @@ export interface IsloggedRequest extends express.Request {
 import { refreshTokensApi } from "./resolvers/refreshTokenController";
 import { authApi } from "./resolvers/authController";
 import { connectDb } from "./db";
-import { FRONTEND_URL, SERVER_URL, WS_URL } from "./serverConstants";
+import { FRONTEND_URL, SERVER_HOST, SERVER_PORT, SERVER_URL, WS_URL } from "./serverConstants";
 import { hostname } from "os";
 
 const resolvers = mergeResolvers([userResolvers, postResolvers, chatResolver]);
@@ -46,7 +46,7 @@ async function start() {
   app.use(express.json());
   app.use(
     cors({
-      origin: [FRONTEND_URL,SERVER_URL, "http://localhost:3000",],
+      origin: [FRONTEND_URL,SERVER_URL, "http://localhost:3000","http://app:3000"],
       credentials: true,
       allowedHeaders: [
         "Access-Control-Allow-Origin",
@@ -66,8 +66,17 @@ async function start() {
 
   app.use(express.static("public"));
   app.use("/file", fileRouter);
+  const http = require('http');
 
-  const httpServer = createServer(app);
+  const hostname = '127.0.0.1'; // Replace this with the desired hostname
+  const port = 3000; // Replace this with the desired port number
+  
+  //const s = http.createServer(app);
+  
+
+
+
+  const httpServer = http.createServer(app);
 
   const wsServer = new WebSocketServer({
     server: httpServer,
@@ -111,9 +120,13 @@ async function start() {
     })
   );
 
-  httpServer.listen({ port: 4000 }, () => {
-    console.log(`🚀 Server ready at ${SERVER_URL}/graphql`);
+  httpServer.listen(SERVER_PORT,SERVER_HOST, () => {
+    console.log(`🚀 Server ready at $/graphql`,httpServer.address());
   });
+
+  // httpServer.listen(SERVER_PORT, SERVER_HOST, () => {
+  //   console.log(`Server running at http://${hostname}:${port}/`);
+  // });
 }
 
 start();

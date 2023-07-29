@@ -3,7 +3,7 @@ import { connectType, connectedUserType } from "../types/messengerType";
 import { UserType } from "../types/userType";
 import express from "express";
 import io from "socket.io";
-import { FRONTEND_URL, PORT,  } from "./constants";
+import { FRONTEND_URL, PORT, WS_HOST, WS_PORT,  } from "./constants";
 import cors from "cors";
 
  export function ws() {
@@ -87,8 +87,8 @@ import cors from "cors";
         socket.broadcast.emit("check-connection");
       });
     });
-    httpServer.listen(PORT, () => {
-      console.log("ws serwer" +PORT);
+    httpServer.listen({ port: WS_PORT ,hostname:WS_HOST}, () => {
+      console.log("ws serwer" +WS_PORT+PORT);
     });
   }
 
