@@ -198,43 +198,47 @@ var UserService = /** @class */ (function () {
                         res = [];
                         _e.label = 1;
                     case 1:
-                        _e.trys.push([1, 7, 8, 13]);
+                        _e.trys.push([1, 9, 10, 15]);
                         _a = true, userIds_1 = __asyncValues(userIds);
                         _e.label = 2;
                     case 2: return [4 /*yield*/, userIds_1.next()];
                     case 3:
-                        if (!(userIds_1_1 = _e.sent(), _b = userIds_1_1.done, !_b)) return [3 /*break*/, 6];
+                        if (!(userIds_1_1 = _e.sent(), _b = userIds_1_1.done, !_b)) return [3 /*break*/, 8];
                         _d = userIds_1_1.value;
                         _a = false;
+                        _e.label = 4;
+                    case 4:
+                        _e.trys.push([4, , 6, 7]);
                         id = _d;
                         return [4 /*yield*/, this.getSingleUser(id)];
-                    case 4:
+                    case 5:
                         candidate = _e.sent();
                         if (candidate) {
                             res.push(candidate);
                         }
-                        _e.label = 5;
-                    case 5:
+                        return [3 /*break*/, 7];
+                    case 6:
                         _a = true;
-                        return [3 /*break*/, 2];
-                    case 6: return [3 /*break*/, 13];
-                    case 7:
+                        return [7 /*endfinally*/];
+                    case 7: return [3 /*break*/, 2];
+                    case 8: return [3 /*break*/, 15];
+                    case 9:
                         e_2_1 = _e.sent();
                         e_2 = { error: e_2_1 };
-                        return [3 /*break*/, 13];
-                    case 8:
-                        _e.trys.push([8, , 11, 12]);
-                        if (!(!_a && !_b && (_c = userIds_1.return))) return [3 /*break*/, 10];
+                        return [3 /*break*/, 15];
+                    case 10:
+                        _e.trys.push([10, , 13, 14]);
+                        if (!(!_a && !_b && (_c = userIds_1.return))) return [3 /*break*/, 12];
                         return [4 /*yield*/, _c.call(userIds_1)];
-                    case 9:
-                        _e.sent();
-                        _e.label = 10;
-                    case 10: return [3 /*break*/, 12];
                     case 11:
+                        _e.sent();
+                        _e.label = 12;
+                    case 12: return [3 /*break*/, 14];
+                    case 13:
                         if (e_2) throw e_2.error;
                         return [7 /*endfinally*/];
-                    case 12: return [7 /*endfinally*/];
-                    case 13: return [2 /*return*/, res];
+                    case 14: return [7 /*endfinally*/];
+                    case 15: return [2 /*return*/, res];
                 }
             });
         });

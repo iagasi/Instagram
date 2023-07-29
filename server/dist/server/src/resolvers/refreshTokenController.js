@@ -47,7 +47,7 @@ var router = express_1.default.Router();
 var cookieOptions = {
     httpOnly: true,
     maxAge: 1 * 60 * 60 * 24 * 1000,
-    sameSite: "none"
+    sameSite: "strict"
 };
 router.post("/refresTokens", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var tokens, e_1;

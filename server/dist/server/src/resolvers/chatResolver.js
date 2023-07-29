@@ -114,48 +114,52 @@ exports.chatResolver = {
                                 return [2 /*return*/];
                             _e.label = 2;
                         case 2:
-                            _e.trys.push([2, 8, 9, 14]);
+                            _e.trys.push([2, 10, 11, 16]);
                             _d = true, chats_1 = __asyncValues(chats);
                             _e.label = 3;
                         case 3: return [4 /*yield*/, chats_1.next()];
                         case 4:
-                            if (!(chats_1_1 = _e.sent(), _a = chats_1_1.done, !_a)) return [3 /*break*/, 7];
+                            if (!(chats_1_1 = _e.sent(), _a = chats_1_1.done, !_a)) return [3 /*break*/, 9];
                             _c = chats_1_1.value;
                             _d = false;
+                            _e.label = 5;
+                        case 5:
+                            _e.trys.push([5, , 7, 8]);
                             chat = _c;
                             friendId = null;
                             friendId = chat.users.find(function (e) { return e.toString() !== args.userId.toString(); });
                             if (!friendId)
                                 return [2 /*return*/, "userNot found"];
                             return [4 /*yield*/, userService_1.UserService.getSingleUser(friendId)];
-                        case 5:
+                        case 6:
                             friendData = _e.sent();
                             res.push({
                                 chat: chat,
                                 chatWithInfo: friendData,
                             });
-                            _e.label = 6;
-                        case 6:
+                            return [3 /*break*/, 8];
+                        case 7:
                             _d = true;
-                            return [3 /*break*/, 3];
-                        case 7: return [3 /*break*/, 14];
-                        case 8:
+                            return [7 /*endfinally*/];
+                        case 8: return [3 /*break*/, 3];
+                        case 9: return [3 /*break*/, 16];
+                        case 10:
                             e_1_1 = _e.sent();
                             e_1 = { error: e_1_1 };
-                            return [3 /*break*/, 14];
-                        case 9:
-                            _e.trys.push([9, , 12, 13]);
-                            if (!(!_d && !_a && (_b = chats_1.return))) return [3 /*break*/, 11];
+                            return [3 /*break*/, 16];
+                        case 11:
+                            _e.trys.push([11, , 14, 15]);
+                            if (!(!_d && !_a && (_b = chats_1.return))) return [3 /*break*/, 13];
                             return [4 /*yield*/, _b.call(chats_1)];
-                        case 10:
-                            _e.sent();
-                            _e.label = 11;
-                        case 11: return [3 /*break*/, 13];
                         case 12:
+                            _e.sent();
+                            _e.label = 13;
+                        case 13: return [3 /*break*/, 15];
+                        case 14:
                             if (e_1) throw e_1.error;
                             return [7 /*endfinally*/];
-                        case 13: return [7 /*endfinally*/];
-                        case 14: return [2 /*return*/, res];
+                        case 15: return [7 /*endfinally*/];
+                        case 16: return [2 /*return*/, res];
                     }
                 });
             });

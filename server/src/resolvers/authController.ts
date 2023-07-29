@@ -35,7 +35,7 @@ try{
       
       const cookieOptions: CookieOptions = {
         httpOnly: false,
-       sameSite:"none",
+       sameSite:"strict",
        maxAge: 1 * 60 * 60 * 24 * 1000,
       secure:false
       };

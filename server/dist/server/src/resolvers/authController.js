@@ -73,9 +73,9 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                 console.log(serverConstants_1.FRONTEND_URL);
                 cookieOptions = {
                     httpOnly: false,
-                    sameSite: "none",
+                    sameSite: "strict",
                     maxAge: 1 * 60 * 60 * 24 * 1000,
-                    secure: true,
+                    secure: false
                 };
                 res.cookie(constants_1.cookieName, resUser === null || resUser === void 0 ? void 0 : resUser.refreshToken, cookieOptions);
                 res.json({
