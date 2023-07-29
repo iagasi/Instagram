@@ -37,7 +37,7 @@ try{
         httpOnly: false,
        sameSite:"none",
        maxAge: 1 * 60 * 60 * 24 * 1000,
-       secure:true,
+      
       };
     res.cookie(cookieName, resUser?.refreshToken, cookieOptions);
  
