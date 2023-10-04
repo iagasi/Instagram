@@ -8,7 +8,6 @@ const http_1 = require("http");
 const express_1 = __importDefault(require("express"));
 const constants_1 = require("./constants");
 const cors_1 = __importDefault(require("cors"));
-console.log(constants_1.PORT);
 function ws() {
     let connected = [];
     const app = (0, express_1.default)();
@@ -34,7 +33,6 @@ function ws() {
             }
             socket.emit("setUserId", isExist === null || isExist === void 0 ? void 0 : isExist.socketId);
             socket.broadcast.emit("check-connection");
-            console.log("connected");
         });
         socket.on("connectedUsers", (idies) => {
             const users = [];
@@ -48,8 +46,6 @@ function ws() {
         });
         socket.on("isOnline", (userId) => {
             const found = connected.find((user) => user._id.toString() === userId.toString());
-            console.log(" //////////////////////////////////////////////////////////////////");
-            console.log(found);
             socket.emit("isOnline", !!found);
         });
         socket.on("getSocketId", (user) => {
@@ -58,13 +54,11 @@ function ws() {
         });
         socket.on("call", (data) => {
             if (!data.to) {
-                console.log(" call to socket id undefned//////////////////////////////////////////////////////////////////");
             }
             io.to(data.to).emit("call", data);
         });
         socket.on("answer", (data) => {
             if (!data.to) {
-                console.log(" answer to socket id undefned//////////////////////////////////////////////////////////////////");
             }
             io.to(data.to).emit("answer", data);
         });
@@ -73,9 +67,14 @@ function ws() {
             socket.broadcast.emit("check-connection");
         });
     });
-    httpServer.listen(constants_1.PORT, () => {
-        console.log("ws serwer" + constants_1.PORT);
+    httpServer.listen({ port: constants_1.WS_PORT, hostname: constants_1.WS_HOST }, () => {
+        console.log("ws serwer" + constants_1.WS_PORT + constants_1.PORT);
     });
 }
 exports.ws = ws;
-ws();
+try {
+    ws();
+}
+catch (e) {
+    console.log(e);
+}

@@ -91,5 +91,10 @@ import cors from "cors";
       console.log("ws serwer" +WS_PORT+PORT);
     });
   }
-
-ws()
+try{
+  ws()
+}
+catch(e){
+  console.log(e);
+  
+}
