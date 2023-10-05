@@ -1,6 +1,6 @@
 # Instagramm Clone
 ## Features:
- URL:   http://13.49.222.211/
+ URL:  http://13.51.8.208/
 
 - AWS EC2
 - GraphQl(Applo Client ,Appolo Server,Graph Ql Subscriptions)
